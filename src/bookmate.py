@@ -1,12 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"Another PyFind implemented by WxPython"
+"BookMate: Your friendly book management tool implemented by WxPython"
 
 import wx
 #import os, sys
 #import glob, shutil, thread
-#from pyMainPanel import pyMainPanel, save_config, restore_config
 from pySearch import pySearch
 from pySketch import pySketch
 
@@ -15,7 +14,11 @@ Name	= 'BookMate'
 Version	= '0.0.1-dev'
 Author	= 'Deng Chunhui'
 Email	= 'chunchengfh@gmail.com'
-Date	= '2008.05.22'
+Date	= '2015.04.13'
+ABOUT   = "Your friendly book management tool implemented by WxPython"
+
+WIN_WIDTH = 1000
+WIN_HEIGH = 640
 
 
 class MyFrame(wx.Frame):
@@ -37,10 +40,10 @@ class MyFrame(wx.Frame):
 		self.more_options_frame = pySketch(self.nb)
 		self.link_tools_frame = pySketch(self.nb)
 
-		self.nb.AddPage(self.main_panel_frame, "Main")
-		self.nb.AddPage(self.filter_frame, "Filter Result")
-		self.nb.AddPage(self.more_options_frame, "More Options")
-		self.nb.AddPage(self.link_tools_frame, "Link Tools")
+		self.nb.AddPage(self.main_panel_frame, "Quick Search")
+		self.nb.AddPage(self.filter_frame, "Batch Rename")
+		self.nb.AddPage(self.more_options_frame, "Batch Extract")
+		self.nb.AddPage(self.link_tools_frame, "Remove Duplications")
 
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(self.nb, 1, wx.EXPAND)
@@ -116,7 +119,8 @@ class MyFrame(wx.Frame):
 		wx.MessageBox('Sorry, No help yet', 'Help', wx.OK | wx.ICON_INFORMATION, self)
 
 	def onAbout(self, event):
-		about = (Name 	+ '\nThis is another PyFind implemented by WxPython'
+		#about = (Name 	+ '\nThis is another PyFind implemented by WxPython'
+		about = (Name 	+ '\n' + ABOUT
 				+ '\n\nVersion: ' + Version
 				+ '\n Author: ' + Author 
 				+ '\n Email: ' + Email 
@@ -124,7 +128,7 @@ class MyFrame(wx.Frame):
 		wx.MessageBox(about, 'About %s' %Name, wx.OK | wx.ICON_INFORMATION, self)
 
 	def onExit(self, event):	
-		save_config()
+		#save_config()
 		self.Close()
 		
 		
@@ -134,7 +138,7 @@ class BookMate(wx.App):
 
 	def OnInit(self):
 		#restore_config()
-		self.frame = MyFrame(self, size=(700, 500))
+		self.frame = MyFrame(self, size=(WIN_WIDTH, WIN_HEIGH))
 		self.frame.Center()
 		self.frame.Show()
 		self.SetTopWindow(self.frame)
