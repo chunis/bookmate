@@ -12,7 +12,7 @@ Email	= 'chunchengfh@gmail.com'
 Version	= '0.0.1'
 Date	= '2008.05.19'
 
-result = [ ]  # used for store result 
+result = [ ]  # used for store result
 dirnames = [ ] # used for store old dirs
 
 
@@ -24,8 +24,8 @@ def myhelp(name=Name):
 def myabout(name=Name, version=Version, date=Date):
 	return (name 	+ '\nThis is another PyFind implemented by WxPython'
 			+ '\n\nVersion: ' + version
-			+ '\n Author: ' + Author 
-			+ '\n Email: ' + Email 
+			+ '\n Author: ' + Author
+			+ '\n Email: ' + Email
 			+ '\n Date:\t' + date)
 
 
@@ -124,10 +124,10 @@ def real_find(dirname, dirnames, type, ekeyword, recu, result, find_flag):
 		for filepath in os.listdir('.'):
 			if os.path.isdir(filepath):
 				recufind(filepath, filepath, file)
-	
+
 	if find_flag == True:
 		find_flag = False
-	
+
 
 
 # test

@@ -34,7 +34,7 @@ class MyFrame(wx.Frame):
 		self.createMenuBar()
 		self.createStatusBar()
 		self.createToolBar()
-	
+
 		self.main_panel_frame = pySearch(self.nb)
 		self.filter_frame = pySketch(self.nb)
 		self.more_options_frame = pySketch(self.nb)
@@ -78,8 +78,8 @@ class MyFrame(wx.Frame):
 			menuItems = eachMenuData[1]
 			menuBar.Append(self.createMenu(menuItems), menuLabel)
 		self.SetMenuBar(menuBar)
-	
-	
+
+
 	def createMenu(self, menuitems):
 		menu = wx.Menu()
 		for each_menu in menuitems:
@@ -106,11 +106,11 @@ class MyFrame(wx.Frame):
 		self.CreateStatusBar()
 		self.SetStatusText('Welcome to use BookMate!')
 
-	
+
 	def toolBarData(self):
 		pass
 
-	
+
 	def onClearResult(self, event):
 		self.main_panel_frame.onClearResult(event)
 
@@ -122,16 +122,16 @@ class MyFrame(wx.Frame):
 		#about = (Name 	+ '\nThis is another PyFind implemented by WxPython'
 		about = (Name 	+ '\n' + ABOUT
 				+ '\n\nVersion: ' + Version
-				+ '\n Author: ' + Author 
-				+ '\n Email: ' + Email 
+				+ '\n Author: ' + Author
+				+ '\n Email: ' + Email
 				+ '\n Date:\t' + Date)
 		wx.MessageBox(about, 'About %s' %Name, wx.OK | wx.ICON_INFORMATION, self)
 
-	def onExit(self, event):	
+	def onExit(self, event):
 		#save_config()
 		self.Close()
-		
-		
+
+
 
 class BookMate(wx.App):
 	"Main App for BookMate"

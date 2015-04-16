@@ -142,7 +142,7 @@ def open(url, desktop=None, wait=0):
     Suggested values for 'desktop' are "standard", "KDE", "GNOME", "Mac OS X",
     "Windows" where "standard" employs a DESKTOP_LAUNCH environment variable to
     open the specified 'url'. DESKTOP_LAUNCH should be a command, possibly
-    followed by arguments, and must have any special characters shell-escaped. 
+    followed by arguments, and must have any special characters shell-escaped.
 
     The process identifier of the "opener" (ie. viewer, editor, browser or
     program) associated with the 'url' is returned by this function. If the

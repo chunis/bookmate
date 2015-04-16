@@ -10,7 +10,7 @@ class pySketch(wx.Panel):
 		#self.SetBackgroundColour('White')
 		self.create_widgets()
 
-	
+
 	def create_widgets(self):
 		wx.StaticText(self, -1, 'Not implemented yet...', pos=(120, 80))
 
