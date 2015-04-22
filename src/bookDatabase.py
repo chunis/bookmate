@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 
+import os
 from bookShelf import Book, BookShelf
 
 class BookDatabase():
 	def __init__(self, paths):
 		self.bookshelves = {}
 		for pth in paths:
-			self.bookshelves[pth] = BookShelf(pth)
+			if os.path.isdir(pth):
+				self.bookshelves[pth] = BookShelf(pth)
 
 	def list_shelves(self):
 		for shelf in self.bookshelves:
-			#for book in self.bookshelves[shelf]:
-			#	book.show_info()
 			self.bookshelves[shelf].show_all_books()
 
 	def add_shelves(self, paths):
@@ -30,5 +30,5 @@ class BookDatabase():
 
 
 if __name__ == '__main__':
-	mybook = BookDatabase('.')
+	mybook = BookDatabase(['.'])
 	mybook.list_shelves()

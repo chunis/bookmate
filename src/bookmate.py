@@ -9,6 +9,7 @@ import wx
 from pySearch import pySearch
 from pyConfig import pyConfig
 from pySketch import pySketch
+from bookDatabase import BookDatabase
 
 
 Name	= 'BookMate'
@@ -20,6 +21,8 @@ ABOUT   = "Your friendly book management tool implemented by WxPython"
 
 WIN_WIDTH = 1000
 WIN_HEIGH = 640
+
+CFG_FILE = "bookmate.cfg"
 
 
 class MyFrame(wx.Frame):
@@ -53,6 +56,15 @@ class MyFrame(wx.Frame):
 		self.panel.SetSizer(box)
 		#box.Fit(self)
 
+		self.init_config()
+
+
+	def restore_config(self, file):  # TODO
+		return ['.']
+
+	def init_config(self):
+		self.datapaths = self.restore_config(CFG_FILE)
+		self.bookdb = BookDatabase(self.datapaths)
 
 	def menu_data(self):
 		return [ ("&File", (
