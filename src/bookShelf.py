@@ -1,38 +1,58 @@
 #!/usr/bin/env python
 
 import os
+import binascii
+
+
+def calc_crc(file):
+	size = 4*1024*1024
+	crc = 0
+
+	f = open(file)
+	block = f.read(size)
+	while block:
+		crc = binascii.crc32(block, crc)
+		block = f.read(size)
+
+	return (crc & 0xffffffff)
 
 class Book():
 	''' All things about a single book '''
-	def __init__(self, name, path='', size=0, isbn=0, crc32=0):
-		self.name = name
-		self.path = path
-		self.size = size
-		self.isbn = isbn
-		self.crc32 = 0
+	def __init__(self, fullname, spath):
+		self.abspath = os.path.dirname(fullname)
+		self.spath = spath	# shelf path
+		self.name = os.path.basename(fullname)
+		self.size = os.path.getsize(fullname)
+		self.crc32 = calc_crc(fullname)
+		#self.isbn = 0
 
 	def show_info(self):
-		print "name: %-30s" %self.name,
-		print "path: %-30s" %self.path,
-		print "size: %-10s" %self.size,
-		print "isbn:", self.isbn,
-		print "\tcrc32:", self.crc32
+		print " abspath: %-30s" %self.abspath,
+		#print " spath: %-20s" %self.spath,
+		print " name: %-20s" %self.name,
+		print " size: %-10s" %self.size,
+		print " crc32: 0x%x" %self.crc32,
+		#print "isbn:", self.isbn,
+		print
 
 
 class BookShelf():
 	''' each path means a bookshelf '''
 	def __init__(self, path):
-		self.location = path
+		self.location = os.path.abspath(path)
 		self.books = []
-		self.add_books(path)
+		self.add_books(self.location)
 
 	def add_books(self, path):
-		for f in os.listdir(path):
+		for _f in os.listdir(path):
+			f = os.path.join(path, _f)
 			if os.path.isfile(f):
 				self.add_a_book(f)
+			elif os.path.isdir(f):
+				self.add_books(f)
 
-	def add_a_book(self, f):
-		book = Book(f)
+	def add_a_book(self, fullname):
+		book = Book(fullname, self.location)
 		self.books.append(book)
 
 	def show_all_books(self):
@@ -41,7 +61,7 @@ class BookShelf():
 
 
 if __name__ == '__main__':
-	mybook = Book('.bashrc', '/home/chunis', 234, 0)
+	mybook = Book(os.path.abspath(__file__), os.path.curdir)
 	mybook.show_info()
 
 	mybookShelf = BookShelf('.')
