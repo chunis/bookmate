@@ -23,8 +23,13 @@ class Book():
 		self.spath = spath	# shelf path
 		self.name = os.path.basename(fullname)
 		self.size = os.path.getsize(fullname)
-		self.crc32 = calc_crc(fullname)
-		#self.isbn = 0
+		self.mtime = os.path.getmtime(fullname)
+		self.crc32 = 0  # only calculate it when needed
+		self.isbn = 0
+
+	def calc_crc(self):
+		self.crc32 = calc_crc(os.path.join(self.abspath, self.name))
+                return self
 
 	def show_info(self):
 		print " abspath: %-30s" %self.abspath,
@@ -58,6 +63,10 @@ class BookShelf():
 	def show_all_books(self):
 		for x in self.books:
 			x.show_info()
+
+	def iter_books(self):
+		for x in self.books:
+			yield x
 
 
 if __name__ == '__main__':

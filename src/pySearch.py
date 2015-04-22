@@ -24,10 +24,10 @@ class MyListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 		ColumnSorterMixin.__init__(self, 6)
 		self.itemDataMap = {}
 
-		self.InsertColumn(0, "Name", width=540)
+		self.InsertColumn(0, "Name", width=440)
 		self.InsertColumn(1, "Size", format=wx.LIST_FORMAT_RIGHT, width=100)
 		self.InsertColumn(2, "Date Modified", format=wx.LIST_FORMAT_RIGHT, width=210)
-		self.InsertColumn(3, "Directory", width=240)
+		self.InsertColumn(3, "Directory", width=400)
 
 	def GetListCtrl(self):
 		return self
@@ -48,22 +48,18 @@ class MyListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 		else:
 			return int(item2[:-1]) - int(item1[:-1])
 
-	def set_value(self, files):
-		for file in files:
-			try:
-				name = os.path.basename(file)
-				size = str(os.path.getsize(file)/1024) + 'K'
-				ctime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(os.path.getmtime(file)))
-				dir = os.path.dirname(file)
+	def set_value(self, bookdb):
+		for bookshelf in bookdb.bookshelves:
+			for book in bookdb.bookshelves[bookshelf].iter_books():
+				#size = str(os.path.getsize(file)/1024) + 'K'
+				mtime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(book.mtime))
 
-				item = (name, size, ctime, dir)
+				item = (book.name, str(book.size), mtime, book.abspath)
 				index = self.InsertStringItem(sys.maxint, item[0])
 				for col, text in enumerate(item[1:]):
 					self.SetStringItem(index, col+1, text)
 				self.SetItemData(index, index)
 				self.itemDataMap[index] = item
-			except:
-				pass
 
 
 def to_unicode_or_bust( obj, encoding='utf-8'):
@@ -112,10 +108,10 @@ class pySearch(wx.Panel):
 
 		#self.__set_properties()
 		self.__do_layout()
-		self.files = open(DB_FILE).readlines()
-		self.files = [ x.strip() for x in self.files ]
-		self.ufiles = [ x.decode('utf-8') for x in self.files ]
-		self.list_ctrl_1.set_value(self.ufiles)
+		#self.files = open(DB_FILE).readlines()
+		#self.files = [ x.strip() for x in self.files ]
+		#self.ufiles = [ x.decode('utf-8') for x in self.files ]
+		#self.list_ctrl_1.set_value(self.ufiles)
 		self.valstr = []
 
 		self.Bind(wx.EVT_TEXT, self.doSearch, self.text_ctrl_1)
