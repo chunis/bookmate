@@ -7,6 +7,7 @@ import wx
 #import os, sys
 #import glob, shutil, thread
 from pySearch import pySearch
+from pyConfig import pyConfig
 from pySketch import pySketch
 
 
@@ -36,11 +37,13 @@ class MyFrame(wx.Frame):
 		self.createToolBar()
 
 		self.main_panel_frame = pySearch(self.nb)
+		self.config_frame = pyConfig(self.nb)
 		self.filter_frame = pySketch(self.nb)
 		self.more_options_frame = pySketch(self.nb)
 		self.link_tools_frame = pySketch(self.nb)
 
 		self.nb.AddPage(self.main_panel_frame, "Quick Search")
+		self.nb.AddPage(self.config_frame, "Configuration")
 		self.nb.AddPage(self.filter_frame, "Batch Rename")
 		self.nb.AddPage(self.more_options_frame, "Batch Extract")
 		self.nb.AddPage(self.link_tools_frame, "Remove Duplications")
