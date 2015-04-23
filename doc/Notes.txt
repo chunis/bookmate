@@ -1,0 +1,11 @@
+
+****. Requirement (for Unpack Only)
+
+Windows:
+1. install patool (http://wummel.github.io/patool/)
+2. optional install 7zip (http://www.7-zip.org/)
+
+Linux:
+$ sudo apt-get install unzip unrar p7zip-full
+$ sudo apt-get install pip
+$ sudo pip install patool
