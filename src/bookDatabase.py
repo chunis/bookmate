@@ -28,6 +28,13 @@ class BookDatabase():
 	def del_shelf(self, path):
 		del self.bookshelves[path]
 
+	def to_booklist(self):
+		ret = []
+		for bookshelf in self.bookshelves:
+			for book in self.bookshelves[bookshelf].iter_books():
+				ret.append(book)
+		return ret
+
 
 if __name__ == '__main__':
 	mybook = BookDatabase(['.'])

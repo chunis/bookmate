@@ -65,7 +65,8 @@ class MyFrame(wx.Frame):
 	def init_config(self):
 		self.datapaths = self.restore_config(CFG_FILE)
 		self.bookdb = BookDatabase(self.datapaths)
-		self.main_panel_frame.list_ctrl_1.set_value(self.bookdb)
+		self.main_panel_frame.orig_booklist = self.bookdb.to_booklist()
+		self.main_panel_frame.list_ctrl_1.set_value(self.main_panel_frame.orig_booklist)
 
 	def menu_data(self):
 		return [ ("&File", (

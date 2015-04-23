@@ -48,18 +48,17 @@ class MyListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 		else:
 			return int(item2[:-1]) - int(item1[:-1])
 
-	def set_value(self, bookdb):
-		for bookshelf in bookdb.bookshelves:
-			for book in bookdb.bookshelves[bookshelf].iter_books():
-				#size = str(os.path.getsize(file)/1024) + 'K'
-				mtime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(book.mtime))
+	def set_value(self, booklist):
+		for book in booklist:
+			mtime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(book.mtime))
+			#size = str(book.size/1024) + 'K'
 
-				item = (book.name, str(book.size), mtime, book.abspath)
-				index = self.InsertStringItem(sys.maxint, item[0])
-				for col, text in enumerate(item[1:]):
-					self.SetStringItem(index, col+1, text)
-				self.SetItemData(index, index)
-				self.itemDataMap[index] = item
+			item = (book.name, str(book.size), mtime, book.abspath)
+			index = self.InsertStringItem(sys.maxint, item[0])
+			for col, text in enumerate(item[1:]):
+				self.SetStringItem(index, col+1, text)
+			self.SetItemData(index, index)
+			self.itemDataMap[index] = item
 
 
 def to_unicode_or_bust( obj, encoding='utf-8'):
@@ -68,22 +67,22 @@ def to_unicode_or_bust( obj, encoding='utf-8'):
 			obj = unicode(obj, encoding)
 	return obj
 
-
-def find_str(mylist, str):
+def find_str(booklist, str):
 	ret_list = []
 	tlist = str.strip().split()
 
 	#tlist = [ unicode(x, 'utf-8') for x in tlist ]
 	tlist = [ to_unicode_or_bust(x) for x in tlist ]
 
-	for x in mylist:
+	for x in booklist:
 		flag = True
-		name = os.path.basename(x).lower()
+		name = x.name.lower()
 		for y in tlist:
 			if y.lower() not in name:
 				break
 		else:
-			ret_list += [x.encode('utf-8')]
+			#ret_list += [x.name.encode('utf-8')]
+			ret_list.append(x)
 
 	return ret_list
 
@@ -248,8 +247,8 @@ class pySearch(wx.Panel):
 		#print search_str
 
 		#file_list = find_str(self.ufiles, search_str.decode('utf-8'))
-		file_list = find_str(self.ufiles, search_str)
-		self.list_ctrl_1.set_value(file_list)
+		asked_booklist = find_str(self.orig_booklist, search_str)
+		self.list_ctrl_1.set_value(asked_booklist)
 		# print file_list
 		# event.Skip()
 

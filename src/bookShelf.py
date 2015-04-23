@@ -29,7 +29,7 @@ class Book():
 
 	def calc_crc(self):
 		self.crc32 = calc_crc(os.path.join(self.abspath, self.name))
-                return self
+		return self
 
 	def show_info(self):
 		print " abspath: %-30s" %self.abspath,
