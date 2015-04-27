@@ -9,3 +9,19 @@ Linux:
 $ sudo apt-get install unzip unrar p7zip-full
 $ sudo apt-get install pip
 $ sudo pip install patool
+
+
+
+****. About I18n
+
+1. update the newest po files by:
+	$ cd src/locale; ./init_i18n.sh
+2. manually merge src/locale/cn/cn-orig.po to src/locale/cn/cn.po,
+and translate the newly added strings in cn.po.
+3. update the mo files by:
+	$ cd src/locale; ./update_i18n.sh
+
+-- Note:
+a. take cn/ for example
+b. These steps only needed by developers for i18n
+
