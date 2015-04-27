@@ -40,3 +40,7 @@ Install:
 
 Linux:
 $ sudo pip install pyinstaller
+
+
+** how to produce binary executes
+$ cd packages/binary && pyinstaller bookmate.spec
