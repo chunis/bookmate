@@ -1,0 +1,51 @@
+Content
+
+
+Introduction
+Section A: Linux
+Section B: Windows
+Section C: OS X
+
+
+-----------------------
+
+Introduction
+
+This document will give detail steps to set up the development environment
+for BookMate in all 3 platforms: Linux, Windows and OS X.
+
+
+Section A: Linux
+
+Note: All steps are based on Ubuntu. Other distributions should have very similar
+commands.
+$ sudo apt-get install pip
+$ sudo pip install patool pyinstaller
+$ sudo pip install pypdf2 metapdf epubzilla
+
+
+-----------------------
+
+Section B: Windows
+
+1. Install python and wxpython
+2. install pywin32 which is needed by pyinstaller
+	2.1 http://sourceforge.net/projects/pywin32/
+	2.2 can be installed by pip, but not tested yet
+3. Install pip:
+	3.1  download https://bootstrap.pypa.io/get-pip.py
+	3.2  cmd> get-pip.py
+		or if you need proxy to access the internet:
+	     cmd> get-pip.py --proxy="[user:passwd@]proxy.server:port"
+4. Install tools (add --proxy="[user:passwd@]proxy.server:port" if needed):
+$ sudo pip install patool pyinstaller
+$ sudo pip install pypdf2 metapdf epubzilla
+
+
+-----------------------
+
+Section C: OS X
+
+Since I don't have an OS X machine, I can't give detail steps. Sorry.
+However, I think the steps should be similar as Linux, so try it follow
+that steps.

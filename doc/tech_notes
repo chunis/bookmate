@@ -1,7 +1,14 @@
+Content
 
-** to freeze scripts to binary
+Section A: to freeze scripts to binary
+Section B: Obtain epub/mobi/pdf/chm metadata
 
-Comparison:
+-----------------------------
+
+Section A: to freeze scripts to binary
+
+
+* Comparison: (http://docs.python-guide.org/en/latest/shipping/freezing/)
 Solution 	Windows Linux 	OS X 	Python3	License	One-file Zipfile import Eggs 	pkg_resources support
 bbFreeze 	yes	yes 	yes 	no 	MIT 	no 	 yes 	 yes 		yes
 pyInstaller 	yes	yes 	yes 	no 	GPL 	yes	 no 	 yes 		no
@@ -13,10 +20,11 @@ py2app 		no 	no 	yes 	yes 	MIT 	no 	 yes	 yes 		yes
 * freeze
 
 note:
-1. you may need to install 'python-dev' and 'python-examples'
-2. freeze doesn't support modules writing in C++, so doesn't support wxpython
-3. will produce lots of *.c and *.o under the current directory  :-(
-3. usage:
+1. BookMate does *NOT* use this tool
+2. you may need to install 'python-dev' and 'python-examples'
+3. freeze doesn't support modules writing in C++, so doesn't support wxpython
+4. will produce lots of *.c and *.o under the current directory  :-(
+5. usage:
 	$ dpkg -S freeze.py
 	python-pip: /usr/share/pyshared/pip/commands/freeze.py
 	python-pip: /usr/lib/python2.7/dist-packages/pip/commands/freeze.py
@@ -42,5 +50,28 @@ Linux:
 $ sudo pip install pyinstaller
 
 
-** how to produce binary executes
+* how to produce binary executes
 $ cd packages/binary && pyinstaller bookmate.spec
+
+
+-----------------------------
+
+Section B: Obtain epub/mobi/pdf/chm metadata
+
+epub: (all can be installed by pip)
+$ sudo pip install epub ebooklib epubzilla
+BookMate use 'epubzilla' since it's the simplest.
+
+mobi:
+https://github.com/kroo/mobi-python
+
+pdf:
+http://www.binpress.com/tutorial/manipulating-pdfs-with-python/167
+$ sudo pip install pypdf2 metapdf
+
+chm:
+$ sudo apt-get install libchm-dev
+$ sudo pip install pychm
+Note: pychm depends on chmlib, not easy to install in Windows, so we'll leave
+this function for future development.
+
