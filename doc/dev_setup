@@ -5,6 +5,7 @@ Introduction
 Section A: Linux
 Section B: Windows
 Section C: OS X
+Section D: About I18n
 
 
 -----------------------
@@ -49,3 +50,28 @@ Section C: OS X
 Since I don't have an OS X machine, I can't give detail steps. Sorry.
 However, I think the steps should be similar as Linux, so try it follow
 that steps.
+
+
+-----------------------
+
+Section D: About I18n
+
+1. update the newest po files by:
+	$ cd src/locale; ./init_i18n.sh
+2. manually merge src/locale/cn/cn-orig.po to src/locale/cn/cn.po,
+and translate the newly added strings in cn.po.
+3. update the mo files by:
+	$ cd src/locale; ./update_i18n.sh
+
+-- Note:
+a. take cn/ for example
+b. These steps only needed by developers for i18n
+
+
+-----------------------
+
+Section E: About Frozen binary
+
+1. how to produce binary executes:
+	$ cd packages/binary && pyinstaller bookmate.spec
+

@@ -41,17 +41,13 @@ it support all 3 platforms (win, linux, osx). Also it supports one-file output.
 Windows Requirements:
   - Windows XP or newer.
   - PyWin32 Python extensions for Windows is needed for users of Python 2.6 and later
-Install:
+Install: (It's easier mentioned in document "dev_setup")
   -- install ez_tool: download https://bootstrap.pypa.io/ez_setup.py, then cmd> python ez_setup.py
   -- install pip: download http://pypi.python.org/pypi/pip#downloads, then cmd> python setup.py install
   -- install pyInstaller: cmd> python setup.sh install
 
 Linux:
 $ sudo pip install pyinstaller
-
-
-* how to produce binary executes
-$ cd packages/binary && pyinstaller bookmate.spec
 
 
 -----------------------------
