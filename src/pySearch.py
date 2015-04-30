@@ -45,9 +45,9 @@ class MyListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 
 		ascending = self._colSortFlag[col]
 		if ascending:
-			return int(item1[:-1]) - int(item2[:-1])
+			return int(item1) - int(item2)
 		else:
-			return int(item2[:-1]) - int(item1[:-1])
+			return int(item2) - int(item1)
 
 	def set_value(self, booklist):
 		for book in booklist:
@@ -146,6 +146,7 @@ class pySearch(wx.Panel):
 		menu.Append(self.open_dir_id, "Open Directory")
 		menu.Append(self.copy_id, "Copy to...")
 		menu.Append(self.move_id, "Move to...")
+		menu.AppendSeparator()
 		menu.Append(self.amazon_id, "Search in Amazon.com")
 		menu.Append(self.douban_id, "Search in Douban.com")
 
