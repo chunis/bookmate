@@ -49,7 +49,7 @@ class MyListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 		else:
 			return int(item2) - int(item1)
 
-	def set_value(self, booklist):
+	def set_value(self, booklist, color=None):
 		for book in booklist:
 			mtime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(book.mtime))
 			#size = str(book.size/1024) + 'K'
@@ -60,6 +60,9 @@ class MyListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 				self.SetStringItem(index, col+1, text)
 			self.SetItemData(index, index)
 			self.itemDataMap[index] = item
+			if color:
+				#self.SetItemTextColour(index, color)
+				self.SetItemBackgroundColour(index, color)
 
 
 def to_unicode_or_bust( obj, encoding='utf-8'):

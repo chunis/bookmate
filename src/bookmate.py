@@ -23,6 +23,8 @@ WIN_WIDTH = 1000
 WIN_HEIGH = 640
 
 CFG_FILE = "bookmate.cfg"
+#LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
+LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']
 
 
 class MyFrame(wx.Frame):
@@ -133,8 +135,9 @@ class MyFrame(wx.Frame):
 	def onSameFile(self, event):
 		dupli_files = self.bookdb.get_duplicate_booklist()
 		self.main_panel_frame.list_ctrl_1.DeleteAllItems()
-		for booklist in dupli_files:
-			self.main_panel_frame.list_ctrl_1.set_value(booklist)
+		for num, booklist in enumerate(dupli_files):
+			color = LIST_COLORS[num % len(LIST_COLORS)]
+			self.main_panel_frame.list_ctrl_1.set_value(booklist, color)
 
 
 	def onConfig(self, event):
