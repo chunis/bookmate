@@ -8,6 +8,7 @@ from wx.lib.mixins.listctrl import ListCtrlAutoWidthMixin
 from wx.lib.mixins.listctrl import ColumnSorterMixin
 
 import tool
+from search_in_web import search_in_amazon, search_in_douban
 
 
 DIR_COL = 3
@@ -96,6 +97,8 @@ class pySearch(wx.Panel):
 		self.clear_id = wx.NewId()
 		self.copy_id = wx.NewId()
 		self.move_id = wx.NewId()
+		self.amazon_id = wx.NewId()
+		self.douban_id = wx.NewId()
 
 		# begin wxGlade: pySearch.__init__
 		kwds["style"] = wx.DEFAULT_FRAME_STYLE
@@ -105,7 +108,6 @@ class pySearch(wx.Panel):
 		# self.list_ctrl_1 = wx.ListCtrl(self, -1, style=wx.LC_REPORT|wx.SUNKEN_BORDER)
 		self.list_ctrl_1 = MyListCtrl(self, -1)
 
-		#self.__set_properties()
 		self.__do_layout()
 		#self.files = open(DB_FILE).readlines()
 		#self.files = [ x.strip() for x in self.files ]
@@ -144,11 +146,15 @@ class pySearch(wx.Panel):
 		menu.Append(self.open_dir_id, "Open Directory")
 		menu.Append(self.copy_id, "Copy to...")
 		menu.Append(self.move_id, "Move to...")
+		menu.Append(self.amazon_id, "Search in Amazon.com")
+		menu.Append(self.douban_id, "Search in Douban.com")
 
 		self.Bind(wx.EVT_MENU, self.onOpenItem, id = self.open_file_id)
 		self.Bind(wx.EVT_MENU, self.onOpenDir, id = self.open_dir_id)
 		self.Bind(wx.EVT_MENU, self.onCopy, id = self.copy_id)
 		self.Bind(wx.EVT_MENU, self.onMove, id = self.move_id)
+		self.Bind(wx.EVT_MENU, self.onAmazon, id = self.amazon_id)
+		self.Bind(wx.EVT_MENU, self.onDouban, id = self.douban_id)
 
 		self.PopupMenu(menu)
 		menu.Destroy()
@@ -203,14 +209,16 @@ class pySearch(wx.Panel):
 		# TODO
 		# if moved, update that file's new status
 
-	'''
-	def __set_properties(self):
-		# begin wxGlade: pySearch.__set_properties
-		self.SetTitle("SPFind: Simple PyFind")
-		self.SetSize((1000, 560))
-		self.list_ctrl_1.SetMinSize((680, 355))
-		# end wxGlade
-	'''
+	def onAmazon(self, event):
+		index = self.select
+		name = self.list_ctrl_1.GetItem(index).GetText()
+		search_in_amazon(os.path.splitext(name)[0])
+
+	def onDouban(self, event):
+		index = self.select
+		name = self.list_ctrl_1.GetItem(index).GetText()
+		search_in_douban(os.path.splitext(name)[0])
+
 
 	def __do_layout(self):
 		# begin wxGlade: pySearch.__do_layout
