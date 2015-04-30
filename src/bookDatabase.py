@@ -35,6 +35,48 @@ class BookDatabase():
 				ret.append(book)
 		return ret
 
+	def get_same_size_booklist(self):
+		ret = []
+		size_dict = {}
+		for bookshelf in self.bookshelves:
+			for book in self.bookshelves[bookshelf].iter_books():
+				size = book.size
+				if size not in size_dict:
+					size_dict[size] = [1, [book]]
+				else:
+					size_dict[size][0] += 1
+					size_dict[size][1].append(book)
+
+		for size in size_dict:
+			if size_dict[size][0] > 1:
+				ret.append(size_dict[size][1])
+		return ret
+
+	def get_duplicate_booklist(self):
+		ret = []
+		crc32_dict = {}
+
+		all_list = self.get_same_size_booklist()
+		for booklist in all_list:
+			for book in booklist:
+				crc32 = book.calc_crc().crc32
+				if crc32 not in crc32_dict:
+					crc32_dict[crc32] = [1, [book]]
+				else:
+					crc32_dict[crc32][0] += 1
+					crc32_dict[crc32][1].append(book)
+
+		for crc32 in crc32_dict:
+			if crc32_dict[crc32][0] > 1:
+				ret.append(crc32_dict[crc32][1])
+		return ret
+
+
+	# this method maybe not needed
+	def to_sorted_booklist(self):
+		ret = self.to_booklist()
+		return sorted(ret, key=lambda book: book.size)
+
 
 if __name__ == '__main__':
 	mybook = BookDatabase(['.'])

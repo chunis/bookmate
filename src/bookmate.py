@@ -114,18 +114,31 @@ class MyFrame(wx.Frame):
 
 	def createToolBar(self):
 		toolbar = self.CreateToolBar()
-		#toolbar.AddLabelTool(-1, '', wx.Bitmap('images/tux.png'))
-		toolbar.AddLabelTool(-1, '', wx.Bitmap('images/find.png'))
-		#toolbar.AddLabelTool(-1, '', wx.Bitmap('images/configure.png'))
+		tb_samefile = toolbar.AddSimpleTool(-1, wx.Bitmap('images/find.png'),
+				"Find Same File",
+				"Find all the same files with or without the same name")
+		tb_config = toolbar.AddSimpleTool(-1, wx.Bitmap('images/configure.png'),
+				"Configuration",
+				"Configure BookMate")
 		toolbar.Realize()
+
+		self.Bind(wx.EVT_MENU, self.onSameFile, tb_samefile)
+		self.Bind(wx.EVT_MENU, self.onConfig, tb_config)
 
 	def createStatusBar(self):
 		self.CreateStatusBar()
 		self.SetStatusText('Welcome to use BookMate!')
 
 
-	def toolBarData(self):
-		pass
+	def onSameFile(self, event):
+		dupli_files = self.bookdb.get_duplicate_booklist()
+		self.main_panel_frame.list_ctrl_1.DeleteAllItems()
+		for booklist in dupli_files:
+			self.main_panel_frame.list_ctrl_1.set_value(booklist)
+
+
+	def onConfig(self, event):
+		wx.MessageBox('No Configuration yet', 'Configuration', wx.OK | wx.ICON_INFORMATION, self)
 
 
 	def onClearResult(self, event):
