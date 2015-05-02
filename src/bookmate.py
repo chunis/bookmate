@@ -1,5 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+# Copyright (C) 2015, Chunis Deng (<chunchengfh@gmail.com>)
+#
+# This file is part of BookMate and is released under the terms of
+# GNU GPLv3 License, see doc/LICENSE for details.
+#
 
 "BookMate: Your friendly book management tool implemented by WxPython"
 

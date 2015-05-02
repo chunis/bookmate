@@ -1,4 +1,10 @@
 #!/usr/bin/python
+#
+# Copyright (C) 2015, Chunis Deng (<chunchengfh@gmail.com>)
+#
+# This file is part of BookMate and is released under the terms of
+# GNU GPLv3 License, see doc/LICENSE for details.
+#
 
 import sys
 import wx
