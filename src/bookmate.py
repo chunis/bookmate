@@ -41,17 +41,17 @@ class MyFrame(wx.Frame):
 		self.createStatusBar()
 		self.createToolBar()
 
-		self.main_panel_frame = pySearch(self.nb)
 		self.config_frame = pyConfig(self.nb)
-		self.filter_frame = pySketch(self.nb)
-		self.more_options_frame = pySketch(self.nb)
-		self.link_tools_frame = pySketch(self.nb)
+		self.main_panel_frame = pySearch(self.nb)
+		self.remove_dupli_frame = pySketch(self.nb)
+		self.batch_rename_frame = pySketch(self.nb)
+		self.batch_extract_frame = pySketch(self.nb)
 
-		self.nb.AddPage(self.main_panel_frame, "Quick Search")
 		self.nb.AddPage(self.config_frame, "Configuration")
-		self.nb.AddPage(self.filter_frame, "Batch Rename")
-		self.nb.AddPage(self.more_options_frame, "Batch Extract")
-		self.nb.AddPage(self.link_tools_frame, "Remove Duplications")
+		self.nb.AddPage(self.main_panel_frame, "Quick Search")
+		self.nb.AddPage(self.remove_dupli_frame, "Remove Duplications")
+		self.nb.AddPage(self.batch_rename_frame, "Batch Rename")
+		self.nb.AddPage(self.batch_extract_frame, "Batch Extract")
 
 		box = wx.BoxSizer(wx.HORIZONTAL)
 		box.Add(self.nb, 1, wx.EXPAND)
@@ -116,16 +116,17 @@ class MyFrame(wx.Frame):
 
 	def createToolBar(self):
 		toolbar = self.CreateToolBar()
-		tb_samefile = toolbar.AddSimpleTool(-1, wx.Bitmap('images/find.png'),
-				"Find Same File",
-				"Find all the same files with or without the same name")
 		tb_config = toolbar.AddSimpleTool(-1, wx.Bitmap('images/configure.png'),
 				"Configuration",
 				"Configure BookMate")
+		tb_samefile = toolbar.AddSimpleTool(-1, wx.Bitmap('images/find.png'),
+				"Find Same File",
+				"Find all the same files with or without the same name")
 		toolbar.Realize()
 
-		self.Bind(wx.EVT_MENU, self.onSameFile, tb_samefile)
 		self.Bind(wx.EVT_MENU, self.onConfig, tb_config)
+		self.Bind(wx.EVT_MENU, self.onSameFile, tb_samefile)
+
 
 	def createStatusBar(self):
 		self.CreateStatusBar()
