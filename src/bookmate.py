@@ -154,11 +154,11 @@ class MyFrame(wx.Frame):
 
 	def onAbout(self, event):
 		#about = (Name 	+ '\nThis is another PyFind implemented by WxPython'
-		about = (Name 	+ '\n' + ABOUT
-				+ '\n\nVersion: ' + Version
-				+ '\n Author: ' + Author
-				+ '\n Email: ' + Email
-				+ '\n Date:\t' + Date)
+		about = (Name 	+ '\n\n' + ABOUT
+				+ '\n\nVersion:\t' + Version
+				+ '\nAuthor:\t' + Author
+				+ '\nEmail:\t' + Email
+				+ '\nDate:\t' + Date)
 		wx.MessageBox(about, 'About %s' %Name, wx.OK | wx.ICON_INFORMATION, self)
 
 	def onExit(self, event):
