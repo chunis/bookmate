@@ -80,7 +80,7 @@ def find_str(booklist, str):
 
 	for x in booklist:
 		flag = True
-		name = x.name.lower()
+		name = to_unicode_or_bust(x.name).lower()
 		for y in tlist:
 			if y.lower() not in name:
 				break
