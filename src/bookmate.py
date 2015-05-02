@@ -51,13 +51,13 @@ class MyFrame(wx.Frame):
 		self.createToolBar()
 
 		self.config_frame = pyConfig(self.nb)
-		self.main_panel_frame = pySearch(self.nb)
+		self.search_frame = pySearch(self.nb)
 		self.remove_dupli_frame = pySketch(self.nb)
 		self.batch_rename_frame = pySketch(self.nb)
 		self.batch_extract_frame = pySketch(self.nb)
 
 		self.nb.AddPage(self.config_frame, "Configuration")
-		self.nb.AddPage(self.main_panel_frame, "Quick Search", select=True)
+		self.nb.AddPage(self.search_frame, "Quick Search", select=True)
 		self.nb.AddPage(self.remove_dupli_frame, "Remove Duplications")
 		self.nb.AddPage(self.batch_rename_frame, "Batch Rename")
 		self.nb.AddPage(self.batch_extract_frame, "Batch Extract")
@@ -76,8 +76,8 @@ class MyFrame(wx.Frame):
 	def init_config(self):
 		self.datapaths = self.restore_config(CFG_FILE)
 		self.bookdb = BookDatabase(self.datapaths)
-		self.main_panel_frame.orig_booklist = self.bookdb.to_booklist()
-		self.main_panel_frame.list_ctrl_1.set_value(self.main_panel_frame.orig_booklist)
+		self.search_frame.orig_booklist = self.bookdb.to_booklist()
+		self.search_frame.list_ctrl_1.set_value(self.search_frame.orig_booklist)
 
 	def menu_data(self):
 		return [ ("&File", (
@@ -146,10 +146,10 @@ class MyFrame(wx.Frame):
 		#self.nb.ChangeSelection(POS_PAGE_DUPLI)
 		self.nb.ChangeSelection(POS_PAGE_SEARCH)
 		dupli_files = self.bookdb.get_duplicate_booklist()
-		self.main_panel_frame.list_ctrl_1.DeleteAllItems()
+		self.search_frame.list_ctrl_1.DeleteAllItems()
 		for num, booklist in enumerate(dupli_files):
 			color = LIST_COLORS[num % len(LIST_COLORS)]
-			self.main_panel_frame.list_ctrl_1.set_value(booklist, color)
+			self.search_frame.list_ctrl_1.set_value(booklist, color)
 
 
 	def onConfig(self, event):
@@ -158,7 +158,7 @@ class MyFrame(wx.Frame):
 
 
 	def onClearResult(self, event):
-		self.main_panel_frame.onClearResult(event)
+		self.search_frame.onClearResult(event)
 
 
 	def onHelp(self, event):
