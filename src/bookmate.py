@@ -31,6 +31,9 @@ WIN_HEIGH = 640
 CFG_FILE = "bookmate.cfg"
 #LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
 LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']
+[POS_PAGE_CONFIG, POS_PAGE_SEARCH,
+ POS_PAGE_DUPLI, POS_PAGE_RENAME,
+ POS_PAGE_EXTRACT ] = range(5)
 
 
 class MyFrame(wx.Frame):
@@ -54,7 +57,7 @@ class MyFrame(wx.Frame):
 		self.batch_extract_frame = pySketch(self.nb)
 
 		self.nb.AddPage(self.config_frame, "Configuration")
-		self.nb.AddPage(self.main_panel_frame, "Quick Search")
+		self.nb.AddPage(self.main_panel_frame, "Quick Search", select=True)
 		self.nb.AddPage(self.remove_dupli_frame, "Remove Duplications")
 		self.nb.AddPage(self.batch_rename_frame, "Batch Rename")
 		self.nb.AddPage(self.batch_extract_frame, "Batch Extract")
@@ -140,6 +143,8 @@ class MyFrame(wx.Frame):
 
 
 	def onSameFile(self, event):
+		#self.nb.ChangeSelection(POS_PAGE_DUPLI)
+		self.nb.ChangeSelection(POS_PAGE_SEARCH)
 		dupli_files = self.bookdb.get_duplicate_booklist()
 		self.main_panel_frame.list_ctrl_1.DeleteAllItems()
 		for num, booklist in enumerate(dupli_files):
@@ -148,6 +153,7 @@ class MyFrame(wx.Frame):
 
 
 	def onConfig(self, event):
+		self.nb.ChangeSelection(POS_PAGE_CONFIG)
 		wx.MessageBox('No Configuration yet', 'Configuration', wx.OK | wx.ICON_INFORMATION, self)
 
 
