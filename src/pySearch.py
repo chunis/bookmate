@@ -129,7 +129,7 @@ class pySearch(wx.Panel):
 		self.Bind(wx.EVT_LIST_ITEM_SELECTED, self.onItemSelected, self.list_ctrl_1)
 		self.Bind(wx.EVT_LIST_ITEM_DESELECTED, self.onItemDeselected, self.list_ctrl_1)
 		self.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.onOpenItem, self.list_ctrl_1)
-		self.Bind(wx.EVT_CONTEXT_MENU, self.onRightClick, self.list_ctrl_1)
+		self.list_ctrl_1.Bind(wx.EVT_CONTEXT_MENU, self.onRightClick)
 		self.list_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
 		self.text_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
 
