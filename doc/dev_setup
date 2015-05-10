@@ -6,6 +6,7 @@ Section A: Linux
 Section B: Windows
 Section C: OS X
 Section D: About I18n
+Section E: About Frozen binary
 
 
 -----------------------
@@ -73,5 +74,9 @@ b. These steps only needed by developers for i18n
 Section E: About Frozen binary
 
 1. how to produce binary executes:
-	$ cd packages/binary && pyinstaller bookmate.spec
+at first change directory to 'packages/binary', then depends on your
+platform, run either one of this script:
+cmd> pyinstaller_build.bat (Windows)
+cmd> pyinstaller_build.py (Windows)
+sh$ ./pyinstaller_build.sh (Linux)
 
