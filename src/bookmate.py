@@ -67,6 +67,7 @@ class MyFrame(wx.Frame):
 		self.panel.SetSizer(box)
 		#box.Fit(self)
 
+		self.search_frame.text_ctrl_1.SetFocus()
 		self.init_config()
 
 
@@ -87,7 +88,7 @@ class MyFrame(wx.Frame):
 				("", "", ""),
 				("&Close", "Close this tool", self.onExit))),
 			 ("&Action", (
-				("&Find", "Find", self.mypass),
+				("&Go to Search Bar\tCTRL-F", "Go to Search Bar", self.onGoSearchBar),
 				("&Open", "Open", self.mypass),
 				("&Open Dir", "Open Dir", self.mypass),
 				("&Copy To", "Copy Selected Files to Another Place", self.mypass),
@@ -150,6 +151,10 @@ class MyFrame(wx.Frame):
 		for num, booklist in enumerate(dupli_files):
 			color = LIST_COLORS[num % len(LIST_COLORS)]
 			self.search_frame.list_ctrl_1.set_value(booklist, color)
+
+
+	def onGoSearchBar(self, event):
+		self.search_frame.text_ctrl_1.SetFocus()
 
 
 	def onConfig(self, event):

@@ -100,6 +100,7 @@ def find_str(booklist, str):
 class pySearch(wx.Panel):
 	def __init__(self, *args, **kwds):
 		self.select = 0
+                self.orig_booklist = []
 
 		self.open_file_id = wx.NewId()
 		self.open_dir_id = wx.NewId()
