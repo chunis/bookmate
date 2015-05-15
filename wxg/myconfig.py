@@ -13,9 +13,9 @@ from rename import ReName
 from same_name import SameName
 
 
-config_config = [("ignore"+ ' '*20, ConfigIgnore),  ("Setting path", ConfigPath)]
-config_dupli = [("Keep a single copy", ConfigIgnore),  ("remove archive files", ConfigPath)]
-config_extract = [("extract to", ConfigIgnore),  ("extract succeed", ConfigPath)]
+config_config = [("ignore"+ ' '*30, ConfigIgnore),  ("Setting path", ConfigPath)]
+config_dupli = [("Keep a single copy", DuplicateKeep),  ("remove archive files", DuplicateRemove)]
+config_extract = [("extract to", ExtractTo),  ("extract succeed", ExtractOK)]
 config_rename = [("rename", ReName)]
 config_same_name = [("same name", SameName)]
 
@@ -23,12 +23,13 @@ config_same_name = [("same name", SameName)]
 class Config(wx.Treebook):
     def __init__(self, parent, id):
         wx.Treebook.__init__(self, parent, id, style=wx.BK_DEFAULT)
+        self.pos = 0
 
         self.addPages(config_config)
-        #self.addPages(config_dupli)
-        #self.addPages(config_extract)
-        #self.addPages(config_rename)
-        #self.addPages(config_same_name)
+        self.addPages(config_dupli)
+        self.addPages(config_extract)
+        self.addPages(config_rename)
+        self.addPages(config_same_name)
 
         self.Bind(wx.EVT_TREEBOOK_PAGE_CHANGED, self.OnPageChanged)
         self.Bind(wx.EVT_TREEBOOK_PAGE_CHANGING, self.OnPageChanging)
@@ -70,12 +71,16 @@ class Config(wx.Treebook):
         func(p, text)
 
 
-    def addPages(self,list):
-        text, obj = list[0]
+    def addPages(self, pagelist):
+        text, obj = pagelist[0]
         self.addSinglePage(text, obj, self.AddPage)
 
-        for text, obj in list[1:]:
+        for text, obj in pagelist[1:]:
             self.addSinglePage(text, obj, self.AddSubPage)
+
+        # expand all sub nodes
+        self.ExpandNode(self.pos, True)
+        self.pos += len(pagelist)
 
 
 if __name__ == '__main__':
@@ -84,7 +89,7 @@ if __name__ == '__main__':
 
     frame = wx.Frame(None, -1, "my tree book demo")
     win = Config(frame, -1)
-    frame.SetSize((700, 500))
+    frame.SetSize((900, 500))
     frame.Centre()
     frame.Show()
     frame.window = win
