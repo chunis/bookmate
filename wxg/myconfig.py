@@ -87,9 +87,9 @@ if __name__ == '__main__':
     gettext.install("Config") # replace with the appropriate catalog name
     app = wx.App()
 
-    frame = wx.Frame(None, -1, "my tree book demo")
+    frame = wx.Frame(None, -1, "BookMate Config")
     win = Config(frame, -1)
-    frame.SetSize((900, 500))
+    frame.SetSize((850, 500))
     frame.Centre()
     frame.Show()
     frame.window = win
