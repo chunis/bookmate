@@ -119,15 +119,45 @@ class Config(wx.Treebook):
         self.pos += len(pagelist)
 
 
+class BookMateConfig(wx.Frame):
+    def __init__(self, *args, **kwds):
+        wx.Frame.__init__(self, *args, **kwds)
+        #self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Hello World"))
+        self.config = Config(self, -1)
+        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY, style=wx.EXPAND)
+        self.button_cancel = wx.Button(self, wx.ID_ANY, _("Cancel"))
+        self.button_ok = wx.Button(self, wx.ID_ANY, _("OK"))
+
+        self.__do_layout()
+        self.Bind(wx.EVT_BUTTON, self.save_config, self.button_ok)
+
+
+    def __do_layout(self):
+        sizer_1 = wx.BoxSizer(wx.VERTICAL)
+        sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_1.Add(self.config, 1, 0, 0)
+        #sizer_1.Add(self.label_1, 1, 0, 0)
+        sizer_1.Add(self.static_line_1, 0, wx.ALL | wx.EXPAND, 5)
+        sizer_2.Add(self.button_cancel, 0, wx.ALIGN_RIGHT, 0)
+        sizer_2.Add((60, 20), 0, 0, 0)
+        sizer_2.Add(self.button_ok, 0, wx.EXPAND, 0)
+        sizer_1.Add(sizer_2, 0, wx.ALIGN_CENTER | wx.ALL, 10)
+        self.SetSizer(sizer_1)
+        sizer_1.Fit(self)
+        self.Layout()
+
+    def save_config(self, event):  # wxGlade: MyFrame.<event_handler>
+        print "Event handler 'save_config' not implemented!"
+        event.Skip()
+
+
 if __name__ == '__main__':
     gettext.install("Config") # replace with the appropriate catalog name
     app = wx.App()
 
-    frame = wx.Frame(None, -1, "BookMate Config")
-    win = Config(frame, -1)
+    frame = BookMateConfig(None, -1, "BookMate Config")
     frame.SetSize((850, 500))
     frame.Centre()
     frame.Show()
-    frame.window = win
-    win.SetFocus()
+    frame.SetFocus()
     app.MainLoop()
