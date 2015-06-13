@@ -102,7 +102,7 @@ class BookMateConfig(wx.Frame):
     def __do_layout(self):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_1.Add(self.config, 1, 0, 0)
+        sizer_1.Add(self.config, 1, wx.EXPAND, 0)
         #sizer_1.Add(self.label_1, 1, 0, 0)
         sizer_1.Add(self.static_line_1, 0, wx.ALL | wx.EXPAND, 5)
         sizer_2.Add(self.button_cancel, 0, wx.ALIGN_RIGHT, 0)
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     gettext.install("Config") # replace with the appropriate catalog name
     app = wx.App()
 
-    test_inner()    # This is OK
-    #test_outer()   # This has something wrong
+    #test_inner()    # This is OK
+    test_outer()   # This is OK, too
 
     app.MainLoop()
