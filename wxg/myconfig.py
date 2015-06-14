@@ -49,9 +49,9 @@ class DuplicateInfo(wx.Panel):
         self.Layout()
 
 
-config_config = [("Generic", GenericInfo), ("Ignore Directories and Files", ConfigIgnore),  ("Setting Pathes", ConfigPath)]
-config_dupli = [("Duplication", DuplicateInfo), ("Keep One File", DuplicateKeep),  ("Remove Duplicate Files", DuplicateRemove)]
-config_extract = [("Extraction", ExtractInfo), ("Extract To", ExtractTo),  ("Extract Succeed", ExtractOK)]
+config_config = [("Generic", GenericInfo), ("Setting Pathes", ConfigPath), ("Ignore Directories and Files", ConfigIgnore)]
+config_dupli = [("Duplication", DuplicateInfo), ("Keep One File", DuplicateKeep), ("Remove Duplicate Files", DuplicateRemove)]
+config_extract = [("Extraction", ExtractInfo), ("Extract To", ExtractTo), ("Extract Succeed", ExtractOK)]
 config_rename = [("Rename", ReName)]
 config_same_name = [("Same Name", SameName)]
 
@@ -67,9 +67,6 @@ class Config(wx.Treebook):
         self.addPages(config_rename)
         self.addPages(config_same_name)
 
-        self.Bind(wx.EVT_TREEBOOK_PAGE_CHANGED, self.OnPageChanged)
-        self.Bind(wx.EVT_TREEBOOK_PAGE_CHANGING, self.OnPageChanging)
-
         # This is a workaround for a sizing bug on Mac...
         # TODO: does this still needed or not?
         wx.FutureCall(100, self.AdjustSize)
@@ -77,21 +74,6 @@ class Config(wx.Treebook):
     def AdjustSize(self):
         self.GetTreeCtrl().InvalidateBestSize()
         self.SendSizeEvent()
-
-
-    def OnPageChanged(self, event):
-        old = event.GetOldSelection()
-        new = event.GetSelection()
-        sel = self.GetSelection()
-        print 'OnPageChanged, old:%d, new:%d, sel:%d' %(old, new, sel)
-        event.Skip()
-
-    def OnPageChanging(self, event):
-        old = event.GetOldSelection()
-        new = event.GetSelection()
-        sel = self.GetSelection()
-        print 'OnPageChanging, old:%d, new:%d, sel:%d' %(old, new, sel)
-        event.Skip()
 
 
     def addSinglePage(self, text, myobj, func):
@@ -122,7 +104,6 @@ class Config(wx.Treebook):
 class BookMateConfig(wx.Frame):
     def __init__(self, *args, **kwds):
         wx.Frame.__init__(self, *args, **kwds)
-        #self.label_1 = wx.StaticText(self, wx.ID_ANY, _("Hello World"))
         self.config = Config(self, -1)
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY, style=wx.EXPAND)
         self.button_cancel = wx.Button(self, wx.ID_ANY, _("Cancel"))
@@ -136,7 +117,6 @@ class BookMateConfig(wx.Frame):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(self.config, 1, wx.EXPAND, 0)
-        #sizer_1.Add(self.label_1, 1, 0, 0)
         sizer_1.Add(self.static_line_1, 0, wx.ALL | wx.EXPAND, 5)
         sizer_2.Add(self.button_cancel, 0, wx.ALIGN_RIGHT, 0)
         sizer_2.Add((60, 20), 0, 0, 0)
