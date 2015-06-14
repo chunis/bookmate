@@ -146,6 +146,20 @@ class Config(wx.Treebook):
         #print 'dupli_keep:', dupli_keep
         self.allpages[4].setKeep(dupli_keep)
 
+        dupli_destiny = config.getint('Duplication.Remove', 'destiny')
+        dupli_somewhere = config.get('Duplication.Remove', 'somewhere')
+        print 'dupli_destiny:', dupli_destiny
+        print 'dupli_somewhere:', dupli_somewhere
+        if not os.path.isdir(dupli_somewhere):
+            print "Warning! %s doesn't exist" %dupli_somewhere
+        if dupli_destiny == 3 and not dupli_somewhere:
+            wx.MessageBox("You can't set 'Duplication.Remove:destiny=3' with "
+                "a wrong 'Duplication.Remove:somewhere' value.\n"
+                'Please correct it first.',
+                'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+
+        self.allpages[5].setRemove(dupli_destiny, os.path.abspath(dupli_somewhere))
+
 
         return config
 

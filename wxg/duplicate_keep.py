@@ -51,6 +51,8 @@ class DuplicateKeep(wx.Panel):
     def setKeep(self, keep):
         if keep <= len(self.choices_list):
             self.combo_box_duplicate.SetValue(self.choices_list[keep-1])
+        else:
+            print "WARNING! 'Duplication.Keep:keep' is too large!"
 
 # end of class DuplicateKeep
 class MyApp(wx.App):
