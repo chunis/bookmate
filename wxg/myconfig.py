@@ -2,6 +2,8 @@
 
 import wx    
 import gettext
+import ConfigParser
+import os
 
 from config_ignore import ConfigIgnore
 from config_path import ConfigPath
@@ -60,6 +62,7 @@ class Config(wx.Treebook):
     def __init__(self, parent, id):
         wx.Treebook.__init__(self, parent, id, style=wx.BK_DEFAULT)
         self.pos = 0
+        self.allpages = []
 
         self.addPages(config_config)
         self.addPages(config_dupli)
@@ -80,6 +83,7 @@ class Config(wx.Treebook):
         p = wx.Panel(self, -1)
         win = myobj(p, -1)
         p.win = win
+        self.allpages.append(win)
 
         def OnCPSize(evt, win=win):
             win.SetPosition((0,0))
@@ -100,6 +104,37 @@ class Config(wx.Treebook):
         self.ExpandNode(self.pos, True)
         self.pos += len(pagelist)
 
+    def loadConfigFromFile(self, file):
+        config = ConfigParser.ConfigParser()
+        config.read(file)
+        #print config.sections()
+
+        dir1 = config.get('Generic.Path', 'dir1')
+        dir2 = config.get('Generic.Path', 'dir2')
+        dir3 = config.get('Generic.Path', 'dir3')
+        dir4 = config.get('Generic.Path', 'dir4')
+        exdir1 = config.get('Generic.Path', 'exdir1')
+        exdir2 = config.get('Generic.Path', 'exdir2')
+
+        dirs = {dir1, dir2, dir3, dir4}
+        if len(dirs) != 4 or exdir1 == exdir2:
+            print "WARNING: same dirs found in Generic:Setting Pathes!"
+        all_dirs = []
+        for d in [dir1, dir2, dir3, dir4, exdir1, exdir2]:
+            if not os.path.isdir(d):
+                print "WARNING: %s doesn't exist! will be removed from config" %d
+                config.set('Generic.Path', d, '')
+                all_dirs.append(None)
+            else:
+                all_dirs.append(d)
+
+        self.allpages[1].setPath(all_dirs)  # config_path
+
+        return config
+
+    def saveConfigToFile(self):
+        pass
+
 
 class BookMateConfig(wx.Frame):
     def __init__(self, *args, **kwds):
@@ -111,6 +146,7 @@ class BookMateConfig(wx.Frame):
 
         self.__do_layout()
         self.Bind(wx.EVT_BUTTON, self.save_config, self.button_ok)
+        self.config.loadConfigFromFile('../src/bookmate.cfg')
 
 
     def __do_layout(self):

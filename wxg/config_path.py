@@ -91,6 +91,18 @@ class ConfigPath(wx.Panel):
                 self.combo_box_search_path1.SetValue(self.path1)
         dir.Destroy()
 
+    def setPath(self, dirs):
+        def mySetValue(obj, value):
+            if value:
+                obj.SetValue(value)
+
+        mySetValue(self.combo_box_search_path1, dirs[0])
+        mySetValue(self.combo_box_search_path2, dirs[1])
+        mySetValue(self.combo_box_search_path3, dirs[2])
+        mySetValue(self.combo_box_search_path4, dirs[3])
+        mySetValue(self.combo_box_expath1, dirs[4])
+        mySetValue(self.combo_box_expath2, dirs[5])
+
 
 # end of class ConfigPath
 class MyApp(wx.App):
