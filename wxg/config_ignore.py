@@ -45,6 +45,14 @@ class ConfigIgnore(wx.Panel):
         self.Layout()
         # end wxGlade
 
+    def setPath(self, ignore_hidden=True, ignore_vcd=True,
+                ignore_udd=True, ignore_udft=True):
+            self.checkbox_hidden.SetValue(ignore_hidden)
+            self.checkbox_cvs.SetValue(ignore_vcd)
+            self.checkbox_user_dir.SetValue(ignore_udd)
+            self.checkbox_user_filetype.SetValue(ignore_udft)
+
+
 # end of class ConfigIgnore
 class MyApp(wx.App):
     def OnInit(self):

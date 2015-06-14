@@ -109,6 +109,8 @@ class Config(wx.Treebook):
         config.read(file)
         #print config.sections()
 
+        # ['Generic.Path', 'Generic.Ignore', 'Duplication.Keep', 'Duplication.Remove',
+        #  'Extraction.To', 'Extraction.Remove', 'Rename', 'Same Name']
         dir1 = config.get('Generic.Path', 'dir1')
         dir2 = config.get('Generic.Path', 'dir2')
         dir3 = config.get('Generic.Path', 'dir3')
@@ -116,19 +118,30 @@ class Config(wx.Treebook):
         exdir1 = config.get('Generic.Path', 'exdir1')
         exdir2 = config.get('Generic.Path', 'exdir2')
 
-        dirs = {dir1, dir2, dir3, dir4}
-        if len(dirs) != 4 or exdir1 == exdir2:
+        dirlist = [d for d in [dir1, dir2, dir3, dir4] if d]
+        dirs = set(dirlist)
+        if len(dirs) != len(dirlist) or exdir1 == exdir2:
             print "WARNING: same dirs found in Generic:Setting Pathes!"
         all_dirs = []
         for d in [dir1, dir2, dir3, dir4, exdir1, exdir2]:
-            if not os.path.isdir(d):
-                print "WARNING: %s doesn't exist! will be removed from config" %d
+            if not d:
+                all_dirs.append(None)
+            elif not os.path.isdir(d):
+                print "WARNING: path '%s' doesn't exist! will be removed from config" %d
                 config.set('Generic.Path', d, '')
                 all_dirs.append(None)
             else:
                 all_dirs.append(d)
 
         self.allpages[1].setPath(all_dirs)  # config_path
+
+        ignore_hidden = config.getboolean('Generic.Ignore', 'ignore_hidden')
+        ignore_vcd = config.getboolean('Generic.Ignore', 'ignore_vcd')
+        ignore_udd = config.getboolean('Generic.Ignore', 'ignore_udd')
+        ignore_udft = config.getboolean('Generic.Ignore', 'ignore_udft')
+        #print ignore_hidden, ignore_vcd, ignore_udd, ignore_udft
+        self.allpages[2].setPath(ignore_hidden, ignore_vcd, ignore_udd, ignore_udft)  # config_ignore
+
 
         return config
 
