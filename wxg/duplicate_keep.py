@@ -17,9 +17,17 @@ import gettext
 class DuplicateKeep(wx.Panel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: DuplicateKeep.__init__
+        self.choices_list = [
+                _("File with longest name"),
+                _("The oldest"),
+                _("File in less layers of directories"),
+                _("File in more layers of directories"),
+                _("Any one is OK. Don't care anything else")
+        ]
+
         wx.Panel.__init__(self, *args, **kwds)
         self.label_keep_notes = wx.StaticText(self, wx.ID_ANY, _("We prefer and choose this file to keep if it is:"))
-        self.combo_box_duplicate = wx.ComboBox(self, wx.ID_ANY, choices=[_("File with longest name"), _("The oldest"), _("File in less layers of directories"), _("File in more layers of directories"), _("Any one is OK. Don't care anything else")], style=wx.CB_DROPDOWN | wx.CB_READONLY)
+        self.combo_box_duplicate = wx.ComboBox(self, wx.ID_ANY, choices=self.choices_list, style=wx.CB_DROPDOWN | wx.CB_READONLY)
 
         self.__set_properties()
         self.__do_layout()
@@ -39,6 +47,10 @@ class DuplicateKeep(wx.Panel):
         self.SetSizer(sizer_1)
         self.Layout()
         # end wxGlade
+
+    def setKeep(self, keep):
+        if keep <= len(self.choices_list):
+            self.combo_box_duplicate.SetValue(self.choices_list[keep-1])
 
 # end of class DuplicateKeep
 class MyApp(wx.App):

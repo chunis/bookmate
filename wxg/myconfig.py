@@ -139,8 +139,12 @@ class Config(wx.Treebook):
         ignore_vcd = config.getboolean('Generic.Ignore', 'ignore_vcd')
         ignore_udd = config.getboolean('Generic.Ignore', 'ignore_udd')
         ignore_udft = config.getboolean('Generic.Ignore', 'ignore_udft')
-        #print ignore_hidden, ignore_vcd, ignore_udd, ignore_udft
-        self.allpages[2].setPath(ignore_hidden, ignore_vcd, ignore_udd, ignore_udft)  # config_ignore
+        #print 'ignore boolean:', ignore_hidden, ignore_vcd, ignore_udd, ignore_udft
+        self.allpages[2].setIgnore(ignore_hidden, ignore_vcd, ignore_udd, ignore_udft)  # config_ignore
+
+        dupli_keep = config.getint('Duplication.Keep', 'keep')
+        #print 'dupli_keep:', dupli_keep
+        self.allpages[4].setKeep(dupli_keep)
 
 
         return config

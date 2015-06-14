@@ -45,7 +45,7 @@ class ConfigIgnore(wx.Panel):
         self.Layout()
         # end wxGlade
 
-    def setPath(self, ignore_hidden=True, ignore_vcd=True,
+    def setIgnore(self, ignore_hidden=True, ignore_vcd=True,
                 ignore_udd=True, ignore_udft=True):
             self.checkbox_hidden.SetValue(ignore_hidden)
             self.checkbox_cvs.SetValue(ignore_vcd)
