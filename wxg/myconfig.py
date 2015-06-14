@@ -51,7 +51,7 @@ class DuplicateInfo(wx.Panel):
 
 config_config = [("Generic", GenericInfo), ("Setting Pathes", ConfigPath), ("Ignore Directories and Files", ConfigIgnore)]
 config_dupli = [("Duplication", DuplicateInfo), ("Keep One File", DuplicateKeep), ("Remove Duplicate Files", DuplicateRemove)]
-config_extract = [("Extraction", ExtractInfo), ("Extract To", ExtractTo), ("Extract Succeed", ExtractOK)]
+config_extract = [("Extraction", ExtractInfo), ("Extract To", ExtractTo), ("Remove Archived Files", ExtractOK)]
 config_rename = [("Rename", ReName)]
 config_same_name = [("Same Name", SameName)]
 
@@ -116,7 +116,7 @@ class BookMateConfig(wx.Frame):
     def __do_layout(self):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_1.Add(self.config, 1, wx.EXPAND, 0)
+        sizer_1.Add(self.config, 1, wx.ALL | wx.EXPAND, 10)
         sizer_1.Add(self.static_line_1, 0, wx.ALL | wx.EXPAND, 5)
         sizer_2.Add(self.button_cancel, 0, wx.ALIGN_RIGHT, 0)
         sizer_2.Add((60, 20), 0, 0, 0)

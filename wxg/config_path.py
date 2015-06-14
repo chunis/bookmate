@@ -40,7 +40,10 @@ class ConfigPath(wx.Panel):
 
         self.__set_properties()
         self.__do_layout()
+
         # end wxGlade
+
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath1, self.button_path1)
 
     def __set_properties(self):
         # begin wxGlade: ConfigPath.__set_properties
@@ -80,6 +83,14 @@ class ConfigPath(wx.Panel):
         self.SetSizer(sizer_3)
         self.Layout()
         # end wxGlade
+
+    def onBrowsePath1(self, event):
+        dir = wx.DirDialog(None, "Choose a Directory:")
+        if dir.ShowModal() == wx.ID_OK:
+                self.path1 = dir.GetPath()
+                self.combo_box_search_path1.SetValue(self.path1)
+        dir.Destroy()
+
 
 # end of class ConfigPath
 class MyApp(wx.App):
