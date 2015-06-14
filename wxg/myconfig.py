@@ -51,7 +51,7 @@ class DuplicateInfo(wx.Panel):
         self.Layout()
 
 
-config_config = [("Generic", GenericInfo), ("Setting Pathes", ConfigPath), ("Ignore Directories and Files", ConfigIgnore)]
+config_config = [("Generic", GenericInfo), ("Setting Search Path", ConfigPath), ("Ignore Directories and Files", ConfigIgnore)]
 config_dupli = [("Duplication", DuplicateInfo), ("Keep One File", DuplicateKeep), ("Remove Duplicate Files", DuplicateRemove)]
 config_extract = [("Extraction", ExtractInfo), ("Extract To", ExtractTo), ("Remove Archived Files", ExtractOK)]
 config_rename = [("Rename", ReName)]
@@ -121,7 +121,7 @@ class Config(wx.Treebook):
         dirlist = [d for d in [dir1, dir2, dir3, dir4] if d]
         dirs = set(dirlist)
         if len(dirs) != len(dirlist) or exdir1 == exdir2:
-            print "WARNING: same dirs found in Generic:Setting Pathes!"
+            print "WARNING: same dirs found in Generic:Setting Search Path!"
         all_dirs = []
         for d in [dir1, dir2, dir3, dir4, exdir1, exdir2]:
             if not d:
