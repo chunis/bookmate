@@ -56,7 +56,9 @@ class DuplicateRemove(wx.Panel):
             print "WARNING! Duplication.Remove:destiny too large"
         else:
             self.radios[destiny-1].SetValue(True)
-        self.text_ctrl_dupli_path.SetValue(somewhere)
+
+        if somewhere:
+            self.text_ctrl_dupli_path.SetValue(somewhere)
 
 
 # end of class DuplicateRemove
