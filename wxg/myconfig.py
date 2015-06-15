@@ -168,8 +168,8 @@ class Config(wx.Treebook):
         # for extraction.to
         extract2destination = config.getint('Extraction.To', 'destination')
         extract2somewhere = config.get('Extraction.To', 'somewhere')
-        print 'extract2destination:', extract2destination
-        print 'extract2somewhere:', extract2somewhere
+        #print 'extract2destination:', extract2destination
+        #print 'extract2somewhere:', extract2somewhere
         if extract2somewhere and not os.path.isdir(extract2somewhere):
             print "Warning! %s doesn't exist" %extract2somewhere
             extract2somewhere = ""
@@ -184,6 +184,26 @@ class Config(wx.Treebook):
         else:
             abs_somewhere = None
         self.allpages[7].setExtractTo(extract2destination, abs_somewhere)
+
+        # for extraction.remove
+        exrm_destiny = config.getint('Extraction.Remove', 'destiny')
+        exrm_somewhere = config.get('Extraction.Remove', 'somewhere')
+        #print 'exrm_destiny:', exrm_destiny
+        #print 'exrm_somewhere:', exrm_somewhere
+        if exrm_somewhere and not os.path.isdir(exrm_somewhere):
+            print "Warning! %s doesn't exist" %exrm_somewhere
+            exrm_somewhere = ""
+        if exrm_destiny == 3 and not exrm_somewhere:
+            wx.MessageBox("You can't set 'Extraction.Remove:destiny=3' with "
+                "a wrong 'Extraction.Remove:somewhere' value.\n"
+                'Please correct it first.',
+                'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+
+        if exrm_somewhere:
+            abs_somewhere = os.path.abspath(exrm_somewhere)
+        else:
+            abs_somewhere = None
+        self.allpages[8].setExtractRemove(exrm_destiny, abs_somewhere)
 
 
         return config
