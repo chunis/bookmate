@@ -41,6 +41,8 @@ class ReName(wx.Panel):
         self.checkbox_7 = wx.CheckBox(self, wx.ID_ANY, _("date(year,month)"))
         self.button_2 = wx.Button(self, wx.ID_ANY, _("Suggest Names"))
         self.button_3 = wx.Button(self, wx.ID_ANY, _("Rename All Files Marked Green"))
+        self.radios_add = [self.radio_btn_2, self.radio_btn_3]
+        self.radios_remove = [self.radio_btn_4, self.radio_btn_5, self.radio_btn_6]
 
         self.__set_properties()
         self.__do_layout()
@@ -91,6 +93,25 @@ class ReName(wx.Panel):
         self.SetSizer(sizer_3)
         self.Layout()
         # end wxGlade
+
+    def setRename(self, add_text, remove_text, add_to, remove_from,
+            add_author, add_isbn, add_date):
+        if add_to > len(self.radios_add):
+            print "WARNING! Rename:add_to too large"
+        else:
+            self.radios_add[add_to-1].SetValue(True)
+
+        if remove_from > len(self.radios_remove):
+            print "WARNING! Rename:remove_from too large"
+        else:
+            self.radios_remove[remove_from-1].SetValue(True)
+
+        self.text_ctrl_6.SetValue(add_text)
+        self.text_ctrl_7.SetValue(remove_text)
+        self.checkbox_5.SetValue(add_author)
+        self.checkbox_6.SetValue(add_isbn)
+        self.checkbox_7.SetValue(add_date)
+
 
 # end of class ReName
 class MyApp(wx.App):

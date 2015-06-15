@@ -206,6 +206,26 @@ class Config(wx.Treebook):
         self.allpages[8].setExtractRemove(exrm_destiny, abs_somewhere)
 
 
+        # for rename
+        ren_add_text = config.get('Rename', 'add_text')
+        ren_remove_text = config.get('Rename', 'remove_text')
+        ren_add_to = config.getint('Rename', 'add_to')
+        ren_remove_from = config.getint('Rename', 'remove_from')
+        ren_add_author = config.getboolean('Rename', 'add_author')
+        ren_add_isbn = config.getboolean('Rename', 'add_isbn')
+        ren_add_date = config.getboolean('Rename', 'add_date')
+        print 'ren_add_text:', ren_add_text
+        print 'ren_remove_text:', ren_remove_text
+        print 'ren_add_to:', ren_add_to
+        print 'ren_remove_from:', ren_remove_from
+        print 'ren_add_author:', ren_add_author
+        print 'ren_add_isbn:', ren_add_isbn
+        print 'ren_add_date:', ren_add_date
+
+        self.allpages[9].setRename(ren_add_text, ren_remove_text, ren_add_to, ren_remove_from,
+                ren_add_author, ren_add_isbn, ren_add_date)
+
+
         return config
 
     def saveConfigToFile(self):
