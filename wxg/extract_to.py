@@ -24,6 +24,7 @@ class ExtractTo(wx.Panel):
         self.radio_btn_extract_exto = wx.RadioButton(self, wx.ID_ANY, _("Extract To:"))
         self.text_ctrl_extract_path = wx.TextCtrl(self, wx.ID_ANY, "")
         self.button_extract_path = wx.Button(self, wx.ID_ANY, _("..."))
+        self.radios = [self.radio_btn_extract_remove, self.radio_btn_extract_exto]
 
         self.__set_properties()
         self.__do_layout()
@@ -47,6 +48,16 @@ class ExtractTo(wx.Panel):
         self.SetSizer(sizer_extract_to)
         self.Layout()
         # end wxGlade
+
+    def setExtractTo(self, destination, somewhere):
+        if destination > len(self.radios):
+            print "WARNING! Extraction.To:destination too large"
+        else:
+            self.radios[destination-1].SetValue(True)
+
+        if somewhere:
+            self.text_ctrl_extract_path.SetValue(somewhere)
+
 
 # end of class ExtractTo
 class MyApp(wx.App):

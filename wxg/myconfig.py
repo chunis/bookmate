@@ -152,6 +152,7 @@ class Config(wx.Treebook):
         #print 'dupli_somewhere:', dupli_somewhere
         if dupli_somewhere and not os.path.isdir(dupli_somewhere):
             print "Warning! %s doesn't exist" %dupli_somewhere
+            dupli_somewhere = ""
         if dupli_destiny == 3 and not dupli_somewhere:
             wx.MessageBox("You can't set 'Duplication.Remove:destiny=3' with "
                 "a wrong 'Duplication.Remove:somewhere' value.\n"
@@ -163,6 +164,26 @@ class Config(wx.Treebook):
         else:
             abs_somewhere = None
         self.allpages[5].setRemove(dupli_destiny, abs_somewhere)
+
+        # for extraction.to
+        extract2destination = config.getint('Extraction.To', 'destination')
+        extract2somewhere = config.get('Extraction.To', 'somewhere')
+        print 'extract2destination:', extract2destination
+        print 'extract2somewhere:', extract2somewhere
+        if extract2somewhere and not os.path.isdir(extract2somewhere):
+            print "Warning! %s doesn't exist" %extract2somewhere
+            extract2somewhere = ""
+        if extract2destination == 2 and not extract2somewhere:
+            wx.MessageBox("You can't set 'Extraction.To:destination=2' with "
+                "a wrong 'Extraction.To:somewhere' value.\n"
+                'Please correct it first.',
+                'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+
+        if extract2somewhere:
+            abs_somewhere = os.path.abspath(extract2somewhere)
+        else:
+            abs_somewhere = None
+        self.allpages[7].setExtractTo(extract2destination, abs_somewhere)
 
 
         return config
