@@ -131,7 +131,7 @@ class Config(wx.Treebook):
                 config.set('Generic.Path', d, '')
                 all_dirs.append(None)
             else:
-                all_dirs.append(d)
+                all_dirs.append(os.path.abspath(d))
 
         self.allpages[1].setPath(all_dirs)  # config_path
 
