@@ -49,6 +49,13 @@ class SameName(wx.Panel):
         self.Layout()
         # end wxGlade
 
+    def setSameName(self, comp_dir, with_dir):
+        if comp_dir:
+            self.text_ctrl_smn_from_path.SetValue(comp_dir)
+        if with_dir:
+            self.text_ctrl_smn_to_path.SetValue(with_dir)
+
+
 # end of class SameName
 class MyApp(wx.App):
     def OnInit(self):

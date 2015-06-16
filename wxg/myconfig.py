@@ -214,17 +214,24 @@ class Config(wx.Treebook):
         ren_add_author = config.getboolean('Rename', 'add_author')
         ren_add_isbn = config.getboolean('Rename', 'add_isbn')
         ren_add_date = config.getboolean('Rename', 'add_date')
-        print 'ren_add_text:', ren_add_text
-        print 'ren_remove_text:', ren_remove_text
-        print 'ren_add_to:', ren_add_to
-        print 'ren_remove_from:', ren_remove_from
-        print 'ren_add_author:', ren_add_author
-        print 'ren_add_isbn:', ren_add_isbn
-        print 'ren_add_date:', ren_add_date
+        self.allpages[9].setRename(ren_add_text, ren_remove_text, ren_add_to,
+                ren_remove_from, ren_add_author, ren_add_isbn, ren_add_date)
 
-        self.allpages[9].setRename(ren_add_text, ren_remove_text, ren_add_to, ren_remove_from,
-                ren_add_author, ren_add_isbn, ren_add_date)
 
+        # for same name
+        sn_dirs = []
+        comp_dir = config.get('SameName', 'comp_dir')
+        with_dir = config.get('SameName', 'with_dir')
+        for sn_dir in [comp_dir, with_dir]:
+            if not sn_dir:
+                sn_dirs.append(None)
+            elif sn_dir and not os.path.exists(sn_dir):
+                print "Warning! '%s' doesn't exist" %sn_dir
+                sn_dir = ""
+                sn_dirs.append(None)
+            else:
+                sn_dirs.append(os.path.abspath(sn_dir))
+        self.allpages[10].setSameName(*sn_dirs)
 
         return config
 
