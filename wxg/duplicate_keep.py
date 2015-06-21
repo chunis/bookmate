@@ -54,6 +54,10 @@ class DuplicateKeep(wx.Panel):
         else:
             print "WARNING! 'Duplication.Keep:keep' is too large!"
 
+    def getKeep(self):
+        return self.combo_box_duplicate.GetSelection()
+
+
 # end of class DuplicateKeep
 class MyApp(wx.App):
     def OnInit(self):

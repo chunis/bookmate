@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import wx    
+import wx
 import gettext
 import ConfigParser
 import os
@@ -249,11 +249,14 @@ class Config(wx.Treebook):
         config.set('Generic.Path', 'exdir2', exdir2)
 
         (ignore_hidden, ignore_vcd, ignore_udd, ignore_udft) = self.allpages[2].getIgnore()
-        print (ignore_hidden, ignore_vcd, ignore_udd, ignore_udft)
         config.set('Generic.Ignore', 'ignore_hidden', ignore_hidden)
         config.set('Generic.Ignore', 'ignore_vcd', ignore_vcd)
         config.set('Generic.Ignore', 'ignore_udd', ignore_udd)
         config.set('Generic.Ignore', 'ignore_udft', ignore_udft)
+
+        dupli_keep = self.allpages[4].getKeep() + 1 # we count start from 1 instead of 0
+        config.set('Duplication.Keep', 'keep', dupli_keep)
+
 
         # write it to config file
         cf = open(conf_file, 'w')
