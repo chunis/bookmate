@@ -259,7 +259,7 @@ class Config(wx.Treebook):
 
         dupli_destiny, dupli_somewhere = self.allpages[5].getRemove()
         if dupli_somewhere:
-            if not os.path.exists(dupli_somewhere):
+            if not os.path.isdir(dupli_somewhere):
                 wx.MessageBox("Path 'Duplication.Remove:somewhere' doesn't exist.\n"
                     "It will be cleaned in the config",
                     'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
@@ -268,6 +268,45 @@ class Config(wx.Treebook):
                 dupli_somewhere = os.path.abspath(dupli_somewhere)
         config.set('Duplication.Remove', 'destiny', dupli_destiny)
         config.set('Duplication.Remove', 'somewhere', dupli_somewhere)
+
+        # for extraction.to
+        extract2destination, extract2somewhere = self.allpages[7].getExtractTo()
+        if extract2somewhere:
+            if not os.path.isdir(extract2somewhere):
+                wx.MessageBox("Path 'Extraction.To:somewhere' doesn't exist.\n"
+                    "It will be cleaned in the config",
+                    'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+                extract2somewhere = ""
+            else:
+                extract2somewhere = os.path.abspath(extract2somewhere)
+
+        if extract2destination == 2 and not extract2somewhere:
+            wx.MessageBox("You can't set 'Extraction.To:destination=2' with "
+                "a wrong 'Extraction.To:somewhere' value.\n"
+                'Please correct it first.',
+                'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+
+        config.set('Extraction.To', 'destination', extract2destination)
+        config.set('Extraction.To', 'somewhere', extract2somewhere)
+
+        # for extraction.remove
+        exrm_destiny, exrm_somewhere = self.allpages[8].getExtractRemove()
+        if exrm_somewhere and not os.path.isdir(exrm_somewhere):
+            wx.MessageBox("Path 'Extraction.Remove:somewhere' doesn't exist.\n"
+                "It will be cleaned in the config",
+                'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+            exrm_somewhere = ""
+        if exrm_destiny == 3 and not exrm_somewhere:
+            wx.MessageBox("You can't set 'Extraction.Remove:destiny=3' with "
+                "a wrong 'Extraction.Remove:somewhere' value.\n"
+                'Please correct it first.',
+                'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+
+        if exrm_somewhere:
+            abs_somewhere = os.path.abspath(exrm_somewhere)
+
+        config.set('Extraction.Remove', 'destiny', exrm_destiny)
+        config.set('Extraction.Remove', 'somewhere', exrm_somewhere)
 
 
         # write it to config file

@@ -70,6 +70,19 @@ class ExtractOK(wx.Panel):
         if somewhere:
             self.text_ctrl_extract_path.SetValue(somewhere)
 
+    def getExtractRemove(self):
+        def get_destiny():
+            for index, obj in enumerate(self.radios):
+                if obj.GetValue():
+                    return index+1  # we count start from 1 instead of 0
+
+            print "Something wrong in getRemove(). Should not reach here"
+            return 1
+
+        destiny = str(get_destiny())
+        somewhere = self.text_ctrl_extract_path.GetValue()
+        return (destiny, somewhere)
+
 
 # end of class ExtractOK
 class MyApp(wx.App):
