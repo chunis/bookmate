@@ -60,6 +60,21 @@ class DuplicateRemove(wx.Panel):
         if somewhere:
             self.text_ctrl_dupli_path.SetValue(somewhere)
 
+    def getRemove(self):
+        def get_destiny():
+            for index, obj in enumerate([self.radio_btn_dupli_remove,
+                    self.radio_btn_dupli_donothing,
+                    self.radio_btn_dupli_moveto]):
+                if obj.GetValue():
+                    return index+1  # we count start from 1 instead of 0
+
+            print "Something wrong in getRemove(). Should not reach here"
+            return 1
+
+        destiny = str(get_destiny())
+        somewhere = self.text_ctrl_dupli_path.GetValue()
+        return (destiny, somewhere)
+
 
 # end of class DuplicateRemove
 class MyApp(wx.App):

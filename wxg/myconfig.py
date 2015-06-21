@@ -257,6 +257,18 @@ class Config(wx.Treebook):
         dupli_keep = self.allpages[4].getKeep() + 1 # we count start from 1 instead of 0
         config.set('Duplication.Keep', 'keep', dupli_keep)
 
+        dupli_destiny, dupli_somewhere = self.allpages[5].getRemove()
+        if dupli_somewhere:
+            if not os.path.exists(dupli_somewhere):
+                wx.MessageBox("Path 'Duplication.Remove:somewhere' doesn't exist.\n"
+                    "It will be cleaned in the config",
+                    'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+                dupli_somewhere = ""
+            else:
+                dupli_somewhere = os.path.abspath(dupli_somewhere)
+        config.set('Duplication.Remove', 'destiny', dupli_destiny)
+        config.set('Duplication.Remove', 'somewhere', dupli_somewhere)
+
 
         # write it to config file
         cf = open(conf_file, 'w')
