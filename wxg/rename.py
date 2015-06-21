@@ -112,6 +112,23 @@ class ReName(wx.Panel):
         self.checkbox_6.SetValue(add_isbn)
         self.checkbox_7.SetValue(add_date)
 
+    def _get_radio_checked(self, lists):
+        for index, obj in enumerate(lists):
+            if obj.GetValue():
+                return index+1  # we count start from 1 instead of 0
+        print "Something wrong in getExtractTo(). Should not reach here"
+        return 1
+
+    def getRename(self):
+        add_to = self._get_radio_checked(self.radios_add)
+        remove_from = self._get_radio_checked(self.radios_remove)
+        add_text = self.text_ctrl_6.GetValue()
+        remove_text = self.text_ctrl_7.GetValue()
+        add_author = self.checkbox_5.GetValue()
+        add_isbn = self.checkbox_6.GetValue()
+        add_date = self.checkbox_7.GetValue()
+        return (add_text, remove_text, add_to, remove_from, add_author, add_isbn, add_date)
+
 
 # end of class ReName
 class MyApp(wx.App):

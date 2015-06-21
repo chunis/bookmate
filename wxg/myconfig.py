@@ -150,7 +150,7 @@ class Config(wx.Treebook):
         #print 'dupli_destiny:', dupli_destiny
         #print 'dupli_somewhere:', dupli_somewhere
         if dupli_somewhere and not os.path.isdir(dupli_somewhere):
-            print "Warning! %s doesn't exist" %dupli_somewhere
+            print "Warning! Duplication.Remove:%s doesn't exist" %dupli_somewhere
             dupli_somewhere = ""
         if dupli_destiny == 3 and not dupli_somewhere:
             wx.MessageBox("You can't set 'Duplication.Remove:destiny=3' with "
@@ -170,7 +170,7 @@ class Config(wx.Treebook):
         #print 'extract2destination:', extract2destination
         #print 'extract2somewhere:', extract2somewhere
         if extract2somewhere and not os.path.isdir(extract2somewhere):
-            print "Warning! %s doesn't exist" %extract2somewhere
+            print "Warning! Extraction.To:%s doesn't exist" %extract2somewhere
             extract2somewhere = ""
         if extract2destination == 2 and not extract2somewhere:
             wx.MessageBox("You can't set 'Extraction.To:destination=2' with "
@@ -190,7 +190,7 @@ class Config(wx.Treebook):
         #print 'exrm_destiny:', exrm_destiny
         #print 'exrm_somewhere:', exrm_somewhere
         if exrm_somewhere and not os.path.isdir(exrm_somewhere):
-            print "Warning! %s doesn't exist" %exrm_somewhere
+            print "Warning! Extraction.Remove:%s doesn't exist" %exrm_somewhere
             exrm_somewhere = ""
         if exrm_destiny == 3 and not exrm_somewhere:
             wx.MessageBox("You can't set 'Extraction.Remove:destiny=3' with "
@@ -225,7 +225,7 @@ class Config(wx.Treebook):
             if not sn_dir:
                 sn_dirs.append(None)
             elif sn_dir and not os.path.exists(sn_dir):
-                print "Warning! '%s' doesn't exist" %sn_dir
+                print "Warning! SameName: '%s' doesn't exist" %sn_dir
                 sn_dir = ""
                 sn_dirs.append(None)
             else:
@@ -280,7 +280,7 @@ class Config(wx.Treebook):
             else:
                 extract2somewhere = os.path.abspath(extract2somewhere)
 
-        if extract2destination == 2 and not extract2somewhere:
+        if int(extract2destination) == 2 and not extract2somewhere:
             wx.MessageBox("You can't set 'Extraction.To:destination=2' with "
                 "a wrong 'Extraction.To:somewhere' value.\n"
                 'Please correct it first.',
@@ -296,7 +296,7 @@ class Config(wx.Treebook):
                 "It will be cleaned in the config",
                 'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
             exrm_somewhere = ""
-        if exrm_destiny == 3 and not exrm_somewhere:
+        if int(exrm_destiny) == 3 and not exrm_somewhere:
             wx.MessageBox("You can't set 'Extraction.Remove:destiny=3' with "
                 "a wrong 'Extraction.Remove:somewhere' value.\n"
                 'Please correct it first.',
@@ -307,6 +307,31 @@ class Config(wx.Treebook):
 
         config.set('Extraction.Remove', 'destiny', exrm_destiny)
         config.set('Extraction.Remove', 'somewhere', exrm_somewhere)
+
+        # for rename
+        (ren_add_text, ren_remove_text, ren_add_to, ren_remove_from, ren_add_author,
+                ren_add_isbn, ren_add_date) = self.allpages[9].getRename()
+        config.set('Rename', 'add_text', ren_add_text)
+        config.set('Rename', 'remove_text', ren_remove_text)
+        config.set('Rename', 'add_to', ren_add_to)
+        config.set('Rename', 'remove_from', ren_remove_from)
+        config.set('Rename', 'add_author', ren_add_author)
+        config.set('Rename', 'add_isbn', ren_add_isbn)
+        config.set('Rename', 'add_date', ren_add_date)
+
+
+        # for same name
+        comp_dir, with_dir = self.allpages[10].getSameName()
+
+        if comp_dir and not os.path.isdir(comp_dir):
+            print "Warning! SameName: '%s' doesn't exist" %comp_dir
+            comp_dir = ""
+        if with_dir and not os.path.isdir(with_dir):
+            print "Warning! SameName: '%s' doesn't exist" %with_dir
+            with_dir = ""
+
+        config.set('SameName', 'comp_dir', comp_dir)
+        config.set('SameName', 'with_dir', with_dir)
 
 
         # write it to config file

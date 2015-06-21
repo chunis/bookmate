@@ -73,6 +73,11 @@ class SameName(wx.Panel):
         if with_dir:
             self.text_ctrl_smn_to_path.SetValue(with_dir)
 
+    def getSameName(self):
+        from_dir = self.text_ctrl_smn_from_path.GetValue()
+        to_dir = self.text_ctrl_smn_to_path.GetValue()
+        return (from_dir, to_dir)
+
 
 # end of class SameName
 class MyApp(wx.App):
