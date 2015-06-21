@@ -63,6 +63,7 @@ class Config(wx.Treebook):
         wx.Treebook.__init__(self, parent, id, style=wx.BK_DEFAULT)
         self.pos = 0
         self.allpages = []
+        self.config_items = None  # to save configs from bookmate.cfg
 
         self.addPages(config_config)
         self.addPages(config_dupli)
@@ -109,8 +110,6 @@ class Config(wx.Treebook):
         config.read(file)
         #print config.sections()
 
-        # ['Generic.Path', 'Generic.Ignore', 'Duplication.Keep', 'Duplication.Remove',
-        #  'Extraction.To', 'Extraction.Remove', 'Rename', 'Same Name']
         dir1 = config.get('Generic.Path', 'dir1')
         dir2 = config.get('Generic.Path', 'dir2')
         dir3 = config.get('Generic.Path', 'dir3')
@@ -120,7 +119,7 @@ class Config(wx.Treebook):
 
         dirlist = [d for d in [dir1, dir2, dir3, dir4] if d]
         dirs = set(dirlist)
-        if len(dirs) != len(dirlist) or exdir1 == exdir2:
+        if len(dirs) != len(dirlist) or exdir1 and exdir1 == exdir2:
             print "WARNING: same dirs found in Generic:Setting Search Path!"
         all_dirs = []
         for d in [dir1, dir2, dir3, dir4, exdir1, exdir2]:
@@ -233,10 +232,18 @@ class Config(wx.Treebook):
                 sn_dirs.append(os.path.abspath(sn_dir))
         self.allpages[10].setSameName(*sn_dirs)
 
+        self.config_items = config
         return config
 
-    def saveConfigToFile(self):
-        pass
+
+    def saveConfigToFile(self, config=None, conf_file='xbookmate.cfg'):
+        if config == None:
+            config = self.config_items
+
+        cf = open(conf_file, 'w')
+        config.write(cf)
+        cf.close()
+
 
 
 class BookMateConfig(wx.Frame):
@@ -248,6 +255,7 @@ class BookMateConfig(wx.Frame):
         self.button_ok = wx.Button(self, wx.ID_ANY, _("OK"))
 
         self.__do_layout()
+        self.Bind(wx.EVT_BUTTON, self.ignore_config, self.button_cancel)
         self.Bind(wx.EVT_BUTTON, self.save_config, self.button_ok)
         self.config.loadConfigFromFile('../src/bookmate.cfg')
 
@@ -265,9 +273,14 @@ class BookMateConfig(wx.Frame):
         sizer_1.Fit(self)
         self.Layout()
 
+    def ignore_config(self, event):  # wxGlade: MyFrame.<event_handler>
+        #print "Start Event handler 'ignore_config'..."
+        self.Close()
+
     def save_config(self, event):  # wxGlade: MyFrame.<event_handler>
-        print "Event handler 'save_config' not implemented!"
-        event.Skip()
+        #print "Start Event handler 'save_config'..."
+        self.config.saveConfigToFile(None)
+        self.Close()
 
 
 if __name__ == '__main__':
