@@ -30,6 +30,10 @@ class SameName(wx.Panel):
         self.__do_layout()
         # end wxGlade
 
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath1, self.button_smn_from_path)
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath2, self.button_smn_to_path)
+
+
     def __set_properties(self):
         # begin wxGlade: SameName.__set_properties
         self.SetSize((871, 546))
@@ -48,6 +52,20 @@ class SameName(wx.Panel):
         grid_sizer_1.AddGrowableCol(1)
         self.Layout()
         # end wxGlade
+
+    def onBrowsePath1(self, event):
+        dir = wx.DirDialog(None, "Choose a Directory:")
+        if dir.ShowModal() == wx.ID_OK:
+                path = dir.GetPath()
+                self.text_ctrl_smn_from_path.SetValue(path)
+        dir.Destroy()
+
+    def onBrowsePath2(self, event):
+        dir = wx.DirDialog(None, "Choose a Directory:")
+        if dir.ShowModal() == wx.ID_OK:
+                path = dir.GetPath()
+                self.text_ctrl_smn_to_path.SetValue(path)
+        dir.Destroy()
 
     def setSameName(self, comp_dir, with_dir):
         if comp_dir:

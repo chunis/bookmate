@@ -31,6 +31,9 @@ class ExtractOK(wx.Panel):
         self.__do_layout()
         # end wxGlade
 
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath, self.button_extract_path)
+
+
     def __set_properties(self):
         # begin wxGlade: ExtractOK.__set_properties
         self.SetSize((758, 535))
@@ -50,6 +53,13 @@ class ExtractOK(wx.Panel):
         self.SetSizer(sizer_extract_remove1)
         self.Layout()
         # end wxGlade
+
+    def onBrowsePath(self, event):
+        dir = wx.DirDialog(None, "Choose a Directory:")
+        if dir.ShowModal() == wx.ID_OK:
+                path = dir.GetPath()
+                self.text_ctrl_extract_path.SetValue(path)
+        dir.Destroy()
 
     def setExtractRemove(self, destiny, somewhere):
         if destiny > len(self.radios):
