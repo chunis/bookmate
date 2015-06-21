@@ -14,6 +14,11 @@ import gettext
 # end wxGlade
 
 
+[
+    wxID_SPATH1, wxID_SPATH2, wxID_SPATH3, wxID_SPATH4,
+    wxID_EXPATH1, wxID_EXPATH2
+] = [wx.NewId() for _path_id in range(6)]
+
 class ConfigPath(wx.Panel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: ConfigPath.__init__
@@ -21,29 +26,43 @@ class ConfigPath(wx.Panel):
         self.bookmate_config_panel = wx.Panel(self, wx.ID_ANY)
         self.label_search_path1 = wx.StaticText(self.bookmate_config_panel, wx.ID_ANY, _("  Search Directory 1:"), style=wx.ALIGN_RIGHT)
         self.combo_box_search_path1 = wx.ComboBox(self.bookmate_config_panel, wx.ID_ANY, choices=[], style=wx.CB_DROPDOWN)
-        self.button_path1 = wx.Button(self.bookmate_config_panel, wx.ID_ANY, _("Browse..."))
+        self.button_path1 = wx.Button(self.bookmate_config_panel, wxID_SPATH1, _("Browse..."))
         self.label_search_path2 = wx.StaticText(self.bookmate_config_panel, wx.ID_ANY, _("Search Directory 2:"), style=wx.ALIGN_RIGHT)
         self.combo_box_search_path2 = wx.ComboBox(self.bookmate_config_panel, wx.ID_ANY, choices=[], style=wx.CB_DROPDOWN)
-        self.button_path2 = wx.Button(self.bookmate_config_panel, wx.ID_ANY, _("Browse..."))
+        self.button_path2 = wx.Button(self.bookmate_config_panel, wxID_SPATH2, _("Browse..."))
         self.label_search_path3 = wx.StaticText(self.bookmate_config_panel, wx.ID_ANY, _("Search Directory 3:"), style=wx.ALIGN_RIGHT)
         self.combo_box_search_path3 = wx.ComboBox(self.bookmate_config_panel, wx.ID_ANY, choices=[], style=wx.CB_DROPDOWN)
-        self.button_path3 = wx.Button(self.bookmate_config_panel, wx.ID_ANY, _("Browse..."))
+        self.button_path3 = wx.Button(self.bookmate_config_panel, wxID_SPATH3, _("Browse..."))
         self.label_search_path4 = wx.StaticText(self.bookmate_config_panel, wx.ID_ANY, _("Search Directory 4:"), style=wx.ALIGN_RIGHT)
         self.combo_box_search_path4 = wx.ComboBox(self.bookmate_config_panel, wx.ID_ANY, choices=[], style=wx.CB_DROPDOWN)
-        self.button_path4 = wx.Button(self.bookmate_config_panel, wx.ID_ANY, _("Browse..."))
+        self.button_path4 = wx.Button(self.bookmate_config_panel, wxID_SPATH4, _("Browse..."))
         self.label_expath1 = wx.StaticText(self.bookmate_config_panel, wx.ID_ANY, _("Exclude Directory 1:"), style=wx.ALIGN_RIGHT)
         self.combo_box_expath1 = wx.ComboBox(self.bookmate_config_panel, wx.ID_ANY, choices=[], style=wx.CB_DROPDOWN)
-        self.button_expath1 = wx.Button(self.bookmate_config_panel, wx.ID_ANY, _("Browse..."))
+        self.button_expath1 = wx.Button(self.bookmate_config_panel, wxID_EXPATH1, _("Browse..."))
         self.label_expath2 = wx.StaticText(self.bookmate_config_panel, wx.ID_ANY, _("Exclude Directory 2:"), style=wx.ALIGN_RIGHT)
         self.combo_box_expath2 = wx.ComboBox(self.bookmate_config_panel, wx.ID_ANY, choices=[], style=wx.CB_DROPDOWN)
-        self.button_expath2 = wx.Button(self.bookmate_config_panel, wx.ID_ANY, _("Browse..."))
+        self.button_expath2 = wx.Button(self.bookmate_config_panel, wxID_EXPATH2, _("Browse..."))
 
         self.__set_properties()
         self.__do_layout()
 
         # end wxGlade
 
-        self.Bind(wx.EVT_BUTTON, self.onBrowsePath1, self.button_path1)
+        # combine button to search path
+        self.button2path = {}
+        self.button2path[self.button_path1] = self.combo_box_search_path1
+        self.button2path[self.button_path2] = self.combo_box_search_path2
+        self.button2path[self.button_path3] = self.combo_box_search_path3
+        self.button2path[self.button_path4] = self.combo_box_search_path4
+        self.button2path[self.button_expath1] = self.combo_box_expath1
+        self.button2path[self.button_expath2] = self.combo_box_expath2
+
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath, self.button_path1)
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath, self.button_path2)
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath, self.button_path3)
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath, self.button_path4)
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath, self.button_expath1)
+        self.Bind(wx.EVT_BUTTON, self.onBrowsePath, self.button_expath2)
 
     def __set_properties(self):
         # begin wxGlade: ConfigPath.__set_properties
@@ -84,11 +103,13 @@ class ConfigPath(wx.Panel):
         self.Layout()
         # end wxGlade
 
-    def onBrowsePath1(self, event):
+    def onBrowsePath(self, event):
         dir = wx.DirDialog(None, "Choose a Directory:")
         if dir.ShowModal() == wx.ID_OK:
-                self.path1 = dir.GetPath()
-                self.combo_box_search_path1.SetValue(self.path1)
+                #itemId = event.GetId()
+                path = dir.GetPath()
+                obj = event.GetEventObject()
+                self.button2path[obj].SetValue(path)
         dir.Destroy()
 
     def setPath(self, dirs):
