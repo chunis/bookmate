@@ -240,6 +240,22 @@ class Config(wx.Treebook):
         if config == None:
             config = self.config_items
 
+        (dir1, dir2, dir3, dir4, exdir1, exdir2) = self.allpages[1].getPath()
+        config.set('Generic.Path', 'dir1', dir1)
+        config.set('Generic.Path', 'dir2', dir2)
+        config.set('Generic.Path', 'dir3', dir3)
+        config.set('Generic.Path', 'dir4', dir4)
+        config.set('Generic.Path', 'exdir1', exdir1)
+        config.set('Generic.Path', 'exdir2', exdir2)
+
+        (ignore_hidden, ignore_vcd, ignore_udd, ignore_udft) = self.allpages[2].getIgnore()
+        print (ignore_hidden, ignore_vcd, ignore_udd, ignore_udft)
+        config.set('Generic.Ignore', 'ignore_hidden', ignore_hidden)
+        config.set('Generic.Ignore', 'ignore_vcd', ignore_vcd)
+        config.set('Generic.Ignore', 'ignore_udd', ignore_udd)
+        config.set('Generic.Ignore', 'ignore_udft', ignore_udft)
+
+        # write it to config file
         cf = open(conf_file, 'w')
         config.write(cf)
         cf.close()

@@ -52,6 +52,13 @@ class ConfigIgnore(wx.Panel):
             self.checkbox_user_dir.SetValue(ignore_udd)
             self.checkbox_user_filetype.SetValue(ignore_udft)
 
+    def getIgnore(self):
+        hidden = self.checkbox_hidden.GetValue()
+        cvs = self.checkbox_cvs.GetValue()
+        udir = self.checkbox_user_dir.GetValue()
+        uft = self.checkbox_user_filetype.GetValue()
+        return (hidden, cvs, udir, uft)
+
 
 # end of class ConfigIgnore
 class MyApp(wx.App):

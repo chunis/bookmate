@@ -103,6 +103,15 @@ class ConfigPath(wx.Panel):
         mySetValue(self.combo_box_expath1, dirs[4])
         mySetValue(self.combo_box_expath2, dirs[5])
 
+    def getPath(self):
+        dir1 = self.combo_box_search_path1.GetValue()
+        dir2 = self.combo_box_search_path2.GetValue()
+        dir3 = self.combo_box_search_path3.GetValue()
+        dir4 = self.combo_box_search_path4.GetValue()
+        exdir1 = self.combo_box_expath1.GetValue()
+        exdir2 = self.combo_box_expath2.GetValue()
+        return (dir1, dir2, dir3, dir4, exdir1, exdir2)
+
 
 # end of class ConfigPath
 class MyApp(wx.App):
