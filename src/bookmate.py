@@ -50,13 +50,11 @@ class MyFrame(wx.Frame):
 		self.createStatusBar()
 		self.createToolBar()
 
-		self.config_frame = pyConfig(self.nb)
 		self.search_frame = pySearch(self.nb)
 		self.remove_dupli_frame = pySketch(self.nb)
 		self.batch_rename_frame = pySketch(self.nb)
 		self.batch_extract_frame = pySketch(self.nb)
 
-		self.nb.AddPage(self.config_frame, "Configuration")
 		self.nb.AddPage(self.search_frame, "Quick Search", select=True)
 		self.nb.AddPage(self.remove_dupli_frame, "Remove Duplications")
 		self.nb.AddPage(self.batch_rename_frame, "Batch Rename")

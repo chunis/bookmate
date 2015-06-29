@@ -352,7 +352,7 @@ class BookMateConfig(wx.Frame):
         self.__do_layout()
         self.Bind(wx.EVT_BUTTON, self.ignore_config, self.button_cancel)
         self.Bind(wx.EVT_BUTTON, self.save_config, self.button_ok)
-        self.config.loadConfigFromFile('../src/bookmate.cfg')
+        self.config.loadConfigFromFile('../bookmate.cfg')
 
 
     def __do_layout(self):
