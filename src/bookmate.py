@@ -157,7 +157,7 @@ class MyFrame(wx.Frame):
 
 	def onConfig(self, event):
 		#wx.MessageBox('No Configuration yet', 'Configuration', wx.OK | wx.ICON_INFORMATION, self)
-                frame = BookMateConfig(None, -1, "BookMate Config")
+                frame = BookMateConfig(CFG_FILE, None, -1, "BookMate Config")
                 frame.SetSize((850, 500))
                 frame.Centre()
                 frame.Show()

@@ -342,9 +342,10 @@ class Config(wx.Treebook):
 
 
 class BookMateConfig(wx.Frame):
-    def __init__(self, *args, **kwds):
+    def __init__(self, configfile, *args, **kwds):
         wx.Frame.__init__(self, *args, **kwds)
         self.config = Config(self, -1)
+        self.configfile = configfile
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY, style=wx.EXPAND)
         self.button_cancel = wx.Button(self, wx.ID_ANY, _("Cancel"))
         self.button_ok = wx.Button(self, wx.ID_ANY, _("OK"))
@@ -352,7 +353,7 @@ class BookMateConfig(wx.Frame):
         self.__do_layout()
         self.Bind(wx.EVT_BUTTON, self.ignore_config, self.button_cancel)
         self.Bind(wx.EVT_BUTTON, self.save_config, self.button_ok)
-        self.config.loadConfigFromFile('bookmate.cfg')
+        self.config.loadConfigFromFile(self.configfile)
 
 
     def __do_layout(self):
@@ -374,7 +375,7 @@ class BookMateConfig(wx.Frame):
 
     def save_config(self, event):  # wxGlade: MyFrame.<event_handler>
         #print "Start Event handler 'save_config'..."
-        self.config.saveConfigToFile(None)
+        self.config.saveConfigToFile(conf_file=self.configfile)
         self.Close()
 
 
