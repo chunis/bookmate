@@ -10,10 +10,11 @@
 "BookMate: Your friendly book management tool implemented by WxPython"
 
 import wx
+import gettext
 #import os, sys
 #import glob, shutil, thread
 from pySearch import pySearch
-from pyConfig import pyConfig
+from config.myconfig import BookMateConfig
 from pySketch import pySketch
 from bookDatabase import BookDatabase
 
@@ -31,9 +32,8 @@ WIN_HEIGH = 640
 CFG_FILE = "bookmate.cfg"
 #LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
 LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']
-[POS_PAGE_CONFIG, POS_PAGE_SEARCH,
- POS_PAGE_DUPLI, POS_PAGE_RENAME,
- POS_PAGE_EXTRACT ] = range(5)
+[POS_PAGE_SEARCH, POS_PAGE_DUPLI,
+ POS_PAGE_RENAME, POS_PAGE_EXTRACT ] = range(4)
 
 
 class MyFrame(wx.Frame):
@@ -156,8 +156,12 @@ class MyFrame(wx.Frame):
 
 
 	def onConfig(self, event):
-		self.nb.ChangeSelection(POS_PAGE_CONFIG)
-		wx.MessageBox('No Configuration yet', 'Configuration', wx.OK | wx.ICON_INFORMATION, self)
+		#wx.MessageBox('No Configuration yet', 'Configuration', wx.OK | wx.ICON_INFORMATION, self)
+                frame = BookMateConfig(None, -1, "BookMate Config")
+                frame.SetSize((850, 500))
+                frame.Centre()
+                frame.Show()
+                frame.SetFocus()
 
 
 	def onClearResult(self, event):
@@ -196,5 +200,6 @@ class BookMate(wx.App):
 #	thread.start_new(myprint, ())
 
 if __name__ == '__main__':
+        gettext.install("Config")
 	bookMate = BookMate(False)
 	bookMate.MainLoop()
