@@ -22,6 +22,152 @@ from rename import ReName
 from same_name import SameName
 
 
+class ConfigOptions:
+    def __init__(self):
+        self.dirlist = []
+        self.exdirlist = []
+        self.ignore_hidden = True
+        self.ignore_vcd = True
+        self.ignore_udd = True
+        self.ignore_udft = True
+        self.dupli_destiny = 3
+        self.abs_dupsomewhere = ""
+        self.extract2destination = 3
+        self.abs_extsomewhere = ""
+        self.exrm_destiny = 3
+        self.abs_exrmsomewhere = ""
+        self.ren_add_text = ""
+        self.ren_remove_text = ""
+        self.ren_add_to = 2
+        self.ren_remove_from = 3
+        self.ren_add_author = False
+        self.ren_add_isbn = False
+        self.ren_add_date = False
+        self.comp_dir = ""
+        self.with_dir = ""
+
+
+def xloadConfigFromFile(file):
+    config = ConfigParser.ConfigParser()
+    config.read(file)
+    #print config.sections()
+    co = ConfigOptions()
+    errmsg = ""
+
+    dir1 = config.get('Generic.Path', 'dir1')
+    dir2 = config.get('Generic.Path', 'dir2')
+    dir3 = config.get('Generic.Path', 'dir3')
+    dir4 = config.get('Generic.Path', 'dir4')
+    exdir1 = config.get('Generic.Path', 'exdir1')
+    exdir2 = config.get('Generic.Path', 'exdir2')
+
+    dirlist = [d for d in [dir1, dir2, dir3, dir4] if d]
+    dirs = set(dirlist)
+    if len(dirs) != len(dirlist) or exdir1 and exdir1 == exdir2:
+        print "WARNING: same dirs found in Generic:Setting Search Path!"
+    all_dirs = []
+    for d in [dir1, dir2, dir3, dir4, exdir1, exdir2]:
+        if not d:
+            all_dirs.append(None)
+        elif not os.path.isdir(d):
+            print "WARNING: path '%s' doesn't exist! will be removed from config" %d
+            config.set('Generic.Path', d, '')
+            all_dirs.append(None)
+        else:
+            all_dirs.append(os.path.abspath(d))
+    co.dirlist = [x for x in all_dirs[:4] if x]
+    co.exdirlist = [x for x in all_dirs[4:] if x]
+
+    co.ignore_hidden = config.getboolean('Generic.Ignore', 'ignore_hidden')
+    co.ignore_vcd = config.getboolean('Generic.Ignore', 'ignore_vcd')
+    co.ignore_udd = config.getboolean('Generic.Ignore', 'ignore_udd')
+    co.ignore_udft = config.getboolean('Generic.Ignore', 'ignore_udft')
+
+    co.dupli_keep = config.getint('Duplication.Keep', 'keep')
+
+    co.dupli_destiny = config.getint('Duplication.Remove', 'destiny')
+    dupli_somewhere = config.get('Duplication.Remove', 'somewhere')
+    if dupli_somewhere and not os.path.isdir(dupli_somewhere):
+        print "Warning! Duplication.Remove:%s doesn't exist" %dupli_somewhere
+        dupli_somewhere = ""
+    if co.dupli_destiny == 3 and not dupli_somewhere:
+        #wx.MessageBox("You can't set 'Duplication.Remove:destiny=3' with "
+        #    "a wrong 'Duplication.Remove:somewhere' value.\n"
+        #    'Please correct it first.',
+        #    'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+        pass
+    if dupli_somewhere:
+        co.abs_dupsomewhere = os.path.abspath(dupli_somewhere)
+    else:
+        co.abs_dupsomewhere = None
+
+    # for extraction.to
+    co.extract2destination = config.getint('Extraction.To', 'destination')
+    extract2somewhere = config.get('Extraction.To', 'somewhere')
+    #print 'co.extract2destination:', co.extract2destination
+    #print 'extract2somewhere:', extract2somewhere
+    if extract2somewhere and not os.path.isdir(extract2somewhere):
+        print "Warning! Extraction.To:%s doesn't exist" %extract2somewhere
+        extract2somewhere = ""
+    if co.extract2destination == 2 and not extract2somewhere:
+        #wx.MessageBox("You can't set 'Extraction.To:destination=2' with "
+        #    "a wrong 'Extraction.To:somewhere' value.\n"
+        #    'Please correct it first.',
+        #    'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+        pass
+    if extract2somewhere:
+        co.abs_extsomewhere = os.path.abspath(extract2somewhere)
+    else:
+        co.abs_extsomewhere = None
+
+    # for extraction.remove
+    co.exrm_destiny = config.getint('Extraction.Remove', 'destiny')
+    exrm_somewhere = config.get('Extraction.Remove', 'somewhere')
+    #print 'co.exrm_destiny:', co.exrm_destiny
+    #print 'exrm_somewhere:', exrm_somewhere
+    if exrm_somewhere and not os.path.isdir(exrm_somewhere):
+        print "Warning! Extraction.Remove:%s doesn't exist" %exrm_somewhere
+        exrm_somewhere = ""
+    if co.exrm_destiny == 3 and not exrm_somewhere:
+        #wx.MessageBox("You can't set 'Extraction.Remove:destiny=3' with "
+        #    "a wrong 'Extraction.Remove:somewhere' value.\n"
+        #    'Please correct it first.',
+        #    'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+        pass
+    if exrm_somewhere:
+        co.abs_exrmsomewhere = os.path.abspath(exrm_somewhere)
+    else:
+        co.abs_exrmsomewhere = None
+
+    # for rename
+    co.ren_add_text = config.get('Rename', 'add_text')
+    co.ren_remove_text = config.get('Rename', 'remove_text')
+    co.ren_add_to = config.getint('Rename', 'add_to')
+    co.ren_remove_from = config.getint('Rename', 'remove_from')
+    co.ren_add_author = config.getboolean('Rename', 'add_author')
+    co.ren_add_isbn = config.getboolean('Rename', 'add_isbn')
+    co.ren_add_date = config.getboolean('Rename', 'add_date')
+
+    # for same name
+    sn_dirs = []
+    comp_dir = config.get('SameName', 'comp_dir')
+    with_dir = config.get('SameName', 'with_dir')
+    for sn_dir in [comp_dir, with_dir]:
+        if not sn_dir:
+            sn_dirs.append(None)
+        elif sn_dir and not os.path.exists(sn_dir):
+            print "Warning! SameName: '%s' doesn't exist" %sn_dir
+            sn_dir = ""
+            sn_dirs.append(None)
+        else:
+            sn_dirs.append(os.path.abspath(sn_dir))
+    co.comp_dir = sn_dirs[0]
+    co.with_dir = sn_dirs[1]
+
+    #self.config_items = config
+    return co
+
+
 generic_str = "Configurations for searched directories, ignored directories and file types"
 extract_str = "Configurations for Extract"
 duplicate_str = "Configurations for Search and remove Duplicated files"
@@ -113,139 +259,24 @@ class Config(wx.Treebook):
         self.pos += len(pagelist)
 
     def loadConfigFromFile(self, file):
-        config = ConfigParser.ConfigParser()
-        config.read(file)
-        #print config.sections()
+        co = xloadConfigFromFile(file)
 
-        dir1 = config.get('Generic.Path', 'dir1')
-        dir2 = config.get('Generic.Path', 'dir2')
-        dir3 = config.get('Generic.Path', 'dir3')
-        dir4 = config.get('Generic.Path', 'dir4')
-        exdir1 = config.get('Generic.Path', 'exdir1')
-        exdir2 = config.get('Generic.Path', 'exdir2')
-
-        dirlist = [d for d in [dir1, dir2, dir3, dir4] if d]
-        dirs = set(dirlist)
-        if len(dirs) != len(dirlist) or exdir1 and exdir1 == exdir2:
-            print "WARNING: same dirs found in Generic:Setting Search Path!"
-        all_dirs = []
-        for d in [dir1, dir2, dir3, dir4, exdir1, exdir2]:
-            if not d:
-                all_dirs.append(None)
-            elif not os.path.isdir(d):
-                print "WARNING: path '%s' doesn't exist! will be removed from config" %d
-                config.set('Generic.Path', d, '')
-                all_dirs.append(None)
-            else:
-                all_dirs.append(os.path.abspath(d))
-
-        self.allpages[1].setPath(all_dirs)  # config_path
-
-        ignore_hidden = config.getboolean('Generic.Ignore', 'ignore_hidden')
-        ignore_vcd = config.getboolean('Generic.Ignore', 'ignore_vcd')
-        ignore_udd = config.getboolean('Generic.Ignore', 'ignore_udd')
-        ignore_udft = config.getboolean('Generic.Ignore', 'ignore_udft')
-        #print 'ignore boolean:', ignore_hidden, ignore_vcd, ignore_udd, ignore_udft
-        self.allpages[2].setIgnore(ignore_hidden, ignore_vcd, ignore_udd, ignore_udft)  # config_ignore
-
-        dupli_keep = config.getint('Duplication.Keep', 'keep')
-        #print 'dupli_keep:', dupli_keep
-        self.allpages[4].setKeep(dupli_keep)
-
-        dupli_destiny = config.getint('Duplication.Remove', 'destiny')
-        dupli_somewhere = config.get('Duplication.Remove', 'somewhere')
-        #print 'dupli_destiny:', dupli_destiny
-        #print 'dupli_somewhere:', dupli_somewhere
-        if dupli_somewhere and not os.path.isdir(dupli_somewhere):
-            print "Warning! Duplication.Remove:%s doesn't exist" %dupli_somewhere
-            dupli_somewhere = ""
-        if dupli_destiny == 3 and not dupli_somewhere:
-            wx.MessageBox("You can't set 'Duplication.Remove:destiny=3' with "
-                "a wrong 'Duplication.Remove:somewhere' value.\n"
-                'Please correct it first.',
-                'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
-
-        if dupli_somewhere:
-            abs_somewhere = os.path.abspath(dupli_somewhere)
-        else:
-            abs_somewhere = None
-        self.allpages[5].setRemove(dupli_destiny, abs_somewhere)
-
-        # for extraction.to
-        extract2destination = config.getint('Extraction.To', 'destination')
-        extract2somewhere = config.get('Extraction.To', 'somewhere')
-        #print 'extract2destination:', extract2destination
-        #print 'extract2somewhere:', extract2somewhere
-        if extract2somewhere and not os.path.isdir(extract2somewhere):
-            print "Warning! Extraction.To:%s doesn't exist" %extract2somewhere
-            extract2somewhere = ""
-        if extract2destination == 2 and not extract2somewhere:
-            wx.MessageBox("You can't set 'Extraction.To:destination=2' with "
-                "a wrong 'Extraction.To:somewhere' value.\n"
-                'Please correct it first.',
-                'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
-
-        if extract2somewhere:
-            abs_somewhere = os.path.abspath(extract2somewhere)
-        else:
-            abs_somewhere = None
-        self.allpages[7].setExtractTo(extract2destination, abs_somewhere)
-
-        # for extraction.remove
-        exrm_destiny = config.getint('Extraction.Remove', 'destiny')
-        exrm_somewhere = config.get('Extraction.Remove', 'somewhere')
-        #print 'exrm_destiny:', exrm_destiny
-        #print 'exrm_somewhere:', exrm_somewhere
-        if exrm_somewhere and not os.path.isdir(exrm_somewhere):
-            print "Warning! Extraction.Remove:%s doesn't exist" %exrm_somewhere
-            exrm_somewhere = ""
-        if exrm_destiny == 3 and not exrm_somewhere:
-            wx.MessageBox("You can't set 'Extraction.Remove:destiny=3' with "
-                "a wrong 'Extraction.Remove:somewhere' value.\n"
-                'Please correct it first.',
-                'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
-
-        if exrm_somewhere:
-            abs_somewhere = os.path.abspath(exrm_somewhere)
-        else:
-            abs_somewhere = None
-        self.allpages[8].setExtractRemove(exrm_destiny, abs_somewhere)
-
-
-        # for rename
-        ren_add_text = config.get('Rename', 'add_text')
-        ren_remove_text = config.get('Rename', 'remove_text')
-        ren_add_to = config.getint('Rename', 'add_to')
-        ren_remove_from = config.getint('Rename', 'remove_from')
-        ren_add_author = config.getboolean('Rename', 'add_author')
-        ren_add_isbn = config.getboolean('Rename', 'add_isbn')
-        ren_add_date = config.getboolean('Rename', 'add_date')
-        self.allpages[9].setRename(ren_add_text, ren_remove_text, ren_add_to,
-                ren_remove_from, ren_add_author, ren_add_isbn, ren_add_date)
-
-
-        # for same name
-        sn_dirs = []
-        comp_dir = config.get('SameName', 'comp_dir')
-        with_dir = config.get('SameName', 'with_dir')
-        for sn_dir in [comp_dir, with_dir]:
-            if not sn_dir:
-                sn_dirs.append(None)
-            elif sn_dir and not os.path.exists(sn_dir):
-                print "Warning! SameName: '%s' doesn't exist" %sn_dir
-                sn_dir = ""
-                sn_dirs.append(None)
-            else:
-                sn_dirs.append(os.path.abspath(sn_dir))
-        self.allpages[10].setSameName(*sn_dirs)
-
-        self.config_items = config
-        return config
+        self.allpages[1].setPath(co.dirlist + [None]*(4-len(co.dirlist)) + co.exdirlist + [None]*(2-len(co.exdirlist)))  # config_path
+        self.allpages[2].setIgnore(co.ignore_hidden, co.ignore_vcd, co.ignore_udd, co.ignore_udft)  # config_ignore
+        self.allpages[4].setKeep(co.dupli_keep)
+        self.allpages[5].setRemove(co.dupli_destiny, co.abs_dupsomewhere)
+        self.allpages[7].setExtractTo(co.extract2destination, co.abs_extsomewhere)
+        self.allpages[8].setExtractRemove(co.exrm_destiny, co.abs_exrmsomewhere)
+        self.allpages[9].setRename(co.ren_add_text, co.ren_remove_text, co.ren_add_to,
+                co.ren_remove_from, co.ren_add_author, co.ren_add_isbn, co.ren_add_date)
+        self.allpages[10].setSameName(co.comp_dir, co.with_dir)
 
 
     def saveConfigToFile(self, config=None, conf_file='xbookmate.cfg'):
-        if config == None:
-            config = self.config_items
+        #if config == None:
+        #    config = self.config_items
+        config = ConfigParser.ConfigParser()
+        config.read(conf_file)
 
         (dir1, dir2, dir3, dir4, exdir1, exdir2) = self.allpages[1].getPath()
         config.set('Generic.Path', 'dir1', dir1)
@@ -345,6 +376,7 @@ class Config(wx.Treebook):
         cf = open(conf_file, 'w')
         config.write(cf)
         cf.close()
+        xloadConfigFromFile(conf_file)
 
 
 

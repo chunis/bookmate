@@ -14,7 +14,7 @@ import gettext
 #import os, sys
 #import glob, shutil, thread
 from pySearch import pySearch
-from config.myconfig import BookMateConfig
+from config.myconfig import BookMateConfig, xloadConfigFromFile
 from pySketch import pySketch
 from bookDatabase import BookDatabase
 
@@ -73,7 +73,8 @@ class MyFrame(wx.Frame):
 
 
 	def restore_config(self, file):  # TODO
-		return ['.']
+		co = xloadConfigFromFile(file)
+		return co.dirlist
 
 	def init_config(self):
 		self.datapaths = self.restore_config(CFG_FILE)
