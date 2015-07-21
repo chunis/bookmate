@@ -383,6 +383,7 @@ class Config(wx.Treebook):
 class BookMateConfig(wx.Frame):
     def __init__(self, configfile, *args, **kwds):
         wx.Frame.__init__(self, *args, **kwds)
+	self.SetBackgroundColour((225,225,225))
         self.config = Config(self, -1)
         self.configfile = configfile
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY, style=wx.EXPAND)
