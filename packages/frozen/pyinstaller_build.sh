@@ -9,6 +9,7 @@ dist=bookmate-linux.tar.gz
 #pyinstaller -w -i $src/images/bookmate.ico $src/bookmate.py
 pyinstaller -w $src/bookmate.py
 cp -r $src/images dist/bookmate/
+cp -r $src/bookmate.cfg dist/bookmate/
 rm -rf build bookmate.spec
 
 mkdir -p dist/doc
