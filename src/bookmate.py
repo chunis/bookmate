@@ -13,9 +13,12 @@ import wx
 import gettext
 #import os, sys
 #import glob, shutil, thread
-from pySearch import pySearch
+from pySearch import PySearch
 from config.myconfig import BookMateConfig, xloadConfigFromFile
-from pySketch import pySketch
+from pyDuplication import PyDuplication
+from pyExtraction import PyExtraction
+from pyRename import PyRename
+from pySameName import PySameName
 from bookDatabase import BookDatabase
 
 
@@ -51,11 +54,11 @@ class MyFrame(wx.Frame):
 		self.createStatusBar()
 		self.createToolBar()
 
-		self.search_frame = pySearch(self.nb)
-		self.remove_dupli_frame = pySketch(self.nb)
-		self.batch_extract_frame = pySketch(self.nb)
-		self.batch_rename_frame = pySketch(self.nb)
-		self.same_name_frame = pySketch(self.nb)
+		self.search_frame = PySearch(self.nb)
+		self.remove_dupli_frame = PyDuplication(self.nb)
+		self.batch_extract_frame = PyExtraction(self.nb)
+		self.batch_rename_frame = PyRename(self.nb)
+		self.same_name_frame = PySameName(self.nb)
 
 		self.nb.AddPage(self.search_frame, "Quick Search", select=True)
 		self.nb.AddPage(self.remove_dupli_frame, "Remove Duplications")

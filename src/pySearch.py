@@ -97,7 +97,7 @@ def find_str(booklist, str):
 	return ret_list
 
 
-class pySearch(wx.Panel):
+class PySearch(wx.Panel):
 	def __init__(self, *args, **kwds):
 		self.select = 0
                 self.orig_booklist = []
@@ -110,7 +110,7 @@ class pySearch(wx.Panel):
 		self.amazon_id = wx.NewId()
 		self.douban_id = wx.NewId()
 
-		# begin wxGlade: pySearch.__init__
+		# begin wxGlade: PySearch.__init__
 		kwds["style"] = wx.DEFAULT_FRAME_STYLE
 		wx.Panel.__init__(self, *args, **kwds)
 		self.text_ctrl_1 = wx.TextCtrl(self, -1, "")
@@ -232,7 +232,7 @@ class pySearch(wx.Panel):
 
 
 	def __do_layout(self):
-		# begin wxGlade: pySearch.__do_layout
+		# begin wxGlade: PySearch.__do_layout
 		sizer_1 = wx.BoxSizer(wx.VERTICAL)
 		sizer_2 = wx.BoxSizer(wx.VERTICAL)
 		sizer_2.Add(self.text_ctrl_1, 0, wx.EXPAND, 0)
@@ -259,7 +259,7 @@ class pySearch(wx.Panel):
 		file = os.path.join(dir, name)
 		tool.openfile(file)
 
-	def doSearch(self, event): # wxGlade: pySearch.<event_handler>
+	def doSearch(self, event): # wxGlade: PySearch.<event_handler>
 		self.list_ctrl_1.DeleteAllItems()
 
 		search_str = self.text_ctrl_1.GetValue()
@@ -271,13 +271,13 @@ class pySearch(wx.Panel):
 		# print file_list
 		# event.Skip()
 
-# end of class pySearch
+# end of class PySearch
 
 
 class testFrame(wx.Frame):
 	def __init__(self, parent=None, id=-1, pos=wx.DefaultPosition, size=wx.DefaultSize):
 		wx.Frame.__init__(self, parent, -1, pos=pos, size=size)
-		self.panel = pySearch(self)
+		self.panel = PySearch(self)
 
 class MyApp(wx.App):
 	def OnInit(self):

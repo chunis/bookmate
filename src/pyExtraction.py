@@ -10,7 +10,7 @@ import sys
 import wx
 
 
-class pySketch(wx.Panel):
+class PyExtraction(wx.Panel):
 	def __init__(self, parent=None, id=-1, tty=sys.stdout):
 		wx.Panel.__init__(self, parent, id)
 		#self.SetBackgroundColour('White')
@@ -18,13 +18,13 @@ class pySketch(wx.Panel):
 
 
 	def create_widgets(self):
-		wx.StaticText(self, -1, 'Not implemented yet...', pos=(120, 80))
+		wx.StaticText(self, -1, 'PyExtraction Not Implemented Yet...', pos=(120, 80))
 
 
 class testFrame(wx.Frame):
 	def __init__(self, parent=None, id=-1, pos=wx.DefaultPosition, size=wx.DefaultSize):
 		wx.Frame.__init__(self, parent, -1, pos=pos, size=size)
-		self.panel = pySketch(self)
+		self.panel = PyExtraction(self)
 
 class MyApp(wx.App):
 	def OnInit(self):
