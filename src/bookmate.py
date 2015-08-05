@@ -71,17 +71,14 @@ class MyFrame(wx.Frame):
 		self.panel.SetSizer(box)
 		#box.Fit(self)
 
+		self.co = xloadConfigFromFile(CFG_FILE)
 		self.search_frame.text_ctrl_1.SetFocus()
 		self.init_config()
 
 
-	def restore_config(self, file):  # TODO
-		co = xloadConfigFromFile(file)
-		return co.dirlist
-
 	def init_config(self):
-		self.datapaths = self.restore_config(CFG_FILE)
-		self.bookdb = BookDatabase(self.datapaths)
+		self.bookdb = BookDatabase(self.co.dirlist, self.co.exdirlist,
+				self.co.ignore_hidden, self.co.ignore_vcd)
 		self.search_frame.orig_booklist = self.bookdb.to_booklist()
 		self.search_frame.list_ctrl_1.set_value(self.search_frame.orig_booklist)
 
@@ -197,7 +194,6 @@ class BookMate(wx.App):
 	"Main App for BookMate"
 
 	def OnInit(self):
-		#restore_config()
 		self.frame = MyFrame(self, size=(WIN_WIDTH, WIN_HEIGH))
 		self.frame.Center()
 		self.frame.Show()

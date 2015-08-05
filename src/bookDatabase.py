@@ -10,11 +10,11 @@ import os
 from bookShelf import Book, BookShelf
 
 class BookDatabase():
-	def __init__(self, paths):
+	def __init__(self, paths, expaths=[], ignore_hidden=True, ignore_vcd=True):
 		self.bookshelves = {}
 		for pth in paths:
 			if os.path.isdir(pth):
-				self.bookshelves[pth] = BookShelf(pth)
+				self.bookshelves[pth] = BookShelf(pth, expaths, ignore_hidden, ignore_vcd)
 
 	def list_shelves(self):
 		for shelf in self.bookshelves:
@@ -28,8 +28,8 @@ class BookDatabase():
 		for p in paths:
 			self.del_shelf(p)
 
-	def add_shelf(self, path):
-		self.bookshelves[path] = BookShelf(pth)
+	def add_shelf(self, path, expaths=[], ignore_hidden=True, ignore_vcd=True):
+		self.bookshelves[path] = BookShelf(pth, expaths, ignore_hidden, ignore_vcd)
 
 	def del_shelf(self, path):
 		del self.bookshelves[path]

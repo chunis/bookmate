@@ -9,6 +9,8 @@
 import os
 import binascii
 
+ignore_vcdpath = ['.svn', 'CVS', '.git', '.hg']
+
 
 def calc_crc(file):
 	size = 4*1024*1024
@@ -49,18 +51,24 @@ class Book():
 
 class BookShelf():
 	''' each path means a bookshelf '''
-	def __init__(self, path):
+	def __init__(self, path, expaths=[], ignore_hidden=True, ignore_vcd=True):
 		self.location = os.path.abspath(path)
+		abs_expaths = [os.path.abspath(p) for p in expaths]
 		self.books = []
-		self.add_books(self.location)
+		self.add_books(self.location, abs_expaths, ignore_hidden, ignore_vcd)
 
-	def add_books(self, path):
+	def add_books(self, path, expaths=[], igh=True, igv=True):
 		for _f in os.listdir(path):
 			f = os.path.join(path, _f)
 			if os.path.isfile(f):
-				self.add_a_book(f)
+				if not _f.startswith('.') or not igh:
+					self.add_a_book(f)
 			elif os.path.isdir(f):
-				self.add_books(f)
+				if f not in expaths:
+					if igv and _f in ignore_vcdpath:
+						pass
+					else:
+						self.add_books(f)
 
 	def add_a_book(self, fullname):
 		book = Book(fullname, self.location)
