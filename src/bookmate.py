@@ -15,7 +15,7 @@ import gettext
 #import glob, shutil, thread
 from pySearch import PySearch
 from config.myconfig import BookMateConfig, xloadConfigFromFile
-from pyDuplication import PyDuplication
+from pyDuplication import PyDuplication, LIST_COLORS
 from pyExtraction import PyExtraction
 from pyRename import PyRename
 from pySameName import PySameName
@@ -33,8 +33,6 @@ WIN_WIDTH = 1000
 WIN_HEIGH = 640
 
 CFG_FILE = "bookmate.cfg"
-#LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
-LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']
 [POS_PAGE_SEARCH, POS_PAGE_DUPLI,
  POS_PAGE_EXTRACT, POS_PAGE_RENAME,
  POS_PAGE_SMNAME ] = range(5)
@@ -146,13 +144,14 @@ class MyFrame(wx.Frame):
 
 
 	def onSameFile(self, event):
-		#self.nb.ChangeSelection(POS_PAGE_DUPLI)
-		self.nb.ChangeSelection(POS_PAGE_SEARCH)
+		self.nb.ChangeSelection(POS_PAGE_DUPLI)
 		dupli_files = self.bookdb.get_duplicate_booklist()
-		self.search_frame.list_ctrl_1.DeleteAllItems()
+		self.remove_dupli_frame.orig_booklist = dupli_files
+
+		self.remove_dupli_frame.list_ctrl_1.DeleteAllItems()
 		for num, booklist in enumerate(dupli_files):
 			color = LIST_COLORS[num % len(LIST_COLORS)]
-			self.search_frame.list_ctrl_1.set_value(booklist, color)
+			self.remove_dupli_frame.list_ctrl_1.set_value(booklist, color)
 
 
 	def onGoSearchBar(self, event):
