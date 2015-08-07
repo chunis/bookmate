@@ -20,6 +20,11 @@ from pyExtraction import PyExtraction
 from pyRename import PyRename
 from pySameName import PySameName
 from bookDatabase import BookDatabase
+try:
+	from wx.lib.pubsub import Publisher as pub
+except ImportError:
+	import wx.lib.pubsub.setupkwargs
+	from wx.lib.pubsub import pub
 
 
 Name	= 'BookMate'
@@ -44,6 +49,8 @@ class MyFrame(wx.Frame):
 	def __init__(self, parent=None, id=-1, title='BookMate',
 			pos=wx.DefaultPosition, size=wx.DefaultSize):
 		wx.Frame.__init__(self, None, -1, title, pos, size)
+		pub.subscribe(self.init_config, "configChanged")
+
 		self.panel = wx.Panel(self)
 		#self.panel.SetBackgroundColour('white')
 		self.nb = wx.Notebook(self.panel)
@@ -71,13 +78,15 @@ class MyFrame(wx.Frame):
 
 		self.co = xloadConfigFromFile(CFG_FILE)
 		self.search_frame.text_ctrl_1.SetFocus()
-		self.init_config()
+		self.init_config(self.co)
 
 
-	def init_config(self):
+	def init_config(self, co):
+		self.co = co
 		self.bookdb = BookDatabase(self.co.dirlist, self.co.exdirlist,
 				self.co.ignore_hidden, self.co.ignore_vcd)
 		self.search_frame.orig_booklist = self.bookdb.to_booklist()
+		self.search_frame.list_ctrl_1.DeleteAllItems()
 		self.search_frame.list_ctrl_1.set_value(self.search_frame.orig_booklist)
 
 	def menu_data(self):
@@ -161,6 +170,7 @@ class MyFrame(wx.Frame):
 	def onConfig(self, event):
 		#wx.MessageBox('No Configuration yet', 'Configuration', wx.OK | wx.ICON_INFORMATION, self)
                 frame = BookMateConfig(CFG_FILE, None, -1, "BookMate Config")
+
                 frame.SetSize((850, 500))
                 frame.Centre()
                 frame.Show()

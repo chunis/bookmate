@@ -20,6 +20,11 @@ from extract_ok import ExtractOK
 from extract_to import ExtractTo
 from rename import ReName
 from same_name import SameName
+try:
+    from wx.lib.pubsub import Publisher as pub
+except ImportError:
+    import wx.lib.pubsub.setupkwargs
+    from wx.lib.pubsub import pub
 
 
 class ConfigOptions:
@@ -376,7 +381,8 @@ class Config(wx.Treebook):
         cf = open(conf_file, 'w')
         config.write(cf)
         cf.close()
-        xloadConfigFromFile(conf_file)
+        co = xloadConfigFromFile(conf_file)
+        pub.sendMessage("configChanged", co=co)
 
 
 

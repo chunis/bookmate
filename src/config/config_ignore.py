@@ -24,10 +24,10 @@ class ConfigIgnore(wx.Panel):
         # begin wxGlade: ConfigIgnore.__init__
         wx.Panel.__init__(self, *args, **kwds)
         self.label_hidden_notes = wx.StaticText(self, wx.ID_ANY, _("Ignore These Directories and Files:"))
-        self.checkbox_hidden = wx.CheckBox(self, wx.ID_ANY, _("Hidden Files"))
-        self.checkbox_cvs = wx.CheckBox(self, wx.ID_ANY, _("Version Control Directories: CVS, .svn, .git, .hg"))
-        self.checkbox_user_dir = wx.CheckBox(self, wx.ID_ANY, _("User Defined Directories"))
-        self.checkbox_user_filetype = wx.CheckBox(self, wx.ID_ANY, _("User Defined File Types"))
+        self.checkbox_hidden = wx.CheckBox(self, wx.ID_ANY, _("Ignore Hidden Files"))
+        self.checkbox_cvs = wx.CheckBox(self, wx.ID_ANY, _("Ignore Version Control Directories: CVS, .svn, .git, .hg"))
+        self.checkbox_user_dir = wx.CheckBox(self, wx.ID_ANY, _("Ignore User Defined Directories"))
+        self.checkbox_user_filetype = wx.CheckBox(self, wx.ID_ANY, _("Ignore User Defined File Types"))
 
         self.__set_properties()
         self.__do_layout()
