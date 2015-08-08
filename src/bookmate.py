@@ -138,13 +138,19 @@ class MyFrame(wx.Frame):
 		tb_config = toolbar.AddSimpleTool(-1, wx.Bitmap('images/configure.png'),
 				"Configuration",
 				"Configure BookMate")
-		tb_samefile = toolbar.AddSimpleTool(-1, wx.Bitmap('images/find.png'),
+		toolbar.AddSeparator()
+		tb_find_samefile = toolbar.AddSimpleTool(-1, wx.Bitmap('images/find.png'),
 				"Find Same File",
 				"Find all the same files with or without the same name")
+		tb_process_samefile = toolbar.AddSimpleTool(-1, wx.Bitmap('images/clear.png'),
+				"Process Same File",
+				"Process all same files (in red) except one (in Green)")
+		toolbar.AddSeparator()
 		toolbar.Realize()
 
 		self.Bind(wx.EVT_MENU, self.onConfig, tb_config)
-		self.Bind(wx.EVT_MENU, self.onSameFile, tb_samefile)
+		self.Bind(wx.EVT_MENU, self.onFindSameFile, tb_find_samefile)
+		self.Bind(wx.EVT_MENU, self.onProcessSameFile, tb_process_samefile)
 
 
 	def createStatusBar(self):
@@ -152,7 +158,7 @@ class MyFrame(wx.Frame):
 		self.SetStatusText('Welcome to use BookMate!')
 
 
-	def onSameFile(self, event):
+	def onFindSameFile(self, event):
 		self.nb.ChangeSelection(POS_PAGE_DUPLI)
 		dupli_files = self.bookdb.get_duplicate_booklist()
 		self.remove_dupli_frame.orig_booklist = dupli_files
@@ -161,6 +167,16 @@ class MyFrame(wx.Frame):
 		for num, booklist in enumerate(dupli_files):
 			color = LIST_COLORS[num % len(LIST_COLORS)]
 			self.remove_dupli_frame.list_ctrl_1.set_value(booklist, color)
+
+	def onProcessSameFile(self, event):
+		self.nb.ChangeSelection(POS_PAGE_DUPLI)
+		dlg = wx.MessageDialog(None, "Do you want to process the duplicated files (marked in red)?\n"
+				"Double check the config for the right choice.",
+				'Process Duplicated Files?', wx.YES_NO | wx.ICON_QUESTION)
+		result = dlg.ShowModal()
+		dlg.Destroy()
+		if result == wx.ID_YES:
+			self.remove_dupli_frame.onProcessSameFile(event)
 
 
 	def onGoSearchBar(self, event):

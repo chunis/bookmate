@@ -69,6 +69,18 @@ class PyDuplication(wx.Panel):
 
 		# end wxGlade
 
+	def __do_layout(self):
+		# begin wxGlade: PySearch.__do_layout
+		sizer_1 = wx.BoxSizer(wx.VERTICAL)
+		sizer_2 = wx.BoxSizer(wx.VERTICAL)
+		sizer_2.Add(self.text_ctrl_1, 0, wx.EXPAND, 0)
+		sizer_2.Add(self.list_ctrl_1, 1, wx.EXPAND, 0)
+		sizer_1.Add(sizer_2, 1, wx.EXPAND, 0)
+		self.SetSizer(sizer_1)
+		self.Layout()
+		# end wxGlade
+
+
 	def onEsc(self, event):
 		key_code = event.GetKeyCode()
 		# print "Key: ", key_code
@@ -103,17 +115,8 @@ class PyDuplication(wx.Panel):
 		self.PopupMenu(menu)
 		menu.Destroy()
 
-
-	def __do_layout(self):
-		# begin wxGlade: PySearch.__do_layout
-		sizer_1 = wx.BoxSizer(wx.VERTICAL)
-		sizer_2 = wx.BoxSizer(wx.VERTICAL)
-		sizer_2.Add(self.text_ctrl_1, 0, wx.EXPAND, 0)
-		sizer_2.Add(self.list_ctrl_1, 1, wx.EXPAND, 0)
-		sizer_1.Add(sizer_2, 1, wx.EXPAND, 0)
-		self.SetSizer(sizer_1)
-		self.Layout()
-		# end wxGlade
+	def onProcessSameFile(self, event):
+		print "On pyDuplication: onProcessSameFile (TODO)"
 
 
 	def doSearch(self, event): # wxGlade: PySearch.<event_handler>
