@@ -89,6 +89,10 @@ class MyFrame(wx.Frame):
 		self.search_frame.list_ctrl_1.DeleteAllItems()
 		self.search_frame.list_ctrl_1.set_value(self.search_frame.orig_booklist)
 
+		self.remove_dupli_frame.co_dupli_keep = self.co.dupli_keep
+		self.remove_dupli_frame.co_dupli_destiny = self.co.dupli_destiny
+		self.remove_dupli_frame.co_abs_dupsomewhere = self.co.abs_dupsomewhere
+
 	def menu_data(self):
 		return [ ("&File", (
 				("&Save Result", "Save Search Result", self.mypass),
@@ -160,13 +164,8 @@ class MyFrame(wx.Frame):
 
 	def onFindSameFile(self, event):
 		self.nb.ChangeSelection(POS_PAGE_DUPLI)
-		dupli_files = self.bookdb.get_duplicate_booklist()
-		self.remove_dupli_frame.orig_booklist = dupli_files
-
-		self.remove_dupli_frame.list_ctrl_1.DeleteAllItems()
-		for num, booklist in enumerate(dupli_files):
-			color = LIST_COLORS[num % len(LIST_COLORS)]
-			self.remove_dupli_frame.list_ctrl_1.set_value(booklist, color)
+		self.remove_dupli_frame.bookdb = self.bookdb
+		self.remove_dupli_frame.onFindSameFile()
 
 	def onProcessSameFile(self, event):
 		self.nb.ChangeSelection(POS_PAGE_DUPLI)
@@ -176,7 +175,7 @@ class MyFrame(wx.Frame):
 		result = dlg.ShowModal()
 		dlg.Destroy()
 		if result == wx.ID_YES:
-			self.remove_dupli_frame.onProcessSameFile(event)
+			self.remove_dupli_frame.onProcessSameFile()
 
 
 	def onGoSearchBar(self, event):

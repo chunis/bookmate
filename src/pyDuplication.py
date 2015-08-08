@@ -37,6 +37,9 @@ class DupListCtrl(CommonListCtrl):
 class PyDuplication(wx.Panel):
 	def __init__(self, *args, **kwds):
                 self.orig_booklist = []  # this is a list of same_files_list
+		self.co_dupli_keep = 2
+		self.co_dupli_destiny = 1
+		self.co_abs_dupsomewhere = ""
 
 		self.open_file_id = wx.NewId()
 		self.open_dir_id = wx.NewId()
@@ -115,7 +118,16 @@ class PyDuplication(wx.Panel):
 		self.PopupMenu(menu)
 		menu.Destroy()
 
-	def onProcessSameFile(self, event):
+	def onFindSameFile(self):
+		dupli_files = self.bookdb.get_duplicate_booklist(self.co_dupli_keep - 1)
+		self.orig_booklist = dupli_files
+
+		self.list_ctrl_1.DeleteAllItems()
+		for num, booklist in enumerate(dupli_files):
+			color = LIST_COLORS[num % len(LIST_COLORS)]
+			self.list_ctrl_1.set_value(booklist, color)
+
+	def onProcessSameFile(self):
 		print "On pyDuplication: onProcessSameFile (TODO)"
 
 

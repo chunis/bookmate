@@ -9,6 +9,9 @@
 import os
 from bookShelf import Book, BookShelf
 
+[SORT_LONGEST_NAME, SORT_OLDEST, SORT_LESS_DIRS, SORT_MORE_DIRS, SORT_NO_SORT] = range(5)
+sort_based_on = [SORT_LONGEST_NAME, SORT_OLDEST, SORT_LESS_DIRS, SORT_MORE_DIRS, SORT_NO_SORT]
+
 class BookDatabase():
 	def __init__(self, paths, expaths=[], ignore_hidden=True, ignore_vcd=True):
 		self.bookshelves = {}
@@ -58,7 +61,20 @@ class BookDatabase():
 				ret.append(size_dict[size][1])
 		return ret
 
-	def get_duplicate_booklist(self):
+	def sort_duplicate(self, filelist, sort_by):
+		if sort_by == SORT_NO_SORT:
+			pass
+		if sort_by == SORT_LONGEST_NAME:
+			filelist.sort(key=lambda book: len(book.name), reverse=True)
+		if sort_by == SORT_OLDEST:
+			filelist.sort(key=lambda book: book.mtime)
+		if sort_by == SORT_LESS_DIRS:
+			filelist.sort(key=lambda book: len(book.abspath.split(os.path.sep)))
+		if sort_by == SORT_MORE_DIRS:
+			filelist.sort(key=lambda book: len(book.abspath.split(os.path.sep)), reverse=True)
+		return filelist
+
+	def get_duplicate_booklist(self, sort_by=SORT_NO_SORT):
 		ret = []
 		crc32_dict = {}
 
@@ -74,7 +90,7 @@ class BookDatabase():
 
 		for crc32 in crc32_dict:
 			if crc32_dict[crc32][0] > 1:
-				ret.append(crc32_dict[crc32][1])
+				ret.append(self.sort_duplicate(crc32_dict[crc32][1], sort_by))
 		return ret
 
 
