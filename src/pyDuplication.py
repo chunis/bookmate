@@ -18,7 +18,8 @@ class DupListCtrl(CommonListCtrl):
 	def __init__(self, parent, id):
 		CommonListCtrl.__init__(self, parent, id)
 
-	def set_value(self, booklist, color=None):
+	def set_value(self, booklist, color):
+		first_flag = True
 		for book in booklist:
 			mtime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(book.mtime))
 			#size = str(book.size/1024) + 'K'
@@ -29,9 +30,12 @@ class DupListCtrl(CommonListCtrl):
 				self.SetStringItem(index, col+1, text)
 			self.SetItemData(index, index)
 			self.itemDataMap[index] = item
-			if color:
-				#self.SetItemTextColour(index, color)
-				self.SetItemBackgroundColour(index, color)
+			self.SetItemBackgroundColour(index, color)
+			if first_flag:
+				first_flag = False
+				self.SetItemTextColour(index, 'green')
+			else:
+				self.SetItemTextColour(index, 'red')
 
 
 class PyDuplication(wx.Panel):
