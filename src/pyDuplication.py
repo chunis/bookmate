@@ -6,13 +6,14 @@
 # GNU GPLv3 License, see doc/LICENSE for details.
 #
 
-import sys
+import sys, os
 import time
 import wx
 from pyCommon import CommonListCtrl, find_str
 
 #LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
-LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']
+#LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']
+LIST_COLORS = ['#ffffcc', '#cccccc', '#cccc99']
 
 class DupListCtrl(CommonListCtrl):
 	def __init__(self, parent, id):
@@ -33,9 +34,10 @@ class DupListCtrl(CommonListCtrl):
 			self.SetItemBackgroundColour(index, color)
 			if first_flag:
 				first_flag = False
-				self.SetItemTextColour(index, 'green')
+				book.color = wx.GREEN
 			else:
-				self.SetItemTextColour(index, 'red')
+				book.color = wx.RED
+			self.SetItemTextColour(index, book.color)
 
 
 class PyDuplication(wx.Panel):
@@ -45,6 +47,8 @@ class PyDuplication(wx.Panel):
 		self.co_dupli_destiny = 1
 		self.co_abs_dupsomewhere = ""
 
+		self.mark_green_id = wx.NewId()
+		self.mark_red_id = wx.NewId()
 		self.open_file_id = wx.NewId()
 		self.open_dir_id = wx.NewId()
 		self.clear_id = wx.NewId()
@@ -100,10 +104,28 @@ class PyDuplication(wx.Panel):
 		else:
 			event.Skip()
 
+	def markColor(self, color):
+		fullname = self.list_ctrl_1.getFullName()
+		# print "fullname: %s" %fullname
+		for books in self.orig_booklist:
+			for book in books:
+				if os.path.join(book.abspath, book.name) == fullname:
+					book.color = color
+		self.list_ctrl_1.markColor(color)
+
+	def onMarkGreen(self, event):
+		self.markColor(wx.GREEN)
+
+	def onMarkRed(self, event):
+		self.markColor(wx.RED)
+
 	def onRightClick(self, event):
 		#print 'Right click now...'
 		menu = wx.Menu()
 
+		menu.Append(self.mark_green_id, "Mark as Green")
+		menu.Append(self.mark_red_id, "Mark as Red")
+		menu.AppendSeparator()
 		menu.Append(self.open_file_id, "Open")
 		menu.Append(self.open_dir_id, "Open Directory")
 		menu.Append(self.copy_id, "Copy to...")
@@ -112,6 +134,8 @@ class PyDuplication(wx.Panel):
 		menu.Append(self.amazon_id, "Search in Amazon.com")
 		menu.Append(self.douban_id, "Search in Douban.com")
 
+		self.Bind(wx.EVT_MENU, self.onMarkGreen, id = self.mark_green_id)
+		self.Bind(wx.EVT_MENU, self.onMarkRed, id = self.mark_red_id)
 		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenItem, id = self.open_file_id)
 		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenDir, id = self.open_dir_id)
 		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onCopy, id = self.copy_id)
@@ -121,6 +145,7 @@ class PyDuplication(wx.Panel):
 
 		self.PopupMenu(menu)
 		menu.Destroy()
+
 
 	def onFindSameFile(self):
 		dupli_files = self.bookdb.get_duplicate_booklist(self.co_dupli_keep - 1)

@@ -8,6 +8,7 @@
 
 import os
 import binascii
+import wx
 
 ignore_vcdpath = ['.svn', 'CVS', '.git', '.hg']
 
@@ -32,6 +33,7 @@ class Book():
 		self.name = os.path.basename(fullname)
 		self.size = os.path.getsize(fullname)
 		self.mtime = os.path.getmtime(fullname)
+		self.color = wx.GREEN
 		self.crc32 = 0  # only calculate it when needed
 		self.isbn = 0
 

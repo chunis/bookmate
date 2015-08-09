@@ -55,6 +55,18 @@ class CommonListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 		else:
 			return int(item2) - int(item1)
 
+	def getFullName(self):
+		#index = event.GetIndex()
+		index = self.select
+		name = self.GetItem(index).GetText()
+		dir = self.GetItem(index, DIR_COL).GetText()
+		print 'Selected %s' %(os.path.join(dir, name))
+		return os.path.join(dir, name)
+
+	def markColor(self, color):
+		index = self.select
+		self.SetItemTextColour(index, color)
+
 	def onItemSelected(self, event):
 		self.select = event.GetIndex()
 		#print 'self.select:', self.select
@@ -64,13 +76,7 @@ class CommonListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 		pass
 
 	def onOpenItem(self, event):
-		#index = event.GetIndex()
-		index = self.select
-		name = self.GetItem(index).GetText()
-		dir = self.GetItem(index, DIR_COL).GetText()
-		print 'Selected %s' %(os.path.join(dir, name))
-		file = os.path.join(dir, name)
-		tool.openfile(file)
+		tool.openfile(self.getFullName)
 
 	def onOpenDir(self, event):
 		#index = event.GetIndex()
