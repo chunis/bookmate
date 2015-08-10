@@ -20,7 +20,6 @@ class DupListCtrl(CommonListCtrl):
 		CommonListCtrl.__init__(self, parent, id)
 
 	def set_value(self, booklist, color):
-		first_flag = True
 		for book in booklist:
 			mtime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(book.mtime))
 			#size = str(book.size/1024) + 'K'
@@ -32,11 +31,6 @@ class DupListCtrl(CommonListCtrl):
 			self.SetItemData(index, index)
 			self.itemDataMap[index] = item
 			self.SetItemBackgroundColour(index, color)
-			if first_flag:
-				first_flag = False
-				book.color = wx.GREEN
-			else:
-				book.color = wx.RED
 			self.SetItemTextColour(index, book.color)
 
 
@@ -149,6 +143,7 @@ class PyDuplication(wx.Panel):
 
 	def onFindSameFile(self):
 		dupli_files = self.bookdb.get_duplicate_booklist(self.co_dupli_keep - 1)
+		self.bookdb.mark_color(dupli_files)
 		self.orig_booklist = dupli_files
 
 		self.list_ctrl_1.DeleteAllItems()

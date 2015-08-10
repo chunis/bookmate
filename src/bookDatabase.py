@@ -7,6 +7,7 @@
 #
 
 import os
+import wx
 from bookShelf import Book, BookShelf
 
 [SORT_LONGEST_NAME, SORT_OLDEST, SORT_LESS_DIRS, SORT_MORE_DIRS, SORT_NO_SORT] = range(5)
@@ -73,6 +74,12 @@ class BookDatabase():
 		if sort_by == SORT_MORE_DIRS:
 			filelist.sort(key=lambda book: len(book.abspath.split(os.path.sep)), reverse=True)
 		return filelist
+
+	def mark_color(self, list_of_list):
+		for bklist in list_of_list:
+			bklist[0].color = wx.GREEN
+			for book in bklist[1:]:
+				book.color = wx.RED
 
 	def get_duplicate_booklist(self, sort_by=SORT_NO_SORT):
 		ret = []
