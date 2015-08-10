@@ -41,6 +41,9 @@ class Book():
 		self.crc32 = calc_crc(os.path.join(self.abspath, self.name))
 		return self
 
+	def delete_myself(self):
+		os.remove(os.path.join(self.abspath, self.name))
+
 	def show_info(self):
 		print " abspath: %-30s" %self.abspath,
 		#print " spath: %-20s" %self.spath,

@@ -171,10 +171,12 @@ class PyDuplication(wx.Panel):
 					if book.color == wx.RED:
 						bklist.remove(book)
 						removed_books.append(book)
+						book.delete_myself()
 			for book in removed_books:
 				for bklist in self.orig_booklist:
 					if book in bklist:
 						bklist.remove(book)
+			self.list_ctrl_1.DeleteAllItems()
 			self.showBooklist(self.asked_booklist)
 		elif self.co_dupli_destiny == PROCESS_MOVE:  # TODO
 			print "Move to %s" %slef.co_abs_dupsomewhere
