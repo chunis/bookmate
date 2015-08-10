@@ -15,6 +15,10 @@ from pyCommon import CommonListCtrl, find_str
 #LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']
 LIST_COLORS = ['#ffffcc', '#cccccc', '#cccc99']
 
+# how to process duplicated files
+[PROCESS_DELETE, PROCESS_NO_PROCESS, PROCESS_MOVE] = range(1, 4)
+
+
 class DupListCtrl(CommonListCtrl):
 	def __init__(self, parent, id):
 		CommonListCtrl.__init__(self, parent, id)
@@ -37,8 +41,9 @@ class DupListCtrl(CommonListCtrl):
 class PyDuplication(wx.Panel):
 	def __init__(self, *args, **kwds):
                 self.orig_booklist = []  # this is a list of same_files_list
+		self.asked_booklist = []  # this is the list of search result
 		self.co_dupli_keep = 2
-		self.co_dupli_destiny = 1
+		self.co_dupli_destiny = PROCESS_DELETE
 		self.co_abs_dupsomewhere = ""
 
 		self.mark_green_id = wx.NewId()
@@ -141,18 +146,38 @@ class PyDuplication(wx.Panel):
 		menu.Destroy()
 
 
+	def showBooklist(self, mybooklist):
+		for num, booklist in enumerate(mybooklist):
+			color = LIST_COLORS[num % len(LIST_COLORS)]
+			self.list_ctrl_1.set_value(booklist, color)
+
 	def onFindSameFile(self):
 		dupli_files = self.bookdb.get_duplicate_booklist(self.co_dupli_keep - 1)
 		self.bookdb.mark_color(dupli_files)
 		self.orig_booklist = dupli_files
 
 		self.list_ctrl_1.DeleteAllItems()
-		for num, booklist in enumerate(dupli_files):
-			color = LIST_COLORS[num % len(LIST_COLORS)]
-			self.list_ctrl_1.set_value(booklist, color)
+		self.showBooklist(self.orig_booklist)
 
 	def onProcessSameFile(self):
 		print "On pyDuplication: onProcessSameFile (TODO)"
+		if self.co_dupli_destiny == PROCESS_NO_PROCESS:
+			wx.MessageBox('Per config, nothing will be done for files marked in RED',
+					'Process Duplication', wx.OK | wx.ICON_INFORMATION, self)
+		elif self.co_dupli_destiny == PROCESS_DELETE:
+			removed_books = []
+			for bklist in self.asked_booklist:
+				for book in bklist:
+					if book.color == wx.RED:
+						bklist.remove(book)
+						removed_books.append(book)
+			for book in removed_books:
+				for bklist in self.orig_booklist:
+					if book in bklist:
+						bklist.remove(book)
+			self.showBooklist(self.asked_booklist)
+		elif self.co_dupli_destiny == PROCESS_MOVE:  # TODO
+			print "Move to %s" %slef.co_abs_dupsomewhere
 
 
 	def doSearch(self, event): # wxGlade: PySearch.<event_handler>
@@ -161,12 +186,10 @@ class PyDuplication(wx.Panel):
 		search_str = self.text_ctrl_1.GetValue()
 		#print search_str
 
-		asked_booklist = []
+		self.asked_booklist = []
 		for mylist in self.orig_booklist:
-			asked_booklist.append(find_str(mylist, search_str))
-		for num, booklist in enumerate(asked_booklist):
-			color = LIST_COLORS[num % len(LIST_COLORS)]
-			self.list_ctrl_1.set_value(booklist, color)
+			self.asked_booklist.append(find_str(mylist, search_str))
+		self.showBooklist(self.asked_booklist)
 		# event.Skip()
 
 # end of class PySearch
