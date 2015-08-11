@@ -13,11 +13,14 @@ import wx
 ignore_vcdpath = ['.svn', 'CVS', '.git', '.hg']
 
 
-def calc_crc(file):
+def calc_crc(myfile):
 	size = 4*1024*1024
 	crc = 0
 
-	f = open(file)
+	if not os.path.exists(myfile):
+		return -1
+
+	f = open(myfile)
 	block = f.read(size)
 	while block:
 		crc = binascii.crc32(block, crc)
@@ -38,7 +41,8 @@ class Book():
 		self.isbn = 0
 
 	def calc_crc(self):
-		self.crc32 = calc_crc(os.path.join(self.abspath, self.name))
+		if self.crc32 == 0:  # we won't re-calculate it
+			self.crc32 = calc_crc(os.path.join(self.abspath, self.name))
 		return self
 
 	def delete_myself(self):

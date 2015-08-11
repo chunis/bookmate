@@ -160,7 +160,6 @@ class PyDuplication(wx.Panel):
 		self.showBooklist(self.orig_booklist)
 
 	def onProcessSameFile(self):
-		print "On pyDuplication: onProcessSameFile (TODO)"
 		if self.co_dupli_destiny == PROCESS_NO_PROCESS:
 			wx.MessageBox('Per config, nothing will be done for files marked in RED',
 					'Process Duplication', wx.OK | wx.ICON_INFORMATION, self)
@@ -179,7 +178,7 @@ class PyDuplication(wx.Panel):
 			self.list_ctrl_1.DeleteAllItems()
 			self.showBooklist(self.asked_booklist)
 		elif self.co_dupli_destiny == PROCESS_MOVE:  # TODO
-			print "Move to %s" %slef.co_abs_dupsomewhere
+			print "Move to %s" %self.co_abs_dupsomewhere
 
 
 	def doSearch(self, event): # wxGlade: PySearch.<event_handler>
@@ -190,7 +189,9 @@ class PyDuplication(wx.Panel):
 
 		self.asked_booklist = []
 		for mylist in self.orig_booklist:
-			self.asked_booklist.append(find_str(mylist, search_str))
+			result = find_str(mylist, search_str)
+			if result:
+				self.asked_booklist.append(result)
 		self.showBooklist(self.asked_booklist)
 		# event.Skip()
 
