@@ -38,6 +38,9 @@ class BookDatabase():
 	def del_shelf(self, path):
 		del self.bookshelves[path]
 
+	def remove_book(self, book):  # TODO
+		pass
+
 	def to_booklist(self):
 		ret = []
 		for bookshelf in self.bookshelves:

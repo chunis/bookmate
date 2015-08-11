@@ -172,11 +172,15 @@ class PyDuplication(wx.Panel):
 						removed_books.append(book)
 						book.delete_myself()
 			for book in removed_books:
+				self.bookdb.remove_book(book)
 				for bklist in self.orig_booklist:
 					if book in bklist:
 						bklist.remove(book)
 			self.list_ctrl_1.DeleteAllItems()
 			self.showBooklist(self.asked_booklist)
+			for mylist in self.orig_booklist:
+				if len(mylist) == 1:
+					self.orig_booklist.remove(mylist)
 		elif self.co_dupli_destiny == PROCESS_MOVE:  # TODO
 			print "Move to %s" %self.co_abs_dupsomewhere
 
