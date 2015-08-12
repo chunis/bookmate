@@ -8,7 +8,7 @@
 
 import os
 import wx
-from bookShelf import Book
+from book import Book
 
 [SORT_LONGEST_NAME, SORT_OLDEST, SORT_LESS_DIRS, SORT_MORE_DIRS, SORT_NO_SORT] = range(5)
 sort_based_on = [SORT_LONGEST_NAME, SORT_OLDEST, SORT_LESS_DIRS, SORT_MORE_DIRS, SORT_NO_SORT]
@@ -115,8 +115,7 @@ class BookDatabase():
 
 	# this method maybe not needed
 	def to_sorted_booklist(self):
-		ret = self.to_booklist()
-		return sorted(ret, key=lambda book: book.size)
+		return sorted(self.allbooks, key=lambda book: book.size)
 
 
 if __name__ == '__main__':
