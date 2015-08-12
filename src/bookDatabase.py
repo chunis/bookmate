@@ -8,57 +8,66 @@
 
 import os
 import wx
-from bookShelf import Book, BookShelf
+from bookShelf import Book
 
 [SORT_LONGEST_NAME, SORT_OLDEST, SORT_LESS_DIRS, SORT_MORE_DIRS, SORT_NO_SORT] = range(5)
 sort_based_on = [SORT_LONGEST_NAME, SORT_OLDEST, SORT_LESS_DIRS, SORT_MORE_DIRS, SORT_NO_SORT]
 
+ignore_vcdpath = ['.svn', 'CVS', '.git', '.hg']
+
+
 class BookDatabase():
 	def __init__(self, paths, expaths=[], ignore_hidden=True, ignore_vcd=True):
-		self.bookshelves = {}
+		self.allbooks = []
 		for pth in paths:
 			if os.path.isdir(pth):
-				self.bookshelves[pth] = BookShelf(pth, expaths, ignore_hidden, ignore_vcd)
+				abs_path = os.path.abspath(pth)
+				abs_expaths = [os.path.abspath(p) for p in expaths]
+				self.add_books(abs_path, abs_expaths, ignore_hidden, ignore_vcd)
 
-	def list_shelves(self):
-		for shelf in self.bookshelves:
-			self.bookshelves[shelf].show_all_books()
+	def add_books(self, path, expaths=[], igh=True, igv=True):
+		for _f in os.listdir(path):
+			f = os.path.join(path, _f)
+			if os.path.isfile(f):
+				if not _f.startswith('.') or not igh:
+					self.add_a_book(f)
+			elif os.path.isdir(f):
+				if f not in expaths:
+					if igv and _f in ignore_vcdpath:
+						pass
+					else:
+						self.add_books(f)
 
-	def add_shelves(self, paths):
-		for p in paths:
-			self.add_shelf(p)
+	def add_a_book(self, fullname):
+		book = Book(fullname)
+		self.allbooks.append(book)
 
-	def del_shelves(self, path):
-		for p in paths:
-			self.del_shelf(p)
+	def show_all_books(self):
+		for x in self.allbooks:
+			x.show_info()
 
-	def add_shelf(self, path, expaths=[], ignore_hidden=True, ignore_vcd=True):
-		self.bookshelves[path] = BookShelf(pth, expaths, ignore_hidden, ignore_vcd)
-
-	def del_shelf(self, path):
-		del self.bookshelves[path]
+	def iter_books(self):
+		for x in self.allbooks:
+			yield x
 
 	def remove_book(self, book):  # TODO
-		pass
+		if book in self.allbooks:
+			self.allbooks.remove(book)
 
 	def to_booklist(self):
-		ret = []
-		for bookshelf in self.bookshelves:
-			for book in self.bookshelves[bookshelf].iter_books():
-				ret.append(book)
-		return ret
+		return self.allbooks
 
 	def get_same_size_booklist(self):
 		ret = []
 		size_dict = {}
-		for bookshelf in self.bookshelves:
-			for book in self.bookshelves[bookshelf].iter_books():
-				size = book.size
-				if size not in size_dict:
-					size_dict[size] = [1, [book]]
-				else:
-					size_dict[size][0] += 1
-					size_dict[size][1].append(book)
+
+		for book in self.allbooks:
+			size = book.size
+			if size not in size_dict:
+				size_dict[size] = [1, [book]]
+			else:
+				size_dict[size][0] += 1
+				size_dict[size][1].append(book)
 
 		for size in size_dict:
 			if size_dict[size][0] > 1:
@@ -112,4 +121,4 @@ class BookDatabase():
 
 if __name__ == '__main__':
 	mybook = BookDatabase(['.'])
-	mybook.list_shelves()
+	mybook.show_all_books()
