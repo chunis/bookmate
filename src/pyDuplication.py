@@ -9,6 +9,7 @@
 import sys, os
 import time
 import wx
+import shutil
 from pyCommon import CommonListCtrl, find_str
 
 #LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
@@ -122,8 +123,8 @@ class PyDuplication(wx.Panel):
 		#print 'Right click now...'
 		menu = wx.Menu()
 
-		menu.Append(self.mark_green_id, "Mark as Green")
-		menu.Append(self.mark_red_id, "Mark as Red")
+		menu.Append(self.mark_green_id, "Mark as Green (to keep)")
+		menu.Append(self.mark_red_id, "Mark as Red (to Delete)")
 		menu.AppendSeparator()
 		menu.Append(self.open_file_id, "Open")
 		menu.Append(self.open_dir_id, "Open Directory")
@@ -159,30 +160,44 @@ class PyDuplication(wx.Panel):
 		self.list_ctrl_1.DeleteAllItems()
 		self.showBooklist(self.orig_booklist)
 
+	def moveOrRemoveBook(self, func, dest=""):
+		removed_books = []
+		for bklist in self.asked_booklist:
+			for book in bklist:
+				if book.color == wx.RED:
+					bklist.remove(book)
+					removed_books.append(book)
+					if dest:
+						func(os.path.join(book.abspath, book.name), dest)
+					else:
+						#book.delete_myself()
+						func(os.path.join(book.abspath, book.name))
+		for book in removed_books:
+			self.bookdb.remove_book(book)
+			for bklist in self.orig_booklist:
+				if book in bklist:
+					bklist.remove(book)
+		self.list_ctrl_1.DeleteAllItems()
+		self.showBooklist(self.asked_booklist)
+		for mylist in self.orig_booklist:
+			if len(mylist) == 1:
+				self.orig_booklist.remove(mylist)
+
 	def onProcessSameFile(self):
 		if self.co_dupli_destiny == PROCESS_NO_PROCESS:
 			wx.MessageBox('Per config, nothing will be done for files marked in RED',
 					'Process Duplication', wx.OK | wx.ICON_INFORMATION, self)
 		elif self.co_dupli_destiny == PROCESS_DELETE:
-			removed_books = []
-			for bklist in self.asked_booklist:
-				for book in bklist:
-					if book.color == wx.RED:
-						bklist.remove(book)
-						removed_books.append(book)
-						book.delete_myself()
-			for book in removed_books:
-				self.bookdb.remove_book(book)
-				for bklist in self.orig_booklist:
-					if book in bklist:
-						bklist.remove(book)
-			self.list_ctrl_1.DeleteAllItems()
-			self.showBooklist(self.asked_booklist)
-			for mylist in self.orig_booklist:
-				if len(mylist) == 1:
-					self.orig_booklist.remove(mylist)
+			self.moveOrRemoveBook(os.remove)
 		elif self.co_dupli_destiny == PROCESS_MOVE:  # TODO
 			print "Move to %s" %self.co_abs_dupsomewhere
+			if not self.co_abs_dupsomewhere or not os.path.isdir(self.co_abs_dupsomewhere):
+				wx.MessageBox("You can't set 'Duplication.Remove:destiny=3' with "
+				    "a wrong 'Duplication.Remove:somewhere' value.\n"
+				    'Please correct it first.',
+				    'Config Wrong', wx.OK | wx.wx.ICON_EXCLAMATION, self)
+				return
+			self.moveOrRemoveBook(shutil.move, self.co_abs_dupsomewhere)
 
 
 	def doSearch(self, event): # wxGlade: PySearch.<event_handler>
