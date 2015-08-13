@@ -19,7 +19,11 @@ except ImportError:
 
 #LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
 #LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']
-LIST_COLORS = ['#ffffcc', '#cccccc', '#cccc99']
+#LIST_COLORS = ['#ffffcc', '#cccccc', '#cccc99']
+#LIST_COLORS = ['#e0e0e0', '#e0c8f7', '#cacbf7',
+#LIST_COLORS = ['#000000', '#303030',
+LIST_COLORS = ['#181818', '#404040',
+
 
 # how to process duplicated files
 [PROCESS_DELETE, PROCESS_NO_PROCESS, PROCESS_MOVE] = range(1, 4)
