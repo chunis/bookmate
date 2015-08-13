@@ -50,6 +50,7 @@ class MyFrame(wx.Frame):
 			pos=wx.DefaultPosition, size=wx.DefaultSize):
 		wx.Frame.__init__(self, None, -1, title, pos, size)
 		pub.subscribe(self.init_config, "configChanged")
+		pub.subscribe(self.updateStatusBar, "updateStatusBar")
 
 		self.panel = wx.Panel(self)
 		#self.panel.SetBackgroundColour('white')
@@ -160,6 +161,9 @@ class MyFrame(wx.Frame):
 	def createStatusBar(self):
 		self.CreateStatusBar()
 		self.SetStatusText('Welcome to use BookMate!')
+
+	def updateStatusBar(self, msg):
+		self.SetStatusText(msg)
 
 
 	def onFindSameFile(self, event):

@@ -11,6 +11,11 @@
 import sys, os, time
 import wx
 from pyCommon import CommonListCtrl, find_str
+try:
+	from wx.lib.pubsub import Publisher as pub
+except ImportError:
+	import wx.lib.pubsub.setupkwargs
+	from wx.lib.pubsub import pub
 
 
 class MyListCtrl(CommonListCtrl):
@@ -124,6 +129,8 @@ class PySearch(wx.Panel):
 		#file_list = find_str(self.ufiles, search_str.decode('utf-8'))
 		asked_booklist = find_str(self.orig_booklist, search_str)
 		self.list_ctrl_1.set_value(asked_booklist)
+		msg="Total items showed: %d" %len(asked_booklist)
+		pub.sendMessage("updateStatusBar", msg=msg)
 		# print file_list
 		# event.Skip()
 

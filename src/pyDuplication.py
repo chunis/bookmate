@@ -11,6 +11,11 @@ import time
 import wx
 import shutil
 from pyCommon import CommonListCtrl, find_str
+try:
+	from wx.lib.pubsub import Publisher as pub
+except ImportError:
+	import wx.lib.pubsub.setupkwargs
+	from wx.lib.pubsub import pub
 
 #LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
 #LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']
@@ -159,6 +164,8 @@ class PyDuplication(wx.Panel):
 
 		self.list_ctrl_1.DeleteAllItems()
 		self.showBooklist(self.orig_booklist)
+		msg="Total Duplicated items found: %d" %len(self.orig_booklist)
+		pub.sendMessage("updateStatusBar", msg=msg)
 
 	def moveOrRemoveBook(self, func, dest=""):
 		removed_books = []
@@ -182,6 +189,7 @@ class PyDuplication(wx.Panel):
 		for mylist in self.orig_booklist:
 			if len(mylist) == 1:
 				self.orig_booklist.remove(mylist)
+
 
 	def onProcessSameFile(self):
 		if self.co_dupli_destiny == PROCESS_NO_PROCESS:
@@ -212,6 +220,9 @@ class PyDuplication(wx.Panel):
 			if result:
 				self.asked_booklist.append(result)
 		self.showBooklist(self.asked_booklist)
+		msg="Total Duplicated items filtered: %d" %len(self.asked_booklist)
+		pub.sendMessage("updateStatusBar", msg=msg)
+
 		# event.Skip()
 
 # end of class PySearch
