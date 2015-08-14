@@ -22,7 +22,7 @@ except ImportError:
 #LIST_COLORS = ['#ffffcc', '#cccccc', '#cccc99']
 #LIST_COLORS = ['#e0e0e0', '#e0c8f7', '#cacbf7',
 #LIST_COLORS = ['#000000', '#303030',
-LIST_COLORS = ['#181818', '#404040',
+LIST_COLORS = ['#181818', '#404040']
 
 
 # how to process duplicated files

@@ -28,10 +28,10 @@ except ImportError:
 
 
 Name	= 'BookMate'
-Version	= '0.0.1-dev'
+Version	= '0.0.2-dev'
 Author	= 'Deng Chunhui'
 Email	= 'chunchengfh@gmail.com'
-Date	= '2015.04.13'
+Date	= '2015.08.13'
 ABOUT   = "Your friendly book management tool implemented by WxPython"
 
 WIN_WIDTH = 1000
