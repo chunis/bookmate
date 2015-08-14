@@ -187,7 +187,6 @@ class MyFrame(wx.Frame):
 
 
 	def onConfig(self, event):
-		#wx.MessageBox('No Configuration yet', 'Configuration', wx.OK | wx.ICON_INFORMATION, self)
                 frame = BookMateConfig(CFG_FILE, None, -1, "BookMate Config")
 
                 frame.SetSize((850, 500))
@@ -213,9 +212,7 @@ class MyFrame(wx.Frame):
 		wx.MessageBox(about, 'About %s' %Name, wx.OK | wx.ICON_INFORMATION, self)
 
 	def onExit(self, event):
-		#save_config()
 		self.Close()
-
 
 
 class BookMate(wx.App):
@@ -228,7 +225,6 @@ class BookMate(wx.App):
 		self.SetTopWindow(self.frame)
 		return True
 
-#	thread.start_new(myprint, ())
 
 if __name__ == '__main__':
         gettext.install("Config")

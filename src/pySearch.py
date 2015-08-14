@@ -50,20 +50,13 @@ class PySearch(wx.Panel):
 		self.amazon_id = wx.NewId()
 		self.douban_id = wx.NewId()
 
-		# begin wxGlade: PySearch.__init__
 		kwds["style"] = wx.DEFAULT_FRAME_STYLE
 		wx.Panel.__init__(self, *args, **kwds)
 		self.text_ctrl_1 = wx.TextCtrl(self, -1, "")
 		self.text_ctrl_1.SetFocus()
-		# self.list_ctrl_1 = wx.ListCtrl(self, -1, style=wx.LC_REPORT|wx.SUNKEN_BORDER)
 		self.list_ctrl_1 = MyListCtrl(self, -1)
 
 		self.__do_layout()
-		#self.files = open(DB_FILE).readlines()
-		#self.files = [ x.strip() for x in self.files ]
-		#self.ufiles = [ x.decode('utf-8') for x in self.files ]
-		#self.list_ctrl_1.set_value(self.ufiles)
-		self.valstr = []
 
 		self.Bind(wx.EVT_TEXT, self.doSearch, self.text_ctrl_1)
 
@@ -71,7 +64,6 @@ class PySearch(wx.Panel):
 		self.list_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
 		self.text_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
 
-		# end wxGlade
 
 	def onEsc(self, event):
 		key_code = event.GetKeyCode()
@@ -109,7 +101,6 @@ class PySearch(wx.Panel):
 
 
 	def __do_layout(self):
-		# begin wxGlade: PySearch.__do_layout
 		sizer_1 = wx.BoxSizer(wx.VERTICAL)
 		sizer_2 = wx.BoxSizer(wx.VERTICAL)
 		sizer_2.Add(self.text_ctrl_1, 0, wx.EXPAND, 0)
@@ -117,21 +108,18 @@ class PySearch(wx.Panel):
 		sizer_1.Add(sizer_2, 1, wx.EXPAND, 0)
 		self.SetSizer(sizer_1)
 		self.Layout()
-		# end wxGlade
 
 
-	def doSearch(self, event): # wxGlade: PySearch.<event_handler>
+	def doSearch(self, event):
 		self.list_ctrl_1.DeleteAllItems()
 
 		search_str = self.text_ctrl_1.GetValue()
 		#print search_str
 
-		#file_list = find_str(self.ufiles, search_str.decode('utf-8'))
 		asked_booklist = find_str(self.orig_booklist, search_str)
 		self.list_ctrl_1.set_value(asked_booklist)
 		msg="Total items showed: %d" %len(asked_booklist)
 		pub.sendMessage("updateStatusBar", msg=msg)
-		# print file_list
 		# event.Skip()
 
 # end of class PySearch
