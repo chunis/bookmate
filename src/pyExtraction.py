@@ -8,17 +8,22 @@
 
 import sys
 import wx
+import shutil
+from pyCommon import CommonListCtrl, find_str
+from pySearch import PySearch
+try:
+	from wx.lib.pubsub import Publisher as pub
+except ImportError:
+	import wx.lib.pubsub.setupkwargs
+	from wx.lib.pubsub import pub
 
 
-class PyExtraction(wx.Panel):
-	def __init__(self, parent=None, id=-1, tty=sys.stdout):
-		wx.Panel.__init__(self, parent, id)
-		#self.SetBackgroundColour('White')
-		self.create_widgets()
+class ExtListCtrl(CommonListCtrl):
+	def __init__(self, parent, id):
+		CommonListCtrl.__init__(self, parent, id)
 
-
-	def create_widgets(self):
-		wx.StaticText(self, -1, 'PyExtraction Not Implemented Yet...', pos=(120, 80))
+class PyExtraction(PySearch):
+	pass
 
 
 class testFrame(wx.Frame):
