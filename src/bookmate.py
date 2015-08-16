@@ -94,6 +94,10 @@ class MyFrame(wx.Frame):
 		self.remove_dupli_frame.co_dupli_destiny = self.co.dupli_destiny
 		self.remove_dupli_frame.co_abs_dupsomewhere = self.co.abs_dupsomewhere
 
+		self.batch_extract_frame.orig_booklist = self.bookdb.to_booklist()
+		self.batch_extract_frame.list_ctrl_1.DeleteAllItems()
+		self.batch_extract_frame.list_ctrl_1.set_value(self.search_frame.orig_booklist)
+
 	def menu_data(self):
 		return [ ("&File", (
 				("&Save Result", "Save Search Result", self.mypass),
@@ -151,11 +155,20 @@ class MyFrame(wx.Frame):
 				"Process Same File",
 				"Process all same files (in red) except one (in Green)")
 		toolbar.AddSeparator()
+		tb_do_extraction = toolbar.AddSimpleTool(-1, wx.Bitmap('images/unpack.png'),
+				"Extract Archive Files",
+				"Extract all filtered archived files")
+		tb_remove_archive = toolbar.AddSimpleTool(-1, wx.Bitmap('images/trash.png'),
+				"Remove Useless Archive Files",
+				"Remove all archived files after they've already be extracted")
+		toolbar.AddSeparator()
 		toolbar.Realize()
 
 		self.Bind(wx.EVT_MENU, self.onConfig, tb_config)
 		self.Bind(wx.EVT_MENU, self.onFindSameFile, tb_find_samefile)
 		self.Bind(wx.EVT_MENU, self.onProcessSameFile, tb_process_samefile)
+		self.Bind(wx.EVT_MENU, self.onDoExtraction, tb_do_extraction)
+		self.Bind(wx.EVT_MENU, self.onRemoveArchive, tb_remove_archive)
 
 
 	def createStatusBar(self):
@@ -181,6 +194,13 @@ class MyFrame(wx.Frame):
 		if result == wx.ID_YES:
 			self.remove_dupli_frame.onProcessSameFile()
 
+	def onDoExtraction(self, event):
+		print "onDoExtraction"
+		pass
+
+	def onRemoveArchive(self, event):
+		print "onRemoveArchive"
+		pass
 
 	def onGoSearchBar(self, event):
 		self.search_frame.text_ctrl_1.SetFocus()
