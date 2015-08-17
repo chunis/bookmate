@@ -18,12 +18,31 @@ except ImportError:
 	from wx.lib.pubsub import pub
 
 
+archive_suffix = ['.rar', '.zip', '.7z', 'gz', 'bz2']
+
 class ExtListCtrl(CommonListCtrl):
 	def __init__(self, parent, id):
 		CommonListCtrl.__init__(self, parent, id)
 
 class PyExtraction(PySearch):
-	pass
+	def filterArchiveBySuffix(self, booklist, suffix):
+		ret = []
+		for book in booklist:
+			if book.name.endswith(suffix):
+				ret.append(book)
+		return ret
+
+	def getArchiveList(self, booklist):
+		ret = []
+		for atype in archive_suffix:
+			tmp = self.filterArchiveBySuffix(booklist, atype)
+			ret += tmp
+		return ret
+
+	def showAllArchive(self, booklist):
+		self.orig_booklist = self.getArchiveList(booklist)
+		self.list_ctrl_1.DeleteAllItems()
+		self.list_ctrl_1.set_value(self.orig_booklist)
 
 
 class testFrame(wx.Frame):

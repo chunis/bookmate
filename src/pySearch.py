@@ -41,6 +41,7 @@ class MyListCtrl(CommonListCtrl):
 class PySearch(wx.Panel):
 	def __init__(self, *args, **kwds):
                 self.orig_booklist = []
+		self.asked_booklist = []  # booklist showing in the listCtrl
 
 		self.open_file_id = wx.NewId()
 		self.open_dir_id = wx.NewId()
@@ -116,9 +117,9 @@ class PySearch(wx.Panel):
 		search_str = self.text_ctrl_1.GetValue()
 		#print search_str
 
-		asked_booklist = find_str(self.orig_booklist, search_str)
-		self.list_ctrl_1.set_value(asked_booklist)
-		msg="Total items showed: %d" %len(asked_booklist)
+		self.asked_booklist = find_str(self.orig_booklist, search_str)
+		self.list_ctrl_1.set_value(self.asked_booklist)
+		msg="Total items showed: %d" %len(self.asked_booklist)
 		pub.sendMessage("updateStatusBar", msg=msg)
 		# event.Skip()
 

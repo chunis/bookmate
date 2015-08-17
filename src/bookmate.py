@@ -87,6 +87,7 @@ class MyFrame(wx.Frame):
 		self.bookdb = BookDatabase(self.co.dirlist, self.co.exdirlist,
 				self.co.ignore_hidden, self.co.ignore_vcd)
 		self.search_frame.orig_booklist = self.bookdb.to_booklist()
+
 		self.search_frame.list_ctrl_1.DeleteAllItems()
 		self.search_frame.list_ctrl_1.set_value(self.search_frame.orig_booklist)
 
@@ -94,9 +95,8 @@ class MyFrame(wx.Frame):
 		self.remove_dupli_frame.co_dupli_destiny = self.co.dupli_destiny
 		self.remove_dupli_frame.co_abs_dupsomewhere = self.co.abs_dupsomewhere
 
-		self.batch_extract_frame.orig_booklist = self.bookdb.to_booklist()
-		self.batch_extract_frame.list_ctrl_1.DeleteAllItems()
-		self.batch_extract_frame.list_ctrl_1.set_value(self.search_frame.orig_booklist)
+		self.batch_extract_frame.showAllArchive(self.search_frame.orig_booklist)
+
 
 	def menu_data(self):
 		return [ ("&File", (
