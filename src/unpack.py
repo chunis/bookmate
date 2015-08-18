@@ -54,9 +54,10 @@ def unpack_file(zipfile, outpath='.', tool='patool'):
 
 
 # Let's test it:
-#unpack_file("test.gz", 'mydir')
-unpack_file("test.tar.gz", 'mydir')
-#unpack_file("test.rar", 'mydir')
-#unpack_file("test.7z", 'mydir')
+if __name__ == '__main__':
+	#unpack_file("test.gz", 'mydir')
+	unpack_file("test.tar.gz", 'mydir')
+	#unpack_file("test.rar", 'mydir')
+	#unpack_file("test.7z", 'mydir')
 
 

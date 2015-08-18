@@ -95,6 +95,10 @@ class MyFrame(wx.Frame):
 		self.remove_dupli_frame.co_dupli_destiny = self.co.dupli_destiny
 		self.remove_dupli_frame.co_abs_dupsomewhere = self.co.abs_dupsomewhere
 
+		self.batch_extract_frame.co_extract2destination = self.co.extract2destination
+		self.batch_extract_frame.co_abs_extsomewhere = self.co.abs_extsomewhere
+		self.batch_extract_frame.co_exrm_destiny = self.co.exrm_destiny
+		self.batch_extract_frame.co_abs_exrmsomewhere = self.co.abs_exrmsomewhere
 		self.batch_extract_frame.showAllArchive(self.search_frame.orig_booklist)
 
 
@@ -195,12 +199,25 @@ class MyFrame(wx.Frame):
 			self.remove_dupli_frame.onProcessSameFile()
 
 	def onDoExtraction(self, event):
-		print "onDoExtraction"
-		pass
+		self.nb.ChangeSelection(POS_PAGE_EXTRACT)
+		dlg = wx.MessageDialog(None, "Extract all showed archive files?\n"
+				"Check the config for where to put the extracted files.",
+				'Extract Archive Files', wx.YES_NO | wx.ICON_QUESTION)
+		result = dlg.ShowModal()
+		dlg.Destroy()
+		if result == wx.ID_YES:
+			self.batch_extract_frame.onDoExtraction()
 
 	def onRemoveArchive(self, event):
-		print "onRemoveArchive"
-		pass
+		self.nb.ChangeSelection(POS_PAGE_EXTRACT)
+		dlg = wx.MessageDialog(None, "Process(Delete) all showed archive files?\n"
+				"Make sure all files are already extracted successfully.\n"
+				"Check the config for how to process the extracted files.",
+				'Process Archive Files', wx.YES_NO | wx.ICON_QUESTION)
+		result = dlg.ShowModal()
+		dlg.Destroy()
+		if result == wx.ID_YES:
+			self.batch_extract_frame.onRemoveArchive()
 
 	def onGoSearchBar(self, event):
 		self.search_frame.text_ctrl_1.SetFocus()

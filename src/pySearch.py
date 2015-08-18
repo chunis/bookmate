@@ -40,7 +40,7 @@ class MyListCtrl(CommonListCtrl):
 
 class PySearch(wx.Panel):
 	def __init__(self, *args, **kwds):
-                self.orig_booklist = []
+		self.orig_booklist = []
 		self.asked_booklist = []  # booklist showing in the listCtrl
 
 		self.open_file_id = wx.NewId()
