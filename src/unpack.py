@@ -13,6 +13,8 @@ import shutil
 UNPACK_LOG = "unpack.log"
 TMP_DIR = "bookmate_tmp"
 
+archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', '.tar.gz', '.bz2']
+
 def unpack_file(zipfile, outpath='.', tool='patool'):
 	tmpdir = os.path.join(outpath, TMP_DIR)
 	try:
@@ -48,7 +50,10 @@ def unpack_file(zipfile, outpath='.', tool='patool'):
 			os.rmdir(tmpdir)
 		elif len(all_files) > 1:
 			# TODO: strip sufix such as 'tar.gz' or 'rar'
-			newdir = os.path.join(outpath, os.path.basename(zipfile))
+			barename = os.path.basename(zipfile)
+			for suffix in archive_suffix:
+				barename = barename.split(suffix)[0]
+			newdir = os.path.join(outpath, barename)
 			os.rename(tmpdir, newdir)
 	return 0
 

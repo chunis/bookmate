@@ -19,7 +19,7 @@ except ImportError:
 	from wx.lib.pubsub import pub
 
 
-archive_suffix = ['.rar', '.zip', '.7z', 'gz', 'bz2']
+archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', '.bz2']
 
 # how to process duplicated files
 [PROCESS_DELETE, PROCESS_NO_PROCESS, PROCESS_MOVE] = [1, 2, 3]
