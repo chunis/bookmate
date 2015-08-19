@@ -14,7 +14,7 @@ rm -rf build bookmate.spec
 
 mkdir -p dist/doc
 cp -r $src/../doc/user_notes dist/doc
-cp -r ../../README dist/doc
+cp -r ../../README.md dist/doc
 
 rm -f $dist
 mv dist bookmate-linux

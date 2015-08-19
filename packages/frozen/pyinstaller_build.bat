@@ -9,7 +9,7 @@ del /q bookmate.spec
 
 md dist\doc
 copy ..\..\doc\user_notes dist\doc\user_notes.txt
-copy ..\..\README dist\doc\README.txt
+copy ..\..\README.md dist\doc\README.md
 move dist bookmate-win
 
 del /q bookmate-win.tar.gz

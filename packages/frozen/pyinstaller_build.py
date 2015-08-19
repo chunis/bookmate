@@ -33,7 +33,7 @@ except subprocess.CalledProcessError:
 
 os.mkdir('dist/doc')
 myunix2dos('../../doc/user_notes', 'dist/doc/user_notes.txt')
-myunix2dos('../../README', 'dist/doc/README.txt')
+myunix2dos('../../README.md', 'dist/doc/README.md')
 shutil.copytree(os.path.join(src_path, 'images'),
 		os.path.join('dist/bookmate/', 'images'))
 shutil.copy(os.path.join(src_path, 'bookmate.cfg'), 'dist/bookmate/')
