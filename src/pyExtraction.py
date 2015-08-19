@@ -61,11 +61,16 @@ class PyExtraction(PySearch):
 		self.asked_booklist = self.orig_booklist
 		self.list_ctrl_1.DeleteAllItems()
 		self.list_ctrl_1.set_value(self.orig_booklist)
+		msg="Total archive items found: %d" %len(self.orig_booklist)
+		pub.sendMessage("updateStatusBar", msg=msg)
 
 	def onDoExtraction(self):
 		print "onDoExtraction"
+		count = 0
+		totalcount = len(self.asked_booklist)
 		for book in self.asked_booklist:
 			#print "extracting %s...", %book.name
+			count += 1
 
 			if self.co_extract2destination == DEST_HERE:
 				dest = os.path.abspath('.')
@@ -76,8 +81,13 @@ class PyExtraction(PySearch):
 				dest = os.path.abspath('.')
 
 			fullname = os.path.join(book.abspath, book.name)
-			print "%s --> %s" %(fullname, dest)
+			print "Extracting %s --> %s" %(fullname, dest)
+			msg="Extracting [%d/%d]: %s..." %(count, totalcount, fullname)
+			pub.sendMessage("updateStatusBar", msg=msg)
 			unpack_file(fullname, dest)
+
+		pub.sendMessage("updateStatusBar", msg="All files were extracted")
+
 
 	def onRemoveArchive(self):
 		print "onRemoveArchive"
