@@ -151,6 +151,9 @@ class MyFrame(wx.Frame):
 		tb_config = toolbar.AddSimpleTool(-1, wx.Bitmap('images/configure.png'),
 				"Configuration",
 				"Configure BookMate")
+		tb_reload = toolbar.AddSimpleTool(-1, wx.Bitmap('images/reload.png'),
+				"Reload",
+				"Reload data for all panels")
 		toolbar.AddSeparator()
 		tb_find_samefile = toolbar.AddSimpleTool(-1, wx.Bitmap('images/find.png'),
 				"Find Same File",
@@ -169,6 +172,7 @@ class MyFrame(wx.Frame):
 		toolbar.Realize()
 
 		self.Bind(wx.EVT_MENU, self.onConfig, tb_config)
+		self.Bind(wx.EVT_MENU, self.onReload, tb_reload)
 		self.Bind(wx.EVT_MENU, self.onFindSameFile, tb_find_samefile)
 		self.Bind(wx.EVT_MENU, self.onProcessSameFile, tb_process_samefile)
 		self.Bind(wx.EVT_MENU, self.onDoExtraction, tb_do_extraction)
@@ -231,6 +235,8 @@ class MyFrame(wx.Frame):
                 frame.Show()
                 frame.SetFocus()
 
+	def onReload(self, event):
+		self.init_config(self.co)
 
 	def onClearResult(self, event):
 		self.search_frame.onClearResult(event)
