@@ -191,7 +191,7 @@ class PyDuplication(wx.Panel):
 					'Process Duplication', wx.OK | wx.ICON_INFORMATION, self)
 		elif self.co_dupli_destiny == PROCESS_DELETE:
 			self.moveOrRemoveBook(os.remove)
-		elif self.co_dupli_destiny == PROCESS_MOVE:  # TODO
+		elif self.co_dupli_destiny == PROCESS_MOVE:
 			print "Move to %s" %self.co_abs_dupsomewhere
 			if not self.co_abs_dupsomewhere or not os.path.isdir(self.co_abs_dupsomewhere):
 				wx.MessageBox("You can't set 'Duplication.Remove:destiny=3' with "
