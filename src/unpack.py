@@ -9,13 +9,20 @@
 import subprocess
 import os, time
 import shutil
+import platform
 
 UNPACK_LOG = "unpack.log"
 TMP_DIR = "bookmate_tmp"
 
 archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', '.tar.gz', '.bz2']
 
-def unpack_file(zipfile, outpath='.', tool='patool'):
+plat = platform.platform()
+if plat.find("Linux") != -1:
+	patool = 'patool'
+else:
+	patool = r'\C:\Program Files\patool.exe'
+
+def unpack_file(zipfile, outpath='.', tool=patool):
 	tmpdir = os.path.join(outpath, TMP_DIR)
 	try:
 		if not os.path.exists(outpath):
