@@ -1,0 +1,12 @@
+Bugs
+
+below items are the bugs found during the development. Some may be already
+fixed. This table will updated at least before each release.
+
+
+** Under Win8 with wxpython 3.0, display is wrong for booklist show. Maybe
+it just caused by wxpython 3.0, not by Win8 platform. Not tested other platforms yet.
+
+** Under Windows, the dierctories can't include Chinese characters, otherwise
+the Config UI doesn't work.
+
