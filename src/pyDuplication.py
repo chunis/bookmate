@@ -11,11 +11,7 @@ import time
 import wx
 import shutil
 from pyCommon import CommonListCtrl, find_str
-try:
-	from wx.lib.pubsub import Publisher as pub
-except ImportError:
-	import wx.lib.pubsub.setupkwargs
-	from wx.lib.pubsub import pub
+import mypubsub as pub
 
 #LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
 #LIST_COLORS = [wx.GREEN, 'gray', '#00aabb']

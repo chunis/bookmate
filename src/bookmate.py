@@ -20,11 +20,7 @@ from pyExtraction import PyExtraction
 from pyRename import PyRename
 from pySameName import PySameName
 from bookDatabase import BookDatabase
-try:
-	from wx.lib.pubsub import Publisher as pub
-except ImportError:
-	import wx.lib.pubsub.setupkwargs
-	from wx.lib.pubsub import pub
+import mypubsub as pub
 
 
 Name	= 'BookMate'
@@ -49,7 +45,7 @@ class MyFrame(wx.Frame):
 	def __init__(self, parent=None, id=-1, title='BookMate',
 			pos=wx.DefaultPosition, size=wx.DefaultSize):
 		wx.Frame.__init__(self, None, -1, title, pos, size)
-		pub.subscribe(self.init_config, "configChanged")
+		pub.subscribe(self._init_config, "configChanged")
 		pub.subscribe(self.updateStatusBar, "updateStatusBar")
 
 		self.panel = wx.Panel(self)
@@ -82,8 +78,14 @@ class MyFrame(wx.Frame):
 		self.init_config(self.co)
 
 
+	def _init_config(self, co):
+		if pub.pub_version == "version_1":
+			self.co = co.data
+		elif pub.pub_version == "version_3":
+			self.co = co
+		self.init_config(self.co)
+
 	def init_config(self, co):
-		self.co = co
 		self.bookdb = BookDatabase(self.co.dirlist, self.co.exdirlist,
 				self.co.ignore_hidden, self.co.ignore_vcd)
 		self.search_frame.orig_booklist = self.bookdb.to_booklist()
@@ -184,7 +186,10 @@ class MyFrame(wx.Frame):
 		self.SetStatusText('Welcome to use BookMate!')
 
 	def updateStatusBar(self, msg):
-		self.SetStatusText(msg)
+		if pub.pub_version == "version_1":
+			self.SetStatusText(msg.data)
+		elif pub.pub_version == "version_3":
+			self.SetStatusText(msg)
 
 
 	def onFindSameFile(self, event):

@@ -12,11 +12,7 @@ import shutil
 from pyCommon import CommonListCtrl, find_str
 from pySearch import PySearch
 from unpack import unpack_file
-try:
-	from wx.lib.pubsub import Publisher as pub
-except ImportError:
-	import wx.lib.pubsub.setupkwargs
-	from wx.lib.pubsub import pub
+import mypubsub as pub
 
 
 archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', '.bz2']

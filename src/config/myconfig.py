@@ -20,11 +20,7 @@ from extract_ok import ExtractOK
 from extract_to import ExtractTo
 from rename import ReName
 from same_name import SameName
-try:
-    from wx.lib.pubsub import Publisher as pub
-except ImportError:
-    import wx.lib.pubsub.setupkwargs
-    from wx.lib.pubsub import pub
+import mypubsub as pub
 
 
 class ConfigOptions:

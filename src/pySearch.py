@@ -11,11 +11,7 @@
 import sys, os, time
 import wx
 from pyCommon import CommonListCtrl, find_str
-try:
-	from wx.lib.pubsub import Publisher as pub
-except ImportError:
-	import wx.lib.pubsub.setupkwargs
-	from wx.lib.pubsub import pub
+import mypubsub as pub
 
 
 class MyListCtrl(CommonListCtrl):
