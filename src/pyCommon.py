@@ -76,7 +76,7 @@ class CommonListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 		pass
 
 	def onOpenItem(self, event):
-		tool.openfile(self.getFullName)
+		tool.openfile(self.getFullName())
 
 	def onOpenDir(self, event):
 		#index = event.GetIndex()
