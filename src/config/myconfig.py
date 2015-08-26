@@ -378,7 +378,7 @@ class Config(wx.Treebook):
         config.write(cf)
         cf.close()
         co = xloadConfigFromFile(conf_file)
-        pub.sendMessage("configChanged", co=co)
+        pub.sendMessage("configChanged", msg=co)
 
 
 

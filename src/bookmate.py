@@ -78,11 +78,11 @@ class MyFrame(wx.Frame):
 		self.init_config(self.co)
 
 
-	def _init_config(self, co):
+	def _init_config(self, msg):
 		if pub.pub_version == "version_1":
-			self.co = co.data
+			self.co = msg.data
 		elif pub.pub_version == "version_3":
-			self.co = co
+			self.co = msg
 		self.init_config(self.co)
 
 	def init_config(self, co):
