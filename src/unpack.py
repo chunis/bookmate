@@ -9,20 +9,14 @@
 import subprocess
 import os, time
 import shutil
-import platform
+import patoolib
 
-UNPACK_LOG = "unpack.log"
 TMP_DIR = "bookmate_tmp"
 
 archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', '.tar.gz', '.bz2']
 
-plat = platform.platform()
-if plat.find("Linux") != -1:
-	patool = 'patool'
-else:
-	patool = r'\C:\Program Files\patool.exe'
 
-def unpack_file(zipfile, outpath='.', tool=patool):
+def unpack_file(zipfile, outpath='.'):
 	tmpdir = os.path.join(outpath, TMP_DIR)
 	try:
 		if not os.path.exists(outpath):
@@ -33,22 +27,10 @@ def unpack_file(zipfile, outpath='.', tool=patool):
 		return -1
 
 	try:
-		cmd = [tool, "extract", "--outdir", tmpdir, zipfile]
-		#print 'cmd:', cmd
-		subprocess.check_output(cmd)
-	except OSError:
-		print 'Got OSERROR'
-	except subprocess.CalledProcessError as e:
-		print "unpack_file() failed!"
-		fl = open(UNPACK_LOG, 'a')
-		fl.write('\n------' + time.asctime() + '------\n')
-		for c in cmd:
-			fl.write("%s " %c)
-		fl.write('\n')
-		fl.write(e.output)
-		fl.write("\n")
-		fl.flush()
-		fl.close()
+		patoolib.extract_archive(zipfile, outdir=tmpdir)
+	except patoolib.PatoolError:
+		# TODO: mark zipfile in RED
+		print "unpack file %s failed!" %zipfile
 		return -1
 	else:
 		all_files = os.listdir(tmpdir)
@@ -56,7 +38,6 @@ def unpack_file(zipfile, outpath='.', tool=patool):
 			shutil.move(os.path.join(tmpdir, all_files[0]), outpath)
 			os.rmdir(tmpdir)
 		elif len(all_files) > 1:
-			# TODO: strip sufix such as 'tar.gz' or 'rar'
 			barename = os.path.basename(zipfile)
 			for suffix in archive_suffix:
 				barename = barename.split(suffix)[0]
