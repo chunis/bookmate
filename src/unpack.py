@@ -13,7 +13,7 @@ import patoolib
 
 TMP_DIR = "bookmate_tmp"
 
-archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', '.tar.gz', '.bz2']
+archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', '.tar.gz', 'xz', '.bz2']
 
 
 def unpack_file(zipfile, outpath='.'):

@@ -34,6 +34,7 @@ WIN_WIDTH = 1000
 WIN_HEIGH = 640
 
 CFG_FILE = "bookmate.cfg"
+LOG_FILE = "bookmate.log"
 [POS_PAGE_SEARCH, POS_PAGE_DUPLI,
  POS_PAGE_EXTRACT, POS_PAGE_RENAME,
  POS_PAGE_SMNAME ] = range(5)
@@ -277,4 +278,5 @@ class BookMate(wx.App):
 if __name__ == '__main__':
         gettext.install("Config")
 	bookMate = BookMate(False)
+	#bookMate = BookMate(True, LOG_FILE)
 	bookMate.MainLoop()

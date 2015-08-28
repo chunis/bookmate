@@ -15,7 +15,7 @@ from unpack import unpack_file
 import mypubsub as pub
 
 
-archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', '.bz2']
+archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', 'xz', '.bz2']
 
 # how to process duplicated files
 [PROCESS_DELETE, PROCESS_NO_PROCESS, PROCESS_MOVE] = [1, 2, 3]
