@@ -7,8 +7,10 @@
 #
 
 import os, sys
-import wx
+import re
 import shutil
+import wx
+
 from pyCommon import CommonListCtrl, find_str
 from pySearch import PySearch
 from unpack import unpack_file
@@ -16,6 +18,8 @@ import mypubsub as pub
 
 
 archive_suffix = ['.rar', '.zip', '.7z', '.tar', '.gz', '.tgz', 'xz', '.bz2']
+part1_rar = re.compile(r'part0*1.rar')
+partx_rar = re.compile(r'part[0-9]+.rar')
 
 # how to process duplicated files
 [PROCESS_DELETE, PROCESS_NO_PROCESS, PROCESS_MOVE] = [1, 2, 3]
@@ -62,19 +66,23 @@ class PyExtraction(PySearch):
 
 	def onDoExtraction(self):
 		#print "onDoExtraction"
+		if self.co_extract2destination == DEST_HERE:
+			dest = os.path.abspath('.')
+		elif self.co_extract2destination == DEST_THERE:
+			dest = self.co_abs_extsomewhere
+		else:
+			print "WARN! co_extract2destination(=%s) too large!" %self.co_extract2destination
+			dest = os.path.abspath('.')
+
 		count = 0
 		totalcount = len(self.asked_booklist)
 		for book in self.asked_booklist:
 			#print "extracting %s...", %book.name
 			count += 1
 
-			if self.co_extract2destination == DEST_HERE:
-				dest = os.path.abspath('.')
-			elif self.co_extract2destination == DEST_THERE:
-				dest = self.co_abs_extsomewhere
-			else:
-				print "WARN! co_extract2destination(=%s) too large!" %self.co_extract2destination
-				dest = os.path.abspath('.')
+			# skip xx.part2.rar, xx.part3.rar...
+			if re.search(partx_rar, book.name) and not re.search(part1_rar, book.name):
+				continue
 
 			fullname = os.path.join(book.abspath, book.name)
 			print "Extracting %s --> %s" %(fullname, dest)
