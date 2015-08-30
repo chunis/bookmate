@@ -24,10 +24,10 @@ import mypubsub as pub
 
 
 Name	= 'BookMate'
-Version	= '0.0.2-dev'
+Version	= '0.0.3'
 Author	= 'Deng Chunhui'
 Email	= 'chunchengfh@gmail.com'
-Date	= '2015.08.13'
+Date	= '2015.08.30'
 ABOUT   = "Your friendly book management tool implemented by WxPython"
 
 WIN_WIDTH = 1000
