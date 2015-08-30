@@ -37,6 +37,11 @@ class Book():
 		self.crc32 = 0  # only calculate it when needed
 		self.isbn = 0
 
+		# for smart rename
+		self.name_rename = ""
+		self.color_rename = wx.RED
+
+
 	def calc_crc(self):
 		if self.crc32 == 0:  # we won't re-calculate it
 			self.crc32 = calc_crc(os.path.join(self.abspath, self.name))

@@ -8,7 +8,26 @@
 
 import sys
 import wx
+from pyCommon import CommonListCtrl, find_str
 
+
+class RenameListCtrl(CommonListCtrl):
+	def __init__(self, parent, id):
+		CommonListCtrl.__init__(self, parent, id)
+
+	def set_value(self, booklist, color):
+		for book in booklist:
+			mtime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(book.mtime))
+			#size = str(book.size/1024) + 'K'
+
+			item = (book.name, str(book.size), mtime, book.abspath)
+			index = self.InsertStringItem(sys.maxint, item[0])
+			for col, text in enumerate(item[1:]):
+				self.SetStringItem(index, col+1, text)
+			self.SetItemData(index, index)
+			self.itemDataMap[index] = item
+			self.SetItemBackgroundColour(index, color)
+			self.SetItemTextColour(index, book.color)
 
 class PyRename(wx.Panel):
 	def __init__(self, parent=None, id=-1, tty=sys.stdout):

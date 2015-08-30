@@ -24,7 +24,7 @@ import mypubsub as pub
 
 
 Name	= 'BookMate'
-Version	= '0.0.3'
+Version	= '0.0.3-dev'
 Author	= 'Deng Chunhui'
 Email	= 'chunchengfh@gmail.com'
 Date	= '2015.08.30'

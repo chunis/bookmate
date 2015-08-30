@@ -44,8 +44,6 @@ class ReName(wx.Panel):
         self.checkbox_5 = wx.CheckBox(self, wx.ID_ANY, _("Author"))
         self.checkbox_6 = wx.CheckBox(self, wx.ID_ANY, _("isbn"))
         self.checkbox_7 = wx.CheckBox(self, wx.ID_ANY, _("date(year,month)"))
-        self.button_2 = wx.Button(self, wx.ID_ANY, _("Suggest Names"))
-        self.button_3 = wx.Button(self, wx.ID_ANY, _("Rename All Files Marked Green"))
         self.radios_add = [self.radio_btn_2, self.radio_btn_3]
         self.radios_remove = [self.radio_btn_4, self.radio_btn_5, self.radio_btn_6]
 
@@ -62,7 +60,6 @@ class ReName(wx.Panel):
         # begin wxGlade: ReName.__do_layout
         sizer_3 = wx.BoxSizer(wx.VERTICAL)
         sizer_6 = wx.BoxSizer(wx.VERTICAL)
-        sizer_11 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_10 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_9 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_8 = wx.BoxSizer(wx.HORIZONTAL)
@@ -91,9 +88,6 @@ class ReName(wx.Panel):
         sizer_10.Add(self.checkbox_6, 0, 0, 0)
         sizer_10.Add(self.checkbox_7, 0, 0, 0)
         sizer_6.Add(sizer_10, 0, 0, 0)
-        sizer_11.Add(self.button_2, 0, 0, 0)
-        sizer_11.Add(self.button_3, 0, 0, 0)
-        sizer_6.Add(sizer_11, 0, 0, 0)
         sizer_3.Add(sizer_6, 1, 0, 0)
         self.SetSizer(sizer_3)
         self.Layout()
