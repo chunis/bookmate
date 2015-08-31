@@ -9,6 +9,8 @@
 import sys
 import wx
 from pyCommon import CommonListCtrl, find_str
+from pySearch import PySearch
+import mypubsub as pub
 
 
 class RenameListCtrl(CommonListCtrl):
@@ -29,15 +31,42 @@ class RenameListCtrl(CommonListCtrl):
 			self.SetItemBackgroundColour(index, color)
 			self.SetItemTextColour(index, book.color)
 
-class PyRename(wx.Panel):
-	def __init__(self, parent=None, id=-1, tty=sys.stdout):
-		wx.Panel.__init__(self, parent, id)
-		#self.SetBackgroundColour('White')
-		self.create_widgets()
+
+class PyRename(PySearch):
+	# TODO: how to merge PySearch's init and self.init_config()?
+	#def __init__(self, *args, **kwds):
+		#PySearch.__init__(self, args, kwds)
+
+	def init_config(self):
+		self.co_add_text = ""
+		self.co_remove_text = ""
+		self.co_add_to = 2
+		self.co_remove_from = 3
+		self.co_add_author = False
+		self.co_add_isbn = False
+		self.co_add_date = False
+
+	def showAllFiles(self):
+		self.asked_booklist = self.orig_booklist
+		self.list_ctrl_1.DeleteAllItems()
+		self.list_ctrl_1.set_value(self.orig_booklist)
+		msg="Total Files found: %d" %len(self.orig_booklist)
+		pub.sendMessage("updateStatusBar", msg=msg)
+
+	def onSuggestNewName(self):
+		print "onSuggestNewName"
+		# TODO:
+		# based on the config, give suggestions
+		# if the new name is the same, don't change the color
+		# if has a new name, mark it GREEN
+		# only change name if it is marked in GREEN
+		# the color can be changed, and names can be edited manually
+
+		pub.sendMessage("updateStatusBar", msg="All new names are marked in GREEN")
 
 
-	def create_widgets(self):
-		wx.StaticText(self, -1, 'PyRename Not Implemented Yet...', pos=(120, 80))
+	def onReName(self):
+		print "onReName"
 
 
 class testFrame(wx.Frame):

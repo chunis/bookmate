@@ -89,8 +89,8 @@ class MyFrame(wx.Frame):
 	def init_config(self, co):
 		self.bookdb = BookDatabase(self.co.dirlist, self.co.exdirlist,
 				self.co.ignore_hidden, self.co.ignore_vcd)
-		self.search_frame.orig_booklist = self.bookdb.to_booklist()
 
+		self.search_frame.orig_booklist = self.bookdb.to_booklist()
 		self.search_frame.list_ctrl_1.DeleteAllItems()
 		self.search_frame.list_ctrl_1.set_value(self.search_frame.orig_booklist)
 
@@ -103,6 +103,16 @@ class MyFrame(wx.Frame):
 		self.batch_extract_frame.co_exrm_destiny = self.co.exrm_destiny
 		self.batch_extract_frame.co_abs_exrmsomewhere = self.co.abs_exrmsomewhere
 		self.batch_extract_frame.showAllArchive(self.search_frame.orig_booklist)
+
+		self.batch_rename_frame.co_add_text = self.co.ren_add_text
+		self.batch_rename_frame.co_remove_text = self.co.ren_remove_text
+		self.batch_rename_frame.co_add_to = self.co.ren_add_to
+		self.batch_rename_frame.co_remove_from = self.co.ren_remove_from
+		self.batch_rename_frame.co_add_author = self.co.ren_add_author
+		self.batch_rename_frame.co_add_isbn = self.co.ren_add_isbn
+		self.batch_rename_frame.co_add_date = self.co.ren_add_date
+		self.batch_rename_frame.orig_booklist = self.search_frame.orig_booklist
+		self.batch_rename_frame.showAllFiles()
 
 
 	def menu_data(self):
