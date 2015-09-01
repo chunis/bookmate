@@ -1,0 +1,42 @@
+Bugs
+
+below items are the bugs found during the development. Some may be already
+fixed. This table will updated at least before each release.
+
+
+==== MAJOR BUGS ====
+
+** Under Win8 with wxpython 3.0, display is wrong for booklist show. Maybe
+it just caused by wxpython 3.0, not by Win8 platform. Not tested other platforms yet.
+
+** Under Windows, the dierctories can't include Chinese characters, otherwise
+the Config UI doesn't work.
+
+
+==== MINOR BUGS ====
+
+** When switch panel, update StatusBar msg accordingly. Could save the last
+msg of each panel as their object attribution.
+
+
+==== TODO ====
+
+Below are items would be consided in future development. I just list them but
+won't follow the sequences.
+
+** finish re-name function and same-name function
+** support multi-lines process
+** mark extraction failure archive files in RED
+** support extraction/rename for individual files from Search Panel
+** support ":" in SearchBar for extend syntax
+** search same name files from different directories
+** extract files with names like 'xxx.rar.000', and maybe more fragment name types
+** should BM supports 'ignore user defined directories/filetypes'?
+** I'd like to mark files in RED at Search Panel and delete/move them easily
+** how about ":star" function?
+** improve log and debug functions
+** Unit Test
+** Linux distributions packages, such as .deb for Debian/Ubuntu
+** i18n such as supporting Chinese
+** how about Python/WxPython 3.x?
+** Don't forget performance, speed is very important
