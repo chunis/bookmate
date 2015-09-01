@@ -182,6 +182,12 @@ class MyFrame(wx.Frame):
 				"Remove Useless Archive Files",
 				"Remove all archived files after they've already be extracted")
 		toolbar.AddSeparator()
+		tb_suggest_name = toolbar.AddSimpleTool(-1, wx.Bitmap('images/suggest_name.png'),
+				"Suggest New Names",
+				"Suggest a new name based on meta info and config")
+		tb_do_rename = toolbar.AddSimpleTool(-1, wx.Bitmap('images/rename.png'),
+				"Re-Name Files Marked in GREEN",
+				"Rename all files currently marked in GREEN color")
 		toolbar.Realize()
 
 		self.Bind(wx.EVT_MENU, self.onConfig, tb_config)
@@ -190,6 +196,8 @@ class MyFrame(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onProcessSameFile, tb_process_samefile)
 		self.Bind(wx.EVT_MENU, self.onDoExtraction, tb_do_extraction)
 		self.Bind(wx.EVT_MENU, self.onRemoveArchive, tb_remove_archive)
+		self.Bind(wx.EVT_MENU, self.onSuggestNewName, tb_suggest_name)
+		self.Bind(wx.EVT_MENU, self.onReName, tb_do_rename)
 
 
 	def createStatusBar(self):
@@ -238,6 +246,21 @@ class MyFrame(wx.Frame):
 		dlg.Destroy()
 		if result == wx.ID_YES:
 			self.batch_extract_frame.onRemoveArchive()
+
+	def onSuggestNewName(self, event):
+		self.nb.ChangeSelection(POS_PAGE_RENAME)
+		self.batch_rename_frame.onSuggestNewName()
+
+	def onReName(self, event):
+		self.nb.ChangeSelection(POS_PAGE_RENAME)
+		dlg = wx.MessageDialog(None, "Rename All Files in GREEN?\n\n"
+				"WARNING! All files in GREEN will be renamed.\n"
+				"Check the config to make sure the names according your requirements",
+				'Re-Name Files', wx.YES_NO | wx.ICON_QUESTION)
+		result = dlg.ShowModal()
+		dlg.Destroy()
+		if result == wx.ID_YES:
+			self.batch_rename_frame.onReName()
 
 	def onGoSearchBar(self, event):
 		self.search_frame.text_ctrl_1.SetFocus()
