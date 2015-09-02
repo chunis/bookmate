@@ -7,6 +7,7 @@
 #
 
 import sys
+import time
 import wx
 from pyCommon import CommonListCtrl, find_str
 from pySearch import PySearch
@@ -17,7 +18,7 @@ class RenameListCtrl(CommonListCtrl):
 	def __init__(self, parent, id):
 		CommonListCtrl.__init__(self, parent, id)
 
-	def set_value(self, booklist, color):
+	def set_value(self, booklist):
 		for book in booklist:
 			mtime = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(book.mtime))
 			#size = str(book.size/1024) + 'K'
@@ -28,14 +29,50 @@ class RenameListCtrl(CommonListCtrl):
 				self.SetStringItem(index, col+1, text)
 			self.SetItemData(index, index)
 			self.itemDataMap[index] = item
-			self.SetItemBackgroundColour(index, color)
-			self.SetItemTextColour(index, book.color)
+			#self.SetItemBackgroundColour(index, color)
+			self.SetItemTextColour(index, wx.BLACK)
+
+			if not book.name_rename:
+				book.name_rename = book.name
+			item_newname = (book.name_rename, "", "", "")
+			index = self.InsertStringItem(sys.maxint, item_newname[0])
+			for col, text in enumerate(item_newname[1:]):
+				self.SetStringItem(index, col+1, text)
+			self.SetItemData(index, index)
+			self.itemDataMap[index] = item_newname
+			#self.SetItemBackgroundColour(index, color)
+			self.SetItemTextColour(index, book.color_rename)
 
 
-class PyRename(PySearch):
-	# TODO: how to merge PySearch's init and self.init_config()?
-	#def __init__(self, *args, **kwds):
-		#PySearch.__init__(self, args, kwds)
+class PyRename(wx.Panel):
+	def __init__(self, *args, **kwds):
+                self.orig_booklist = []  # this is a list of same_files_list
+		self.asked_booklist = []  # this is the list of search result
+
+		self.mark_green_id = wx.NewId()
+		self.mark_red_id = wx.NewId()
+		self.open_file_id = wx.NewId()
+		self.open_dir_id = wx.NewId()
+		self.clear_id = wx.NewId()
+		self.copy_id = wx.NewId()
+		self.move_id = wx.NewId()
+		self.amazon_id = wx.NewId()
+		self.douban_id = wx.NewId()
+
+		kwds["style"] = wx.DEFAULT_FRAME_STYLE
+		wx.Panel.__init__(self, *args, **kwds)
+		self.text_ctrl_1 = wx.TextCtrl(self, -1, "")
+		self.text_ctrl_1.SetFocus()
+		self.list_ctrl_1 = RenameListCtrl(self, -1)
+
+		self.__do_layout()
+		self.init_config()
+
+		self.Bind(wx.EVT_TEXT, self.doSearch, self.text_ctrl_1)
+
+		#self.list_ctrl_1.Bind(wx.EVT_CONTEXT_MENU, self.onRightClick)
+		self.list_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
+		self.text_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
 
 	def init_config(self):
 		self.co_add_text = ""
@@ -46,11 +83,45 @@ class PyRename(PySearch):
 		self.co_add_isbn = False
 		self.co_add_date = False
 
-	def showAllFiles(self):
-		self.asked_booklist = self.orig_booklist
+
+	def __do_layout(self):
+		sizer_1 = wx.BoxSizer(wx.VERTICAL)
+		sizer_2 = wx.BoxSizer(wx.VERTICAL)
+		sizer_2.Add(self.text_ctrl_1, 0, wx.EXPAND, 0)
+		sizer_2.Add(self.list_ctrl_1, 1, wx.EXPAND, 0)
+		sizer_1.Add(sizer_2, 1, wx.EXPAND, 0)
+		self.SetSizer(sizer_1)
+		self.Layout()
+
+
+	def onEsc(self, event):
+		key_code = event.GetKeyCode()
+		# print "Key: ", key_code
+		if key_code == 27:	# ESC pressed
+			search_str = self.text_ctrl_1.GetValue()
+			if search_str != "":
+				self.text_ctrl_1.SetValue("")
+			else:
+				self.Close()
+		else:
+			event.Skip()
+
+	def doSearch(self, event):
 		self.list_ctrl_1.DeleteAllItems()
-		self.list_ctrl_1.set_value(self.orig_booklist)
-		msg="Total Files found: %d" %len(self.orig_booklist)
+
+		search_str = self.text_ctrl_1.GetValue()
+		#print search_str
+
+		self.asked_booklist = find_str(self.asked_booklist, search_str)
+		self.list_ctrl_1.set_value(self.asked_booklist)
+		msg="Total items showed: %d" %len(self.asked_booklist)
+		pub.sendMessage("updateStatusBar", msg=msg)
+		# event.Skip()
+
+	def showAllFiles(self):
+		self.list_ctrl_1.DeleteAllItems()
+		self.list_ctrl_1.set_value(self.asked_booklist)
+		msg="Total Files found: %d" %len(self.asked_booklist)
 		pub.sendMessage("updateStatusBar", msg=msg)
 
 	def onSuggestNewName(self):
@@ -61,7 +132,12 @@ class PyRename(PySearch):
 		# if has a new name, mark it GREEN
 		# only change name if it is marked in GREEN
 		# the color can be changed, and names can be edited manually
+		for book in self.asked_booklist:
+			book.name_rename = book.name
+			book.color_rename = wx.GREEN
 
+		self.list_ctrl_1.DeleteAllItems()
+		self.list_ctrl_1.set_value(self.asked_booklist)
 		pub.sendMessage("updateStatusBar", msg="All new names are marked in GREEN")
 
 

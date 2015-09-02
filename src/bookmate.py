@@ -112,6 +112,7 @@ class MyFrame(wx.Frame):
 		self.batch_rename_frame.co_add_isbn = self.co.ren_add_isbn
 		self.batch_rename_frame.co_add_date = self.co.ren_add_date
 		self.batch_rename_frame.orig_booklist = self.search_frame.orig_booklist
+		self.batch_rename_frame.asked_booklist = self.batch_rename_frame.orig_booklist
 		self.batch_rename_frame.showAllFiles()
 
 
