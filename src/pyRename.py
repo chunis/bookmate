@@ -33,7 +33,8 @@ class RenameListCtrl(CommonListCtrl):
 			self.SetItemTextColour(index, wx.BLACK)
 
 			if not book.name_rename:
-				book.name_rename = book.name
+				continue
+
 			item_newname = (book.name_rename, "", "", "")
 			index = self.InsertStringItem(sys.maxint, item_newname[0])
 			for col, text in enumerate(item_newname[1:]):
