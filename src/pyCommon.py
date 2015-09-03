@@ -56,7 +56,6 @@ class CommonListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 			return int(item2) - int(item1)
 
 	def getFullName(self):
-		#index = event.GetIndex()
 		index = self.select
 		name = self.GetItem(index).GetText()
 		dir = self.GetItem(index, DIR_COL).GetText()
@@ -69,28 +68,24 @@ class CommonListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 
 	def onItemSelected(self, event):
 		self.select = event.GetIndex()
-		#print 'self.select:', self.select
 
 	def onItemDeselected(self, event):
-		#self.select = event.GetIndex
 		pass
 
 	def onOpenItem(self, event):
 		tool.openfile(self.getFullName())
 
 	def onOpenDir(self, event):
-		#index = event.GetIndex()
 		index = self.select
 		dir = self.GetItem(index, DIR_COL).GetText()
 		tool.openfile(dir)
 
 	def prepareCopyOrMove(self, event, string, func):
-		#index = event.GetIndex()
 		index = self.select
 		name = self.GetItem(index).GetText()
 		dir = self.GetItem(index, DIR_COL).GetText()
-		print 'Selected %s' %(os.path.join(dir, name))
 		file = os.path.join(dir, name)
+		print 'Selected %s' %file
 
 		if not os.path.exists(file):
 			wx.MessageBox("File '%s' doesn't exist!\n"
