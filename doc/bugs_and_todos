@@ -25,7 +25,8 @@ Below are items would be consided in future development. I just list them but
 won't follow the sequences.
 
 ** finish re-name function and same-name function
-** support multi-lines process
+** support multi-items process
+** support path history for search paths and excluded paths in config
 ** mark extraction failure archive files in RED
 ** support extraction/rename for individual files from Search Panel
 ** support ":" in SearchBar for extend syntax
