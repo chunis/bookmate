@@ -75,7 +75,6 @@ class PySearch(wx.Panel):
 			event.Skip()
 
 	def onRightClick(self, event):
-		#print 'Right click now...'
 		menu = wx.Menu()
 
 		menu.Append(self.open_file_id, "Open")

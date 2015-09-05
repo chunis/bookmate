@@ -286,7 +286,6 @@ class MyFrame(wx.Frame):
 		wx.MessageBox('Sorry, No help yet', 'Help', wx.OK | wx.ICON_INFORMATION, self)
 
 	def onAbout(self, event):
-		#about = (Name 	+ '\nThis is another PyFind implemented by WxPython'
 		about = (Name 	+ '\n\n' + ABOUT
 				+ '\n\nVersion:\t' + Version
 				+ '\nAuthor:\t' + Author

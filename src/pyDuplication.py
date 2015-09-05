@@ -115,7 +115,6 @@ class PyDuplication(wx.Panel):
 		self.markColor(wx.RED)
 
 	def onRightClick(self, event):
-		#print 'Right click now...'
 		menu = wx.Menu()
 
 		menu.Append(self.mark_green_id, "Mark as Green (to keep)")

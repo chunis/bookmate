@@ -47,7 +47,7 @@ class RenameListCtrl(CommonListCtrl):
 
 class PyRename(wx.Panel):
 	def __init__(self, *args, **kwds):
-                self.orig_booklist = []  # this is a list of same_files_list
+                self.orig_booklist = []
 		self.asked_booklist = []  # this is the list of search result
 
 		self.mark_green_id = wx.NewId()
