@@ -50,16 +50,6 @@ class PyRename(wx.Panel):
                 self.orig_booklist = []
 		self.asked_booklist = []  # this is the list of search result
 
-		self.mark_green_id = wx.NewId()
-		self.mark_red_id = wx.NewId()
-		self.open_file_id = wx.NewId()
-		self.open_dir_id = wx.NewId()
-		self.clear_id = wx.NewId()
-		self.copy_id = wx.NewId()
-		self.move_id = wx.NewId()
-		self.amazon_id = wx.NewId()
-		self.douban_id = wx.NewId()
-
 		kwds["style"] = wx.DEFAULT_FRAME_STYLE
 		wx.Panel.__init__(self, *args, **kwds)
 		self.text_ctrl_1 = wx.TextCtrl(self, -1, "")
