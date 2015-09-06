@@ -27,6 +27,16 @@ class CommonListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 		self.itemDataMap = {}
 		self.select = 0
 
+		self.mark_green_id = wx.NewId()
+		self.mark_red_id = wx.NewId()
+		self.open_file_id = wx.NewId()
+		self.open_dir_id = wx.NewId()
+		self.clear_id = wx.NewId()
+		self.copy_id = wx.NewId()
+		self.move_id = wx.NewId()
+		self.amazon_id = wx.NewId()
+		self.douban_id = wx.NewId()
+
 		self.InsertColumn(0, "Name", width=440)
 		self.InsertColumn(1, "Size", format=wx.LIST_FORMAT_RIGHT, width=100)
 		self.InsertColumn(2, "Date Modified", format=wx.LIST_FORMAT_RIGHT, width=210)

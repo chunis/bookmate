@@ -52,16 +52,6 @@ class PyDuplication(wx.Panel):
 		self.co_dupli_destiny = PROCESS_DELETE
 		self.co_abs_dupsomewhere = ""
 
-		self.mark_green_id = wx.NewId()
-		self.mark_red_id = wx.NewId()
-		self.open_file_id = wx.NewId()
-		self.open_dir_id = wx.NewId()
-		self.clear_id = wx.NewId()
-		self.copy_id = wx.NewId()
-		self.move_id = wx.NewId()
-		self.amazon_id = wx.NewId()
-		self.douban_id = wx.NewId()
-
 		kwds["style"] = wx.DEFAULT_FRAME_STYLE
 		wx.Panel.__init__(self, *args, **kwds)
 		self.text_ctrl_1 = wx.TextCtrl(self, -1, "")
@@ -128,14 +118,14 @@ class PyDuplication(wx.Panel):
 		menu.Append(self.amazon_id, "Search in Amazon.com")
 		menu.Append(self.douban_id, "Search in Douban.com")
 
-		self.Bind(wx.EVT_MENU, self.onMarkGreen, id = self.mark_green_id)
-		self.Bind(wx.EVT_MENU, self.onMarkRed, id = self.mark_red_id)
-		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenItem, id = self.open_file_id)
-		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenDir, id = self.open_dir_id)
-		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onCopy, id = self.copy_id)
-		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onMove, id = self.move_id)
-		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onAmazon, id = self.amazon_id)
-		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onDouban, id = self.douban_id)
+		self.Bind(wx.EVT_MENU, self.onMarkGreen, id = self.list_ctrl_1.mark_green_id)
+		self.Bind(wx.EVT_MENU, self.onMarkRed, id = self.list_ctrl_1.mark_red_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenItem, id = self.list_ctrl_1.open_file_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenDir, id = self.list_ctrl_1.open_dir_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onCopy, id = self.list_ctrl_1.copy_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onMove, id = self.list_ctrl_1.move_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onAmazon, id = self.list_ctrl_1.amazon_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onDouban, id = self.list_ctrl_1.douban_id)
 
 		self.PopupMenu(menu)
 		menu.Destroy()
