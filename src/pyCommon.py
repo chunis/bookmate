@@ -19,6 +19,24 @@ from search_in_web import search_in_amazon, search_in_douban
 DIR_COL = 3
 
 
+class CommonTextCtrl(wx.TextCtrl):
+	def __init__(self, parent, id, string):
+		wx.TextCtrl.__init__(self, parent, id, string)
+		self.Bind(wx.EVT_CHAR, self.onEsc)
+
+	def onEsc(self, event):
+		key_code = event.GetKeyCode()
+		# print "Key: ", key_code
+		if key_code == 27:	# ESC pressed
+			search_str = self.GetValue()
+			if search_str != "":
+				self.SetValue("")
+			else:
+				self.Close()
+		else:
+			event.Skip()
+
+
 class CommonListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin, ColumnSorterMixin):
 	def __init__(self, parent, id):
 		wx.ListCtrl.__init__(self, parent, id, style=wx.LC_REPORT)
