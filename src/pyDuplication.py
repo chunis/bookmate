@@ -10,7 +10,7 @@ import sys, os
 import time
 import wx
 import shutil
-from pyCommon import CommonListCtrl, find_str
+from pyCommon import CommonTextCtrl, CommonListCtrl, find_str
 import mypubsub as pub
 
 #LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
@@ -54,17 +54,15 @@ class PyDuplication(wx.Panel):
 
 		kwds["style"] = wx.DEFAULT_FRAME_STYLE
 		wx.Panel.__init__(self, *args, **kwds)
-		self.text_ctrl_1 = wx.TextCtrl(self, -1, "")
+		self.text_ctrl_1 = CommonTextCtrl(self, -1, "")
 		self.text_ctrl_1.SetFocus()
 		self.list_ctrl_1 = DupListCtrl(self, -1)
 
 		self.__do_layout()
 
 		self.Bind(wx.EVT_TEXT, self.doSearch, self.text_ctrl_1)
-
 		self.list_ctrl_1.Bind(wx.EVT_CONTEXT_MENU, self.onRightClick)
-		self.list_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
-		self.text_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
+		self.list_ctrl_1.Bind(wx.EVT_CHAR, self.text_ctrl_1.onEsc)
 
 
 	def __do_layout(self):
@@ -76,18 +74,6 @@ class PyDuplication(wx.Panel):
 		self.SetSizer(sizer_1)
 		self.Layout()
 
-
-	def onEsc(self, event):
-		key_code = event.GetKeyCode()
-		# print "Key: ", key_code
-		if key_code == 27:	# ESC pressed
-			search_str = self.text_ctrl_1.GetValue()
-			if search_str != "":
-				self.text_ctrl_1.SetValue("")
-			else:
-				self.Close()
-		else:
-			event.Skip()
 
 	def markColor(self, color):
 		fullname = self.list_ctrl_1.getFullName()
@@ -107,16 +93,16 @@ class PyDuplication(wx.Panel):
 	def onRightClick(self, event):
 		menu = wx.Menu()
 
-		menu.Append(self.mark_green_id, "Mark as Green (to keep)")
-		menu.Append(self.mark_red_id, "Mark as Red (to Delete)")
+		menu.Append(self.list_ctrl_1.mark_green_id, "Mark as Green (to keep)")
+		menu.Append(self.list_ctrl_1.mark_red_id, "Mark as Red (to Delete)")
 		menu.AppendSeparator()
-		menu.Append(self.open_file_id, "Open")
-		menu.Append(self.open_dir_id, "Open Directory")
-		menu.Append(self.copy_id, "Copy to...")
-		menu.Append(self.move_id, "Move to...")
+		menu.Append(self.list_ctrl_1.open_file_id, "Open")
+		menu.Append(self.list_ctrl_1.open_dir_id, "Open Directory")
+		menu.Append(self.list_ctrl_1.copy_id, "Copy to...")
+		menu.Append(self.list_ctrl_1.move_id, "Move to...")
 		menu.AppendSeparator()
-		menu.Append(self.amazon_id, "Search in Amazon.com")
-		menu.Append(self.douban_id, "Search in Douban.com")
+		menu.Append(self.list_ctrl_1.amazon_id, "Search in Amazon.com")
+		menu.Append(self.list_ctrl_1.douban_id, "Search in Douban.com")
 
 		self.Bind(wx.EVT_MENU, self.onMarkGreen, id = self.list_ctrl_1.mark_green_id)
 		self.Bind(wx.EVT_MENU, self.onMarkRed, id = self.list_ctrl_1.mark_red_id)

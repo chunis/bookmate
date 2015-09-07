@@ -48,7 +48,6 @@ class PySearch(wx.Panel):
 		self.__do_layout()
 
 		self.Bind(wx.EVT_TEXT, self.doSearch, self.text_ctrl_1)
-
 		self.list_ctrl_1.Bind(wx.EVT_CONTEXT_MENU, self.onRightClick)
 		self.list_ctrl_1.Bind(wx.EVT_CHAR, self.text_ctrl_1.onEsc)
 

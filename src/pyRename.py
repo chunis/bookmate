@@ -9,7 +9,7 @@
 import sys
 import time
 import wx
-from pyCommon import CommonListCtrl, find_str
+from pyCommon import CommonTextCtrl, CommonListCtrl, find_str
 from pySearch import PySearch
 import mypubsub as pub
 
@@ -52,7 +52,7 @@ class PyRename(wx.Panel):
 
 		kwds["style"] = wx.DEFAULT_FRAME_STYLE
 		wx.Panel.__init__(self, *args, **kwds)
-		self.text_ctrl_1 = wx.TextCtrl(self, -1, "")
+		self.text_ctrl_1 = CommonTextCtrl(self, -1, "")
 		self.text_ctrl_1.SetFocus()
 		self.list_ctrl_1 = RenameListCtrl(self, -1)
 
@@ -60,10 +60,9 @@ class PyRename(wx.Panel):
 		self.init_config()
 
 		self.Bind(wx.EVT_TEXT, self.doSearch, self.text_ctrl_1)
-
 		#self.list_ctrl_1.Bind(wx.EVT_CONTEXT_MENU, self.onRightClick)
-		self.list_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
-		self.text_ctrl_1.Bind(wx.EVT_CHAR, self.onEsc)
+		self.list_ctrl_1.Bind(wx.EVT_CHAR, self.text_ctrl_1.onEsc)
+
 
 	def init_config(self):
 		self.co_add_text = ""
