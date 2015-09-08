@@ -6,7 +6,7 @@
 # GNU GPLv3 License, see doc/LICENSE for details.
 #
 
-import sys
+import sys, os
 import time
 import wx
 from pyCommon import CommonTextCtrl, CommonListCtrl, find_str
@@ -60,7 +60,7 @@ class PyRename(wx.Panel):
 		self.init_config()
 
 		self.Bind(wx.EVT_TEXT, self.doSearch, self.text_ctrl_1)
-		#self.list_ctrl_1.Bind(wx.EVT_CONTEXT_MENU, self.onRightClick)
+		self.list_ctrl_1.Bind(wx.EVT_CONTEXT_MENU, self.onRightClick)
 		self.list_ctrl_1.Bind(wx.EVT_CHAR, self.text_ctrl_1.onEsc)
 
 
@@ -95,6 +95,47 @@ class PyRename(wx.Panel):
 				self.Close()
 		else:
 			event.Skip()
+
+
+	def markColor(self, color):
+		fullname = self.list_ctrl_1.getFullName()
+		# print "fullname: %s" %fullname
+		for book in self.orig_booklist:
+			if os.path.join(book.abspath, book.name) == fullname:
+				book.color_rename = color
+		self.list_ctrl_1.markColor(color)
+
+	def onMarkGreen(self, event):
+		self.markColor(wx.GREEN)
+
+	def onMarkRed(self, event):
+		self.markColor(wx.RED)
+
+	def onRightClick(self, event):
+		menu = wx.Menu()
+
+		menu.Append(self.list_ctrl_1.mark_green_id, "Mark as Green (to rename)")
+		menu.Append(self.list_ctrl_1.mark_red_id, "Mark as Red (to not rename)")
+		menu.AppendSeparator()
+		menu.Append(self.list_ctrl_1.open_file_id, "Open")
+		menu.Append(self.list_ctrl_1.open_dir_id, "Open Directory")
+		menu.Append(self.list_ctrl_1.copy_id, "Copy to...")
+		menu.Append(self.list_ctrl_1.move_id, "Move to...")
+		menu.AppendSeparator()
+		menu.Append(self.list_ctrl_1.amazon_id, "Search in Amazon.com")
+		menu.Append(self.list_ctrl_1.douban_id, "Search in Douban.com")
+
+		self.Bind(wx.EVT_MENU, self.onMarkGreen, id = self.list_ctrl_1.mark_green_id)
+		self.Bind(wx.EVT_MENU, self.onMarkRed, id = self.list_ctrl_1.mark_red_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenItem, id = self.list_ctrl_1.open_file_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenDir, id = self.list_ctrl_1.open_dir_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onCopy, id = self.list_ctrl_1.copy_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onMove, id = self.list_ctrl_1.move_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onAmazon, id = self.list_ctrl_1.amazon_id)
+		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onDouban, id = self.list_ctrl_1.douban_id)
+
+		self.PopupMenu(menu)
+		menu.Destroy()
 
 	def doSearch(self, event):
 		self.list_ctrl_1.DeleteAllItems()
