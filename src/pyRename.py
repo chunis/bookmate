@@ -50,6 +50,10 @@ class PyRename(wx.Panel):
                 self.orig_booklist = []
 		self.asked_booklist = []  # this is the list of search result
 
+		self.suggest_name_id = wx.NewId()
+		self.rename_orig_id = wx.NewId()
+		self.rename_sugg_id = wx.NewId()
+
 		kwds["style"] = wx.DEFAULT_FRAME_STYLE
 		wx.Panel.__init__(self, *args, **kwds)
 		self.text_ctrl_1 = CommonTextCtrl(self, -1, "")
@@ -117,6 +121,10 @@ class PyRename(wx.Panel):
 		menu.Append(self.list_ctrl_1.mark_green_id, "Mark as Green (to rename)")
 		menu.Append(self.list_ctrl_1.mark_red_id, "Mark as Red (to not rename)")
 		menu.AppendSeparator()
+		menu.Append(self.suggest_name_id, "Suggest name for me")
+		menu.Append(self.rename_orig_id, "Rename (based on the original name)")
+		menu.Append(self.rename_sugg_id, "Rename (based on the suggested name)")
+		menu.AppendSeparator()
 		menu.Append(self.list_ctrl_1.open_file_id, "Open")
 		menu.Append(self.list_ctrl_1.open_dir_id, "Open Directory")
 		menu.Append(self.list_ctrl_1.copy_id, "Copy to...")
@@ -127,6 +135,9 @@ class PyRename(wx.Panel):
 
 		self.Bind(wx.EVT_MENU, self.onMarkGreen, id = self.list_ctrl_1.mark_green_id)
 		self.Bind(wx.EVT_MENU, self.onMarkRed, id = self.list_ctrl_1.mark_red_id)
+		self.Bind(wx.EVT_MENU, self.onSuggestSingleName, id = self.suggest_name_id)
+		self.Bind(wx.EVT_MENU, self.onRenameFromOrig, id = self.rename_orig_id)
+		self.Bind(wx.EVT_MENU, self.onRenameFromSugg, id = self.rename_sugg_id)
 		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenItem, id = self.list_ctrl_1.open_file_id)
 		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onOpenDir, id = self.list_ctrl_1.open_dir_id)
 		self.Bind(wx.EVT_MENU, self.list_ctrl_1.onCopy, id = self.list_ctrl_1.copy_id)
@@ -148,6 +159,31 @@ class PyRename(wx.Panel):
 		msg="Total items showed: %d" %len(self.asked_booklist)
 		pub.sendMessage("updateStatusBar", msg=msg)
 		# event.Skip()
+
+	def onSuggestSingleName(self, event):
+		print "Suggest a name for the selected item"
+
+	def updateName(self, name):
+		dlg = wx.TextEntryDialog(None, "Change the below name to your favorite",
+				'Rename the Book', name)
+		if dlg.ShowModal() == wx.ID_OK:
+			response = dlg.GetValue()
+			print 'renamed name = ', response
+			# book.name_rename = response
+
+
+	def onRenameFromOrig(self, event):
+		print "onRenameFromOrig"
+		# obtain book from the selected row
+		#self.updateName(book.name)
+		self.updateName("orig name")
+
+	def onRenameFromSugg(self, event):
+		print "onRenameFromSugg"
+		# obtain book from the selected row
+		# sugg_name = onSuggestSingleName(book)
+		#self.updateName(sugg_name)
+		self.updateName("sugg name")
 
 	def showAllFiles(self):
 		self.list_ctrl_1.DeleteAllItems()
