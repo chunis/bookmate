@@ -17,6 +17,7 @@ the Config UI doesn't work.
 
 ** When switch panel, update StatusBar msg accordingly. Could save the last
 msg of each panel as their object attribution.
+** Rename: getCurrentBook() should return correct book even currently selected row is name_rename
 
 
 ==== TODO ====
