@@ -187,6 +187,14 @@ def find_str(booklist, str):
 
 	return ret_list
 
+# return book if its fullname is the same as 'fullname'
+def find_book(booklist, fullname):
+	unicode_name = to_unicode_or_bust(fullname)
+	for book in booklist:
+		bookname = to_unicode_or_bust(os.path.join(book.abspath, book.name))
+		if bookname == unicode_name:
+			return book
+	return None
 
 
 class testFrame(wx.Frame):

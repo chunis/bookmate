@@ -9,7 +9,7 @@
 import sys, os
 import time
 import wx
-from pyCommon import CommonTextCtrl, CommonListCtrl, find_str
+from pyCommon import CommonTextCtrl, CommonListCtrl, find_str, find_book
 from pySearch import PySearch
 import mypubsub as pub
 
@@ -160,30 +160,47 @@ class PyRename(wx.Panel):
 		pub.sendMessage("updateStatusBar", msg=msg)
 		# event.Skip()
 
+	def giveNewName(self):
+		fullname = self.list_ctrl_1.getFullName()
+		basename = os.path.basename(fullname)
+		print "Suggest a name for %s" %basename
+
+		# TODO
+		newname = 'xx%sxx' %basename
+		return newname
+
+
+	def getCurrentBook(self):
+		return find_book(self.asked_booklist, self.list_ctrl_1.getFullName())
+
 	def onSuggestSingleName(self, event):
-		print "Suggest a name for the selected item"
+		newname = self.giveNewName()
+		book = self.getCurrentBook()
+		book.name_rename = newname
+		book.color_rename = wx.GREEN
+		self.showAllFiles()
 
 	def updateName(self, name):
-		dlg = wx.TextEntryDialog(None, "Change the below name to your favorite",
+		dlg = wx.TextEntryDialog(None, "Change the below name to your favorite:",
 				'Rename the Book', name)
 		if dlg.ShowModal() == wx.ID_OK:
 			response = dlg.GetValue()
 			print 'renamed name = ', response
-			# book.name_rename = response
+			book = self.getCurrentBook()
+			book.name_rename = response
+			book.color_rename = wx.GREEN
+			self.showAllFiles()
 
 
 	def onRenameFromOrig(self, event):
 		print "onRenameFromOrig"
-		# obtain book from the selected row
-		#self.updateName(book.name)
-		self.updateName("orig name")
+		book = find_book(self.asked_booklist, self.list_ctrl_1.getFullName())
+		self.updateName(book.name)
 
 	def onRenameFromSugg(self, event):
 		print "onRenameFromSugg"
-		# obtain book from the selected row
-		# sugg_name = onSuggestSingleName(book)
-		#self.updateName(sugg_name)
-		self.updateName("sugg name")
+		sugg_name = self.giveNewName()
+		self.updateName(sugg_name)
 
 	def showAllFiles(self):
 		self.list_ctrl_1.DeleteAllItems()
