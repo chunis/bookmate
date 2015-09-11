@@ -58,5 +58,7 @@ def beget_new_name(fullname):
 
 	# do url unquote
 	newname = urllib.unquote(basename)
+	newname = newname.replace(' ', '.')
+
 	return newname
 
