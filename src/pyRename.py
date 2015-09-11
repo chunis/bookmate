@@ -9,7 +9,7 @@
 import sys, os
 import time
 import wx
-from pyCommon import CommonTextCtrl, CommonListCtrl, find_str, find_book
+from pyCommon import CommonTextCtrl, CommonListCtrl, find_str, find_book, beget_new_name
 from pySearch import PySearch
 import mypubsub as pub
 
@@ -162,22 +162,17 @@ class PyRename(wx.Panel):
 
 	def giveNewName(self):
 		fullname = self.list_ctrl_1.getFullName()
-		basename = os.path.basename(fullname)
-		print "Suggest a name for %s" %basename
-
-		# TODO
-		newname = 'xx%sxx' %basename
-		return newname
+		return beget_new_name(fullname)
 
 
 	def getCurrentBook(self):
 		return find_book(self.asked_booklist, self.list_ctrl_1.getFullName())
 
 	def onSuggestSingleName(self, event):
-		newname = self.giveNewName()
 		book = self.getCurrentBook()
-		book.name_rename = newname
-		book.color_rename = wx.GREEN
+		book.name_rename = self.giveNewName()
+		if book.name_rename != book.name:
+			book.color_rename = wx.GREEN
 		self.showAllFiles()
 
 	def updateName(self, name):
@@ -188,7 +183,8 @@ class PyRename(wx.Panel):
 			print 'renamed name = ', response
 			book = self.getCurrentBook()
 			book.name_rename = response
-			book.color_rename = wx.GREEN
+			if book.name_rename != book.name:
+				book.color_rename = wx.GREEN
 			self.showAllFiles()
 
 
@@ -217,8 +213,9 @@ class PyRename(wx.Panel):
 		# only change name if it is marked in GREEN
 		# the color can be changed, and names can be edited manually
 		for book in self.asked_booklist:
-			book.name_rename = book.name
-			book.color_rename = wx.GREEN
+			book.name_rename = beget_new_name(os.path.join(book.abspath, book.name))
+			if book.name_rename != book.name:
+				book.color_rename = wx.GREEN
 
 		self.list_ctrl_1.DeleteAllItems()
 		self.list_ctrl_1.set_value(self.asked_booklist)

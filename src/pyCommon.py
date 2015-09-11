@@ -196,6 +196,16 @@ def find_book(booklist, fullname):
 			return book
 	return None
 
+def beget_new_name(fullname):
+	dirname = os.path.dirname(fullname)
+	basename = os.path.basename(fullname)
+	print "Suggest a name for %s" %basename
+
+	# do url unquote
+	import urllib
+	newname = urllib.unquote(basename)
+	return newname
+
 
 class testFrame(wx.Frame):
 	def __init__(self, parent=None, id=-1, pos=wx.DefaultPosition, size=wx.DefaultSize):

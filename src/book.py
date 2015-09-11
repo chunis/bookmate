@@ -39,7 +39,8 @@ class Book():
 
 		# for smart rename
 		self.name_rename = ""
-		self.color_rename = wx.BLACK
+		#self.color_rename = wx.BLACK
+		self.color_rename = '#666666'
 
 
 	def calc_crc(self):
