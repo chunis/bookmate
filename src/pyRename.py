@@ -9,8 +9,9 @@
 import sys, os
 import time
 import wx
-from pyCommon import CommonTextCtrl, CommonListCtrl, find_str, find_book, beget_new_name
+from pyCommon import CommonTextCtrl, CommonListCtrl
 from pySearch import PySearch
+from tool import find_str, find_book, beget_new_name
 import mypubsub as pub
 
 

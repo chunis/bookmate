@@ -11,9 +11,10 @@ import re
 import shutil
 import wx
 
-from pyCommon import CommonTextCtrl, CommonListCtrl, find_str
+from pyCommon import CommonTextCtrl, CommonListCtrl
 from pySearch import PySearch
 from unpack import unpack_file
+from tool import find_str
 import mypubsub as pub
 
 

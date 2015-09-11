@@ -10,7 +10,8 @@
 
 import sys, os, time
 import wx
-from pyCommon import CommonTextCtrl, CommonListCtrl, find_str
+from pyCommon import CommonTextCtrl, CommonListCtrl
+from tool import find_str
 import mypubsub as pub
 
 

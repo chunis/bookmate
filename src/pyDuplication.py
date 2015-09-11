@@ -10,7 +10,8 @@ import sys, os
 import time
 import wx
 import shutil
-from pyCommon import CommonTextCtrl, CommonListCtrl, find_str
+from pyCommon import CommonTextCtrl, CommonListCtrl
+from tool import find_str
 import mypubsub as pub
 
 #LIST_COLORS = [wx.GREEN, wx.BLUE, wx.RED]
