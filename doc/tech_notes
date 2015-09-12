@@ -56,6 +56,7 @@ Section B: Obtain epub/mobi/pdf/chm metadata
 
 epub: (all can be installed by pip)
 $ sudo pip install epub ebooklib epubzilla
+or yael: https://github.com/pettarin/yael/
 BookMate use 'epubzilla' since it's the simplest.
 
 mobi:
