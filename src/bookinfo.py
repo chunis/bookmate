@@ -12,18 +12,19 @@ from yael import SimpleEPUB
 
 
 def get_epub_info(name):
-	title, author, isbn, date = None, None, None, None
+	title, press, isbn, date = None, None, None, None
 
 	if os.path.exists(name):
 		try:
 			ebook = SimpleEPUB(path=name)
 			title = ebook.title
+			press = ebook.publisher
 			isbn = ebook.identifier
-			author = ebook.author
 			date = ebook.date
 		except:
-			pass
-	return title, author, isbn, date
+			print "failed in get_epub_info()"
+
+	return title, press, isbn, date
 
 
 if __name__ == '__main__':

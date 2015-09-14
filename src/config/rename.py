@@ -36,9 +36,9 @@ class ReName(wx.Panel):
         self.radio_btn_5 = wx.RadioButton(self, wx.ID_ANY, _("end"))
         self.radio_btn_6 = wx.RadioButton(self, wx.ID_ANY, _("anywhere"))
         self.label_6 = wx.StaticText(self, wx.ID_ANY, _("add"))
-        self.checkbox_5 = wx.CheckBox(self, wx.ID_ANY, _("Author"))
-        self.checkbox_6 = wx.CheckBox(self, wx.ID_ANY, _("isbn"))
-        self.checkbox_7 = wx.CheckBox(self, wx.ID_ANY, _("date(year,month)"))
+        self.checkbox_5 = wx.CheckBox(self, wx.ID_ANY, _("Press"))
+        self.checkbox_6 = wx.CheckBox(self, wx.ID_ANY, _("ISBN"))
+        self.checkbox_7 = wx.CheckBox(self, wx.ID_ANY, _("Date(year,month)"))
         self.radios_add = [self.radio_btn_2, self.radio_btn_3]
         self.radios_remove = [self.radio_btn_4, self.radio_btn_5, self.radio_btn_6]
 
@@ -82,7 +82,7 @@ class ReName(wx.Panel):
         # end wxGlade
 
     def setRename(self, add_text, remove_text, add_to, remove_from,
-            add_author, add_isbn, add_date):
+            add_press, add_isbn, add_date):
         if add_to > len(self.radios_add):
             print "WARNING! Rename:add_to too large"
         else:
@@ -95,7 +95,7 @@ class ReName(wx.Panel):
 
         self.text_ctrl_6.SetValue(add_text)
         self.text_ctrl_7.SetValue(remove_text)
-        self.checkbox_5.SetValue(add_author)
+        self.checkbox_5.SetValue(add_press)
         self.checkbox_6.SetValue(add_isbn)
         self.checkbox_7.SetValue(add_date)
 
@@ -111,10 +111,10 @@ class ReName(wx.Panel):
         remove_from = self._get_radio_checked(self.radios_remove)
         add_text = self.text_ctrl_6.GetValue()
         remove_text = self.text_ctrl_7.GetValue()
-        add_author = self.checkbox_5.GetValue()
+        add_press = self.checkbox_5.GetValue()
         add_isbn = self.checkbox_6.GetValue()
         add_date = self.checkbox_7.GetValue()
-        return (add_text, remove_text, add_to, remove_from, add_author, add_isbn, add_date)
+        return (add_text, remove_text, add_to, remove_from, add_press, add_isbn, add_date)
 
 
 # end of class ReName

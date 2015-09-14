@@ -41,7 +41,7 @@ class ConfigOptions:
         self.ren_remove_text = ""
         self.ren_add_to = 2
         self.ren_remove_from = 3
-        self.ren_add_author = False
+        self.ren_add_press = True
         self.ren_add_isbn = False
         self.ren_add_date = False
         self.comp_dir = ""
@@ -145,7 +145,7 @@ def xloadConfigFromFile(file):
     co.ren_remove_text = config.get('Rename', 'remove_text')
     co.ren_add_to = config.getint('Rename', 'add_to')
     co.ren_remove_from = config.getint('Rename', 'remove_from')
-    co.ren_add_author = config.getboolean('Rename', 'add_author')
+    co.ren_add_press = config.getboolean('Rename', 'add_press')
     co.ren_add_isbn = config.getboolean('Rename', 'add_isbn')
     co.ren_add_date = config.getboolean('Rename', 'add_date')
 
@@ -269,7 +269,7 @@ class Config(wx.Treebook):
         self.allpages[7].setExtractTo(co.extract2destination, co.abs_extsomewhere)
         self.allpages[8].setExtractRemove(co.exrm_destiny, co.abs_exrmsomewhere)
         self.allpages[9].setRename(co.ren_add_text, co.ren_remove_text, co.ren_add_to,
-                co.ren_remove_from, co.ren_add_author, co.ren_add_isbn, co.ren_add_date)
+                co.ren_remove_from, co.ren_add_press, co.ren_add_isbn, co.ren_add_date)
         self.allpages[10].setSameName(co.comp_dir, co.with_dir)
 
 
@@ -348,13 +348,13 @@ class Config(wx.Treebook):
         config.set('Extraction.Remove', 'somewhere', exrm_somewhere)
 
         # for rename
-        (ren_add_text, ren_remove_text, ren_add_to, ren_remove_from, ren_add_author,
+        (ren_add_text, ren_remove_text, ren_add_to, ren_remove_from, ren_add_press,
                 ren_add_isbn, ren_add_date) = self.allpages[9].getRename()
         config.set('Rename', 'add_text', ren_add_text)
         config.set('Rename', 'remove_text', ren_remove_text)
         config.set('Rename', 'add_to', ren_add_to)
         config.set('Rename', 'remove_from', ren_remove_from)
-        config.set('Rename', 'add_author', ren_add_author)
+        config.set('Rename', 'add_press', ren_add_press)
         config.set('Rename', 'add_isbn', ren_add_isbn)
         config.set('Rename', 'add_date', ren_add_date)
 

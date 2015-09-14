@@ -74,7 +74,7 @@ class PyRename(wx.Panel):
 		self.co_remove_text = ""
 		self.co_add_to = 2
 		self.co_remove_from = 3
-		self.co_add_author = False
+		self.co_add_press = True
 		self.co_add_isbn = False
 		self.co_add_date = False
 
