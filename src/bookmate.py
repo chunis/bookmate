@@ -11,8 +11,8 @@
 
 import wx
 import gettext
-#import os, sys
-#import glob, shutil, thread
+import os, shutil
+#import glob, sys, thread
 from pySearch import PySearch
 from config.myconfig import BookMateConfig, xloadConfigFromFile
 from pyDuplication import PyDuplication, LIST_COLORS
@@ -33,8 +33,9 @@ ABOUT   = "Your friendly book management tool implemented by WxPython"
 WIN_WIDTH = 1000
 WIN_HEIGH = 640
 
-CFG_FILE = "bookmate.cfg"
 LOG_FILE = "bookmate.log"
+CFG_FILE = "bookmate.cfg"
+CFG_EXAMPLE_FILE = "bookmate-example.cfg"
 [POS_PAGE_SEARCH, POS_PAGE_DUPLI,
  POS_PAGE_EXTRACT, POS_PAGE_RENAME,
  POS_PAGE_SMNAME ] = range(5)
@@ -310,6 +311,9 @@ class BookMate(wx.App):
 
 if __name__ == '__main__':
         gettext.install("Config")
+	if not os.path.exists(CFG_FILE):
+		shutil.copy(CFG_EXAMPLE_FILE, CFG_FILE)
+
 	bookMate = BookMate(False)
 	#bookMate = BookMate(True, LOG_FILE)
 	bookMate.MainLoop()
