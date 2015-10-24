@@ -60,6 +60,7 @@ or yael: https://github.com/pettarin/yael/
 BookMate use 'epubzilla' since it's the simplest.
 
 mobi:
+http://wiki.mobileread.com/wiki/MOBI (spec)
 https://github.com/kroo/mobi-python
 
 pdf:
