@@ -127,6 +127,7 @@ class PyDuplication(wx.Panel):
 		dupli_files = self.bookdb.get_duplicate_booklist(self.co_dupli_keep - 1)
 		self.bookdb.mark_color(dupli_files)
 		self.orig_booklist = dupli_files
+		self.asked_booklist = dupli_files
 
 		self.list_ctrl_1.DeleteAllItems()
 		self.showBooklist(self.orig_booklist)
